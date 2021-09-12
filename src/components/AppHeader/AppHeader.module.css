@@ -1,0 +1,60 @@
+.block {
+  margin: 0;
+  padding: 0;
+  grid-column: 2/3;
+  display: grid;
+  grid-template: auto /1fr max-content 1fr;
+}
+
+.headerLogo {
+  align-self: center;
+}
+
+.headerCabinet {
+  justify-content: end;
+}
+
+.nav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  grid-column: 1/2;
+  display: grid;
+  column-gap: 8px;
+  grid-auto-flow: column;
+  grid-template: auto / max-content;
+  align-self: center;
+}
+
+.navItem {
+  padding: 16px 20px;
+  align-content: start;
+}
+
+.navLink {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template: auto / max-content;
+  column-gap: 8px;
+}
+
+.navText {
+  margin: 0;
+  padding: 0;
+  align-self: center;
+  color: #F2F2F3;
+}
+
+.navTextGray {
+  color: #8585AD;
+}
+
+.cabinet {
+  margin: 0;
+  padding: 0;
+  grid-column: 3/4;
+  align-self: center;
+}
