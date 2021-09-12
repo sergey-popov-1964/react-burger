@@ -1,22 +1,20 @@
 import React from 'react';
-import {data} from '../../utils/data'
 import style from './CardList.module.css'
+import Card from "../Card/Card";
 
-function CardList(props) {
+function CardList({type, items}) {
   return (
     <div>
-        <p>Булки</p>
-        <div className={style.cardList}>
-          {
-            data.filter(item => item.type === 'bun')
-              .map(item => (
-                <div className={style.Item}>
-                  <img className={style.elementImage} src={item.image} alt=""/>
-                  <p>{item.price}</p>
-                  <p>{item.name}</p>
-                </div>
-              ))
-          }
+      <p>{type}</p>
+      <div className={style.cardList}>
+        {
+          items.map(item => (
+            <Card image={item.image}
+                  price={item.price}
+                  name={item.name}
+            />
+          ))
+        }
       </div>
 
     </div>
