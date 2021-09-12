@@ -1,0 +1,39 @@
+.block {
+  margin: 0;
+  padding: 0;
+  grid-row: 1/2;
+  grid-column: 1/2;
+}
+
+.title {
+  margin: 0;
+  padding: 40px 0 20px;
+}
+
+.ingredientList {
+  margin: 0;
+  padding: 24px 16px;
+  height: 440px;
+  /*overflow-y: scroll;*/
+}
+
+
+.elementType {
+  display: grid;
+  gap: 24px;
+  grid-template: auto / 1fr 1fr;
+  border: solid 1px #FFFFFF;
+  width: 272px;
+  height: 208px;
+}
+
+
+.element {
+  border: solid 1px #FFFFFF;
+  width: 272px;
+  height: 208px;
+}
+
+.elementImage {
+
+}

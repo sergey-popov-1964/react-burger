@@ -1,0 +1,6 @@
+.block {
+  margin: 0;
+  padding: 0;
+  grid-row: 1/2;
+  grid-column: 2/3;
+}

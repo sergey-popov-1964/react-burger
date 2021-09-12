@@ -1,0 +1,17 @@
+.cardList {
+  display: grid;
+  gap: 24px;
+  grid-template: auto / 1fr 1fr;
+  border: solid 1px #FFFFFF;
+}
+
+
+.Item {
+  border: solid 1px #FFFFFF;
+  width: 272px;
+  height: 208px;
+}
+
+.elementImage {
+
+}
