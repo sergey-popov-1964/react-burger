@@ -15,12 +15,26 @@
 .blockWithScroll {
   margin: 0;
   padding: 0;
-  height: 300px;
+  height: 340px;
   overflow-y: scroll;
   display: grid;
   grid-auto-flow: row;
   /*grid-template: 80px /1fr;*/
   row-gap: 16px;
+}
+
+.blockWithScroll::-webkit-scrollbar {
+  width: 12px;
+}
+
+.blockWithScroll::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+
+.blockWithScroll::-webkit-scrollbar-thumb {
+  background: #8585AD;
+  border: 3px solid #2F2F37;
+  border-radius: 6px;
 }
 
 .blockTop {

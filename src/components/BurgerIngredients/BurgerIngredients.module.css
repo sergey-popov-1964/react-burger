@@ -13,7 +13,22 @@
 .ingredientList {
   margin: 0;
   padding: 0 16px;
-  height: 440px;
+  height: 480px;
   overflow-y: scroll;
+}
+
+
+.ingredientList::-webkit-scrollbar {
+  width: 12px;
+}
+
+.ingredientList::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+
+.ingredientList::-webkit-scrollbar-thumb {
+  background: #8585AD;
+  border: 3px solid #2F2F37;
+  border-radius: 6px;
 }
 
