@@ -12,7 +12,7 @@
 
 .ingredientList {
   margin: 0;
-  padding: 24px 16px;
+  padding: 0 16px;
   height: 440px;
   overflow-y: scroll;
 }

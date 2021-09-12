@@ -4,8 +4,8 @@ import Card from "../Card/Card";
 
 function CardList({type, items}) {
   return (
-    <div>
-      <p>{type}</p>
+    <div className={style.cardBlock}>
+      <p className={`${style.title} text text_type_main-small`}>{type}</p>
       <div className={style.cardList}>
         {
           items.map(item => (
