@@ -2,7 +2,8 @@ import React from 'react';
 import style from './BurgerConstructor.module.css'
 import {data} from '../../utils/data'
 import bun from '../../images/bun-02.png'
-import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
+import mark from '../../images/mark-item.svg'
+import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 
 function BurgerConstructor() {
@@ -22,7 +23,7 @@ function BurgerConstructor() {
         {
           data.map(item => (
             <div className={style.itemsList}>
-              <p className={style.itemMark}>11</p>
+              <img className={style.itemMark} src={mark} alt=""/>
               <ConstructorElement
                 isLocked={false}
                 text={item.name}
@@ -42,7 +43,23 @@ function BurgerConstructor() {
           thumbnail={bun}
         />
       </div>
+
+
+      <div className={style.count}>
+        <div className={style.total}>
+          <p className="text text_type_digits-medium">600</p>
+          <div className={style.icon}>
+          <CurrencyIcon type="primary" />
+          </div>
+        </div>
+        <Button type="primary" size="large">
+          Оформить заказ
+        </Button>
+      </div>
+
     </div>
+
+
   );
 }
 
