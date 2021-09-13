@@ -5,3 +5,13 @@
   display: grid;
   grid-template: max-content auto /1fr minmax(auto, 1240px) 1fr;
 }
+
+.main {
+  margin: 0;
+  padding: 0 0 20px 20px;
+  grid-column: 2/3;
+  display: grid;
+  grid-template: 1fr /600px 600px;
+  column-gap: 40px;
+}
+

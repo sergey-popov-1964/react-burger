@@ -6,7 +6,7 @@ function Card({image, price, name}) {
   return (
     <>
       <div className={style.card}>
-        <img className={style.cardImage} src={image} alt=""/>
+        <img className={style.cardImage} src={image} alt="Изображение ингредиента"/>
         <div className={style.cardPrice}>
           <p className="text text_type_digits-default">{price}</p>
           <CurrencyIcon type="primary" />

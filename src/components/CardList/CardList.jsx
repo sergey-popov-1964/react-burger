@@ -12,6 +12,7 @@ function CardList({type, items}) {
             <Card image={item.image}
                   price={item.price}
                   name={item.name}
+                  key={item._id}
             />
           ))
         }
