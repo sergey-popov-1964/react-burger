@@ -5,7 +5,7 @@ import CardList from "../CardList/CardList";
 import PropTypes from 'prop-types';
 
 BurgerIngredients.propTypes = {
-  cardData: PropTypes.arrayOf(PropTypes.shape({
+  data: PropTypes.arrayOf(PropTypes.shape({
     "_id": PropTypes.string.isRequired,
     "name": PropTypes.string.isRequired,
     "type": PropTypes.string.isRequired,

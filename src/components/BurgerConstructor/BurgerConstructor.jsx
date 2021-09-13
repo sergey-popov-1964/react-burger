@@ -6,7 +6,7 @@ import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-deve
 import PropTypes from "prop-types";
 
 BurgerConstructor.propTypes = {
-  cardData: PropTypes.arrayOf(PropTypes.shape({
+  data: PropTypes.arrayOf(PropTypes.shape({
     "_id": PropTypes.string.isRequired,
     "name": PropTypes.string.isRequired,
     "type": PropTypes.string.isRequired,

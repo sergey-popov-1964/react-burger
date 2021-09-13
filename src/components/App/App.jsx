@@ -11,8 +11,8 @@ function App() {
     <div className={style.page}>
       <AppHeader/>
       <div className={style.main}>
-        <BurgerIngredients data={data}/>
-        <BurgerConstructor data={data}/>
+        <BurgerIngredients data={data} thread={data}/>
+        <BurgerConstructor data={data} thread={data}/>
       </div>
     </div>
   );
