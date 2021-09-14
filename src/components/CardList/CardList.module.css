@@ -1,0 +1,18 @@
+.cardBlock {
+  margin: 0;
+  padding: 0;
+}
+
+.title{
+  padding: 40px 0 24px;
+}
+
+.cardList {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 24px;
+  grid-template: auto / 1fr 1fr;
+}
+
+
