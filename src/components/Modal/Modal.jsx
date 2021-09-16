@@ -1,16 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import style from './Modal.module.css'
+import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
-const Modal = ({onClose}) => {
-
+const Modal = (props) => {
   return ReactDOM.createPortal(
-    <div className={style.modal}>
-      <div className={style.name}>
-        <p>Модальное окно</p>
-        <button onClick={onClose}>Нажми меня</button>
-      </div>
-    </div>,
+    <ModalOverlay onClose={props.onClose}>
+        {props.children}
+    </ModalOverlay>,
     document.getElementById("modals")
   );
 };

@@ -3,28 +3,12 @@ import style from './BurgerIngredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import CardList from "../CardList/CardList";
 import PropTypes from 'prop-types';
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    "_id": PropTypes.string.isRequired,
-    "name": PropTypes.string.isRequired,
-    "type": PropTypes.string.isRequired,
-    "proteins": PropTypes.number.isRequired,
-    "fat": PropTypes.number.isRequired,
-    "carbohydrates": PropTypes.number.isRequired,
-    "calories": PropTypes.number.isRequired,
-    "price": PropTypes.number.isRequired,
-    "image": PropTypes.string.isRequired,
-    "image_mobile": PropTypes.string.isRequired,
-    "image_large": PropTypes.string.isRequired,
-    "__v": PropTypes.number.isRequired
-  }).isRequired).isRequired
-};
+import {menuItemPropTypes} from "../../utils/constants";
 
 function BurgerIngredients({data}) {
   const [current, setCurrent] = React.useState('Булки')
-  return (
 
+  return (
     <div className={style.block}>
       <p className={`${style.title} text text_type_main-large`}>
         Соберите бургер
@@ -43,15 +27,15 @@ function BurgerIngredients({data}) {
 
       <div className={style.ingredientList}>
         <CardList type="Булки" items={data.filter(item => item.type === 'bun')} />
-        <CardList type="Начинки" items={data.filter(item => item.type === 'main')} />
         <CardList type="Соусы" items={data.filter(item => item.type === 'sauce')} />
+        <CardList type="Начинки" items={data.filter(item => item.type === 'main')} />
       </div>
     </div>
   );
 }
 
 BurgerIngredients.propTypes = {
-  thread: PropTypes.arrayOf(BurgerIngredients.isRequired).isRequired
+  data: PropTypes.arrayOf(menuItemPropTypes.isRequired).isRequired,
 };
 
 export default BurgerIngredients;
