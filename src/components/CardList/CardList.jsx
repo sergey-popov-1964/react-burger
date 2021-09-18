@@ -1,6 +1,8 @@
 import React from 'react';
 import style from './CardList.module.css'
 import Card from "../Card/Card";
+import PropTypes from "prop-types";
+import {menuItemPropTypes} from "../../utils/constants";
 
 function CardList({type, items}) {
 
@@ -12,9 +14,6 @@ function CardList({type, items}) {
           {
             items.map(item => (
               <Card item={item}
-                    image={item.image}
-                    price={item.price}
-                    name={item.name}
                     key={item._id}
               />
             ))
@@ -24,5 +23,10 @@ function CardList({type, items}) {
     </>
   );
 }
+
+CardList.propTypes = {
+  items: PropTypes.arrayOf(menuItemPropTypes.isRequired).isRequired,
+  type: PropTypes.string.isRequired,
+};
 
 export default CardList;

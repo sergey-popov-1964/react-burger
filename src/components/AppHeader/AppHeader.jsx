@@ -35,9 +35,6 @@ function AppHeader() {
         </a>
       </div>
 
-      {/*<p className={`${style.cabinet} text text_type_digits-small`}>*/}
-      {/*  Личный кабинет*/}
-      {/*</p>*/}
     </div>
   );
 }

@@ -3,7 +3,6 @@ import style from './App.module.css';
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-// import {data} from '../../utils/data'
 import api from "../../utils/Api";
 
 function App() {
