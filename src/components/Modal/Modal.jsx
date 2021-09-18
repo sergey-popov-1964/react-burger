@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import style from './Modal.module.css'
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import PropTypes, {element} from "prop-types";
+import PropTypes from "prop-types";
 
 const Modal = ({children, onClose}) => {
 
@@ -32,7 +32,7 @@ const Modal = ({children, onClose}) => {
 };
 
 Modal.propTypes = {
-  children: PropTypes.arrayOf(element).isRequired,
+  children: PropTypes.element.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

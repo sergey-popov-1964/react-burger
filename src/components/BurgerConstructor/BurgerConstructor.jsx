@@ -77,7 +77,7 @@ function BurgerConstructor({data}) {
         </div>
       </div>
 
-      {isOpenModal && <OrderDetails onClose={handlerClickClose}/>}
+      {isOpenModal && <OrderDetails onClose={handlerClickClose} orderNumber={'123456'}/>}
 
     </>
   );
