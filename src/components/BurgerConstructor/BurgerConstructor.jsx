@@ -6,6 +6,7 @@ import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-deve
 import PropTypes from "prop-types";
 import {menuItemPropTypes} from "../../utils/constants";
 import OrderDetails from "../OrderDetails/OrderDetails";
+import Modal from "../Modal/Modal";
 
 function BurgerConstructor({data}) {
 
@@ -77,7 +78,12 @@ function BurgerConstructor({data}) {
         </div>
       </div>
 
-      {isOpenModal && <OrderDetails onClose={handlerClickClose} orderNumber={'123456'}/>}
+      {
+        isOpenModal &&
+        <Modal onClose={handlerClickClose}>
+          <OrderDetails orderNumber={'123456'}/>
+        </Modal>
+      }
 
     </>
   );

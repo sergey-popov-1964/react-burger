@@ -1,40 +1,29 @@
-import React, {useState} from 'react';
+import React from 'react';
 import style from "./Card.module.css";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import PropTypes from "prop-types";
 
-function Card({item}) {
+function Card({item, onCard}) {
 
-  const [isOpenModal, setIsOpenModal] = useState(false);
-
-  function handlerClickOpen() {
-    setIsOpenModal(true)
-  }
-
-  function handlerClickClose() {
-    setIsOpenModal(false)
+  function handlerClickOnCard() {
+    onCard(item)
   }
 
   return (
-    <>
-      <div className={style.card} onClick={handlerClickOpen}>
-        <img className={style.cardImage} src={item.image} alt="Изображение ингредиента"/>
-        <div className={style.cardPrice}>
-          <p className="text text_type_digits-default">{item.price}</p>
-          <CurrencyIcon type="primary"/>
-        </div>
-        <p className={`${style.cardName} text text_type_main-small`}>{item.name}</p>
+    <div className={style.card} onClick={handlerClickOnCard}>
+      <img className={style.cardImage} src={item.image} alt="Изображение ингредиента"/>
+      <div className={style.cardPrice}>
+        <p className="text text_type_digits-default">{item.price}</p>
+        <CurrencyIcon type="primary"/>
       </div>
-
-      {isOpenModal && <IngredientDetails item={item} onClose={handlerClickClose}/>}
-
-    </>
+      <p className={`${style.cardName} text text_type_main-small`}>{item.name}</p>
+    </div>
   );
 }
 
 Card.propTypes = {
   item: PropTypes.object.isRequired,
+  onCard: PropTypes.func.isRequired,
 };
 
 export default Card;
