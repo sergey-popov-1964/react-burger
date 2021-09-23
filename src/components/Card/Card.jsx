@@ -3,11 +3,15 @@ import style from "./Card.module.css";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
-function Card({item, onCard}) {
+function Card({item, onCard, onConsrtructor}) {
 
   function handlerClickOnCard() {
     onCard(item)
+    onConsrtructor(item)
   }
+
+
+
 
   return (
     <div className={style.card} onClick={handlerClickOnCard}>
@@ -24,6 +28,7 @@ function Card({item, onCard}) {
 Card.propTypes = {
   item: PropTypes.object.isRequired,
   onCard: PropTypes.func.isRequired,
+  onConsrtructor: PropTypes.func.isRequired,
 };
 
 export default Card;
