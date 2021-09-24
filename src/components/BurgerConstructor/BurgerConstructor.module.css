@@ -11,8 +11,8 @@
 .blockWithScroll {
   margin: 0;
   padding: 0;
-  height: 490px;
-  overflow-y: scroll;
+  max-height: 490px;
+  overflow-y: auto;
   display: grid;
   grid-auto-flow: row;
   row-gap: 16px;
@@ -76,4 +76,29 @@
   margin: 0;
   padding: 0;
 align-self: end;
+}
+
+
+
+.noBuns {
+  box-sizing: border-box;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--common-border-radius-s);
+  background: var(--background-element);
+  min-height: 80px;
+  /*font-family: 'Jet Brains Mono';*/
+  font-size: 16px;
+  line-height: 24px;
+  color: #F2F2F3;
+}
+
+.noBunsTop {
+  border-radius: var(--top-constructor-item-border-radius);
+}
+
+.noBunsBottom {
+  border-radius: var(--bottom-constructor-item-border-radius);
 }

@@ -11,14 +11,23 @@ function App() {
 
   const [dataIngredient, setDataIngredient] = useState([])
   const [dataConstructor, setDataConstructor] = useState({
-      bun: {},
+      bun: null,
       ingredients: []
     }
   )
 
+
+  useEffect(() => {
+    api.getIngredients()
+      .then(res => {
+        setDataIngredient(res.data)
+      })
+      .catch((e) => console.log(`Ошибка загрузки данных с сервера`, e));
+  }, [])
+
   function handleSetConstructor(data) {
     if (data.type === 'bun') {
-      setDataConstructor(prevState => ({...prevState, data}))
+      setDataConstructor(prevState => ({...prevState, bun: data}))
     } else {
       setDataConstructor(prevState => ({
         ...prevState,
@@ -27,13 +36,12 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    api.getIngredients()
-      .then(res => {
-        setDataIngredient(res.data)
-      })
-      .catch(() => console.log(`Ошибка загрузки данных с сервера`));
-  }, [])
+  function handleDeleteItem(data) {
+    setDataConstructor(prevState => ({
+      ...prevState,
+      ingredients: [...prevState.ingredients.filter((i) => i._id !== data)]
+    }))
+  }
 
   return (
     <div className={style.page}>
@@ -41,8 +49,10 @@ function App() {
         <ConstructorContext.Provider value={dataConstructor}>
           <AppHeader/>
           <div className={style.main}>
-            <BurgerIngredients onConsrtructor={handleSetConstructor}/>
-            <BurgerConstructor/>
+            <BurgerIngredients
+              addItem={handleSetConstructor}
+            />
+            <BurgerConstructor deleteItem={handleDeleteItem}/>
           </div>
         </ConstructorContext.Provider>
       </BurgerContext.Provider>
