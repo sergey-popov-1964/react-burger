@@ -4,7 +4,6 @@ import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
 function Card({item, onCard, addItem}) {
-
   function handlerClickOnCard() {
     onCard(item)
     addItem(item)

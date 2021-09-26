@@ -6,6 +6,7 @@ import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import api from "../../utils/Api";
 import {BurgerContext} from '../../context/BurgerContext'
 import {ConstructorContext} from '../../context/ConstructorContext'
+import {v4 as uuidv4} from 'uuid';
 
 function App() {
 
@@ -16,7 +17,6 @@ function App() {
     }
   )
 
-
   useEffect(() => {
     api.getIngredients()
       .then(res => {
@@ -26,12 +26,13 @@ function App() {
   }, [])
 
   function handleSetConstructor(data) {
+    const ingredientID = {ingredientID: uuidv4()};
     if (data.type === 'bun') {
       setDataConstructor(prevState => ({...prevState, bun: data}))
     } else {
       setDataConstructor(prevState => ({
         ...prevState,
-        ingredients: [...prevState.ingredients, data]
+        ingredients: [...prevState.ingredients, {...data, ...ingredientID}]
       }))
     }
   }
@@ -39,7 +40,7 @@ function App() {
   function handleDeleteItem(data) {
     setDataConstructor(prevState => ({
       ...prevState,
-      ingredients: [...prevState.ingredients.filter((i) => i._id !== data)]
+      ingredients: [...prevState.ingredients.filter((i) => i.ingredientID !== data)]
     }))
   }
 

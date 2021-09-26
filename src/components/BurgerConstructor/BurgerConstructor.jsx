@@ -20,7 +20,7 @@ function BurgerConstructor({deleteItem}) {
   const [isOrderReceived, setisOrderReceived] = useState(false);
 
   useEffect(() => {
-    if (constructor.ingredients.length || constructor.bun) {
+    if (constructor.ingredients.length > 0 && constructor.bun) {
       setSumTotal(constructor.ingredients.reduce((a, o, i, p) => a + o.price, 0)
         + constructor.bun.price * 2)
     }
@@ -73,20 +73,25 @@ function BurgerConstructor({deleteItem}) {
         <div className={style.blockWithScroll}>
           {
             constructor.ingredients.length !== 0
-            &&
-            constructor.ingredients.map((item, index) => (
-              <div className={style.itemsList} key={index}>
-                <img className={style.itemMark} src={mark} alt="Метка"/>
-                <ConstructorElement
-                  isLocked={false}
-                  handleClose={() => deleteItem(item._id)}
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image}
-                  key={item._id}
-                />
+              ?
+              constructor.ingredients.map((item) => (
+                <div className={style.itemsList} key={item.ingredientID}>
+                  <img className={style.itemMark} src={mark} alt="Метка"/>
+                  <ConstructorElement
+                    isLocked={false}
+                    handleClose={() => deleteItem(item.ingredientID)}
+                    text={item.name}
+                    price={item.price}
+                    thumbnail={item.image}
+                  />
+                </div>
+              ))
+              :
+              <div className={style.blockMiddle}>
+                <div className={style.noBuns}>
+                  Выберите начинку
+                </div>
               </div>
-            ))
           }
         </div>
 
@@ -102,10 +107,12 @@ function BurgerConstructor({deleteItem}) {
             />
             :
             <div className={`${style.noBuns} ${style.noBunsBottom}`}>
+              Выберите булку
             </div>
           }
         </div>
 
+        {constructor.bun && constructor.ingredients.length > 0 &&
         <div className={style.count}>
           <div className={style.total}>
             <p className="text text_type_digits-medium">{sumTotal}</p>
@@ -113,12 +120,13 @@ function BurgerConstructor({deleteItem}) {
               <CurrencyIcon type="primary"/>
             </div>
           </div>
-          <div onClick={handlerClickOpen}>
-            <Button type="primary" size="large">
+          <div>
+            <Button type="primary" size="large" onClick={handlerClickOpen}>
               Оформить заказ
             </Button>
           </div>
         </div>
+        }
       </div>
 
       {
