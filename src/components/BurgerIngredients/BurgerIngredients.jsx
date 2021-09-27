@@ -3,11 +3,15 @@ import style from './BurgerIngredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import CardList from "../CardList/CardList";
 import PropTypes from 'prop-types';
-import {menuItemPropTypes} from "../../utils/constants";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
 
-function BurgerIngredients({data}) {
+import {BurgerContext} from '../../context/BurgerContext'
+
+function BurgerIngredients({addItem}) {
+
+  const ingredients = React.useContext(BurgerContext);
+
   const [current, setCurrent] = React.useState('Булки')
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [ingredientDetails, setIngredientDetails] = useState({});
@@ -42,13 +46,19 @@ function BurgerIngredients({data}) {
         <div className={style.ingredientList}>
           <CardList type="Булки"
                     onCard={handlerModalOpen}
-                    items={data.filter(item => item.type === 'bun')}/>
+                    items={ingredients.filter(item => item.type === 'bun')}
+                    addItem={addItem}
+          />
           <CardList type="Соусы"
                     onCard={handlerModalOpen}
-                    items={data.filter(item => item.type === 'sauce')}/>
+                    items={ingredients.filter(item => item.type === 'sauce')}
+                    addItem={addItem}
+          />
           <CardList type="Начинки"
                     onCard={handlerModalOpen}
-                    items={data.filter(item => item.type === 'main')}/>
+                    items={ingredients.filter(item => item.type === 'main')}
+                    addItem={addItem}
+          />
         </div>
       </div>
 
@@ -64,7 +74,7 @@ function BurgerIngredients({data}) {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(menuItemPropTypes.isRequired).isRequired,
+  addItem: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

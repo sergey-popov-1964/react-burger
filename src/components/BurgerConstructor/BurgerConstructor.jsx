@@ -1,87 +1,141 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import style from './BurgerConstructor.module.css'
-import bun from '../../images/bun-02.png'
 import mark from '../../images/mark-item.svg'
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import {menuItemPropTypes} from "../../utils/constants";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import Modal from "../Modal/Modal";
+import {ConstructorContext} from '../../context/ConstructorContext'
+import api from "../../utils/Api";
 
-function BurgerConstructor({data}) {
+function BurgerConstructor({deleteItem}) {
 
+  const constructor = React.useContext(ConstructorContext);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [sumTotal, setSumTotal] = useState(0);
+
+  const [orderNumber, setOrderNumber] = useState('');
+  const [orderName, setOrderName] = useState('');
+
+  const [isOrderReceived, setisOrderReceived] = useState(false);
+
+  useEffect(() => {
+    if (constructor.ingredients.length > 0 && constructor.bun) {
+      setSumTotal(constructor.ingredients.reduce((a, o, i, p) => a + o.price, 0)
+        + constructor.bun.price * 2)
+    }
+  }, [constructor])
+
 
   function handlerClickOpen() {
+    const order = constructor.ingredients.map((item) => item._id)
+    order.push(constructor.bun._id);
+    createNewOrder(order)
     setIsOpenModal(true)
   }
 
   function handlerClickClose() {
     setIsOpenModal(false)
+    setisOrderReceived(false)
   }
 
-  const ingredientList = useMemo(() => data.filter(item => item.type !== 'bun'), [data]);
+  function createNewOrder(data) {
+    api.createOrder(data)
+      .then(res => {
+        setOrderNumber(res.order.number)
+        setOrderName(res.name)
+        setisOrderReceived(true)
+      })
+      .catch((e) => console.log(`Ошибка загрузки данных с сервера`, e));
+  }
 
   return (
     <>
 
       <div className={style.block}>
         <div className={style.blockTop}>
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={200}
-            thumbnail={bun}
-          />
+          {constructor.bun
+            ?
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={`${constructor.bun.name} (верх)`}
+              price={constructor.bun.price}
+              thumbnail={constructor.bun.image}
+            />
+            :
+            <div className={`${style.noBuns} ${style.noBunsTop}`}>
+              Выберите булку
+            </div>
+          }
         </div>
 
         <div className={style.blockWithScroll}>
           {
-            ingredientList.map((item, index) => (
-              <div className={style.itemsList} key={index}>
-                <img className={style.itemMark} src={mark} alt="Метка"/>
-                <ConstructorElement
-                  isLocked={false}
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image}
-                  key={item._id}
-                />
+            constructor.ingredients.length !== 0
+              ?
+              constructor.ingredients.map((item) => (
+                <div className={style.itemsList} key={item.ingredientID}>
+                  <img className={style.itemMark} src={mark} alt="Метка"/>
+                  <ConstructorElement
+                    isLocked={false}
+                    handleClose={() => deleteItem(item.ingredientID)}
+                    text={item.name}
+                    price={item.price}
+                    thumbnail={item.image}
+                  />
+                </div>
+              ))
+              :
+              <div className={style.blockMiddle}>
+                <div className={style.noBuns}>
+                  Выберите начинку
+                </div>
               </div>
-            ))
           }
         </div>
 
         <div className={style.blockBottom}>
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text="Краторная булка N-200i (низ)"
-            price={200}
-            thumbnail={bun}
-          />
+          {constructor.bun
+            ?
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={`${constructor.bun.name} (верх)`}
+              price={constructor.bun.price}
+              thumbnail={constructor.bun.image}
+            />
+            :
+            <div className={`${style.noBuns} ${style.noBunsBottom}`}>
+              Выберите булку
+            </div>
+          }
         </div>
 
+        {constructor.bun && constructor.ingredients.length > 0 &&
         <div className={style.count}>
           <div className={style.total}>
-            <p className="text text_type_digits-medium">600</p>
+            <p className="text text_type_digits-medium">{sumTotal}</p>
             <div className={style.icon}>
               <CurrencyIcon type="primary"/>
             </div>
           </div>
-          <div onClick={handlerClickOpen}>
-            <Button type="primary" size="large">
+          <div>
+            <Button type="primary" size="large" onClick={handlerClickOpen}>
               Оформить заказ
             </Button>
           </div>
         </div>
+        }
       </div>
 
       {
-        isOpenModal &&
+        isOpenModal && isOrderReceived &&
         <Modal onClose={handlerClickClose}>
-          <OrderDetails orderNumber={'123456'}/>
+          <OrderDetails
+            orderNumber={orderNumber}
+            orderName={orderName}
+          />
         </Modal>
       }
 
@@ -90,7 +144,7 @@ function BurgerConstructor({data}) {
 }
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(menuItemPropTypes.isRequired).isRequired,
+  deleteItem: PropTypes.func.isRequired,
 };
 
 

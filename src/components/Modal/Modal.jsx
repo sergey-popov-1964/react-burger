@@ -5,6 +5,7 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import PropTypes from "prop-types";
 
 const Modal = ({children, onClose}) => {
+  // console.log(children)
 
   function handlerKeyPress(KeyboardEvent) {
     if (KeyboardEvent.key === "Escape") {
