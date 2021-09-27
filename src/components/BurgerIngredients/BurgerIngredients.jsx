@@ -5,23 +5,30 @@ import CardList from "../CardList/CardList";
 import PropTypes from 'prop-types';
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
-
-import {BurgerContext} from '../../context/BurgerContext'
+import {useDispatch, useSelector} from "react-redux";
+import {DELETE_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT} from "../../services/actions/ingredient";
 
 function BurgerIngredients({addItem}) {
 
-  const ingredients = React.useContext(BurgerContext);
+  const {ingredients, currentIngredient} = useSelector(state => state.burgerIngredient)
 
   const [current, setCurrent] = React.useState('Булки')
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [ingredientDetails, setIngredientDetails] = useState({});
+
+  const dispatch = useDispatch();
 
   function handlerModalOpen(data) {
+    dispatch(
+      {
+        type: SET_CURRENT_INGREDIENT,
+        data: data
+      }
+    )
     setIsOpenModal(true)
-    setIngredientDetails(data)
   }
 
   function handlerClickClose() {
+    dispatch({type: DELETE_CURRENT_INGREDIENT})
     setIsOpenModal(false)
   }
 
@@ -65,7 +72,7 @@ function BurgerIngredients({addItem}) {
       {
         isOpenModal &&
         <Modal onClose={handlerClickClose}>
-          <IngredientDetails item={ingredientDetails}/>
+          <IngredientDetails item={currentIngredient}/>
         </Modal>
       }
 

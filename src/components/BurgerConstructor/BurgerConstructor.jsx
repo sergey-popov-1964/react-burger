@@ -5,19 +5,19 @@ import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-deve
 import PropTypes from "prop-types";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import Modal from "../Modal/Modal";
-import {ConstructorContext} from '../../context/ConstructorContext'
-import api from "../../utils/Api";
+import {useDispatch, useSelector} from "react-redux";
+import {createOrder} from '../../services/actions/order'
+
 
 function BurgerConstructor({deleteItem}) {
 
-  const constructor = React.useContext(ConstructorContext);
+  const dispatch = useDispatch();
+
+  const constructor = useSelector(state => state.burgerConstructor)
+  const {orderRequest,orderFailed, orderName, orderNumber} = useSelector(state => state.order)
+
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [sumTotal, setSumTotal] = useState(0);
-
-  const [orderNumber, setOrderNumber] = useState('');
-  const [orderName, setOrderName] = useState('');
-
-  const [isOrderReceived, setisOrderReceived] = useState(false);
 
   useEffect(() => {
     if (constructor.ingredients.length > 0 && constructor.bun) {
@@ -26,27 +26,18 @@ function BurgerConstructor({deleteItem}) {
     }
   }, [constructor])
 
-
   function handlerClickOpen() {
-    const order = constructor.ingredients.map((item) => item._id)
-    order.push(constructor.bun._id);
+    const order = [...constructor.ingredients.map((item) => item._id), constructor.bun._id]
     createNewOrder(order)
     setIsOpenModal(true)
   }
 
   function handlerClickClose() {
     setIsOpenModal(false)
-    setisOrderReceived(false)
   }
 
   function createNewOrder(data) {
-    api.createOrder(data)
-      .then(res => {
-        setOrderNumber(res.order.number)
-        setOrderName(res.name)
-        setisOrderReceived(true)
-      })
-      .catch((e) => console.log(`Ошибка загрузки данных с сервера`, e));
+    dispatch(createOrder(data))
   }
 
   return (
@@ -130,7 +121,7 @@ function BurgerConstructor({deleteItem}) {
       </div>
 
       {
-        isOpenModal && isOrderReceived &&
+        isOpenModal && !orderRequest && !orderFailed &&
         <Modal onClose={handlerClickClose}>
           <OrderDetails
             orderNumber={orderNumber}

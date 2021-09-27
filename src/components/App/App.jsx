@@ -1,62 +1,47 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import style from './App.module.css';
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import api from "../../utils/Api";
-import {BurgerContext} from '../../context/BurgerContext'
-import {ConstructorContext} from '../../context/ConstructorContext'
-import {v4 as uuidv4} from 'uuid';
+import {useDispatch} from "react-redux";
+import {ADD_ITEM_TO_CONSTRUCTOR, DELETE_ITEM_FROM_CONSTRUCTOR} from '../../services/actions/constructor'
+import {getIngredients} from '../../services/actions/ingredient'
 
 function App() {
 
-  const [dataIngredient, setDataIngredient] = useState([])
-  const [dataConstructor, setDataConstructor] = useState({
-      bun: null,
-      ingredients: []
-    }
-  )
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    api.getIngredients()
-      .then(res => {
-        setDataIngredient(res.data)
-      })
-      .catch((e) => console.log(`Ошибка загрузки данных с сервера`, e));
+    dispatch(getIngredients())
   }, [])
 
   function handleSetConstructor(data) {
-    const ingredientID = {ingredientID: uuidv4()};
-    if (data.type === 'bun') {
-      setDataConstructor(prevState => ({...prevState, bun: data}))
-    } else {
-      setDataConstructor(prevState => ({
-        ...prevState,
-        ingredients: [...prevState.ingredients, {...data, ...ingredientID}]
-      }))
-    }
+    dispatch(
+      {
+        type: ADD_ITEM_TO_CONSTRUCTOR,
+        data: data
+      }
+    )
   }
 
   function handleDeleteItem(data) {
-    setDataConstructor(prevState => ({
-      ...prevState,
-      ingredients: [...prevState.ingredients.filter((i) => i.ingredientID !== data)]
-    }))
+    dispatch(
+      {
+        type: DELETE_ITEM_FROM_CONSTRUCTOR,
+        data: data
+      }
+    )
   }
 
   return (
     <div className={style.page}>
-      <BurgerContext.Provider value={dataIngredient}>
-        <ConstructorContext.Provider value={dataConstructor}>
-          <AppHeader/>
-          <div className={style.main}>
-            <BurgerIngredients
-              addItem={handleSetConstructor}
-            />
-            <BurgerConstructor deleteItem={handleDeleteItem}/>
-          </div>
-        </ConstructorContext.Provider>
-      </BurgerContext.Provider>
+      <AppHeader/>
+      <div className={style.main}>
+        <BurgerIngredients
+          addItem={handleSetConstructor}
+        />
+        <BurgerConstructor deleteItem={handleDeleteItem}/>
+      </div>
     </div>
   );
 }
