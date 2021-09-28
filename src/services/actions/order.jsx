@@ -4,7 +4,6 @@ export const SET_NEW_ORDER_REQUEST = 'SET_NEW_ORDER_REQUEST'
 export const SET_NEW_ORDER_SUCCESS = 'SET_NEW_ORDER_SUCCESS'
 export const SET_NEW_ORDER_FAILED = 'SET_NEW_ORDER_FAILED'
 
-
 export function createOrder(order) {
   return function (dispatch) {
     dispatch({

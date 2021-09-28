@@ -5,7 +5,9 @@ import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import {useDispatch} from "react-redux";
 import {ADD_ITEM_TO_CONSTRUCTOR, DELETE_ITEM_FROM_CONSTRUCTOR} from '../../services/actions/constructor'
-import {getIngredients} from '../../services/actions/ingredient'
+import {DECREMENT_COUNTER, getIngredients} from '../../services/actions/ingredient'
+import {DndProvider} from 'react-dnd'
+import {HTML5Backend} from 'react-dnd-html5-backend'
 
 function App() {
 
@@ -28,20 +30,28 @@ function App() {
     dispatch(
       {
         type: DELETE_ITEM_FROM_CONSTRUCTOR,
-        data: data
+        data: data.ingredientID
+      }
+    )
+    dispatch(
+      {
+        type: DECREMENT_COUNTER,
+        id: data._id
       }
     )
   }
 
   return (
     <div className={style.page}>
-      <AppHeader/>
-      <div className={style.main}>
-        <BurgerIngredients
-          addItem={handleSetConstructor}
-        />
-        <BurgerConstructor deleteItem={handleDeleteItem}/>
-      </div>
+      <DndProvider backend={HTML5Backend}>
+        <AppHeader/>
+        <div className={style.main}>
+          <BurgerIngredients
+            addItem={handleSetConstructor}
+          />
+          <BurgerConstructor deleteItem={handleDeleteItem}/>
+        </div>
+      </DndProvider>
     </div>
   );
 }

@@ -3,14 +3,17 @@ import {
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
   SET_CURRENT_INGREDIENT,
-  DELETE_CURRENT_INGREDIENT
+  DELETE_CURRENT_INGREDIENT,
+  INCREMENT_COUNTER,
+  DECREMENT_COUNTER,
 } from '../actions/ingredient'
 
 const initialState = {
   ingredientRequest: false,
   ingredientFailed: false,
   ingredients: [],
-  currentIngredient: {}
+  currentIngredient: {},
+  count: [],
 };
 
 export const burgerIngredientReducer = (state = initialState, action) => {
@@ -48,6 +51,17 @@ export const burgerIngredientReducer = (state = initialState, action) => {
         ...state,
         currentIngredient: {},
       };
+    }
+    case INCREMENT_COUNTER: {
+      return {
+        ...state,
+        count: [...state.count, action.id],
+      };
+    }
+    case DECREMENT_COUNTER: {
+      return {
+        ...state,
+      }
     }
     default: {
       return state;

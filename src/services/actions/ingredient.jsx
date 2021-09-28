@@ -7,6 +7,9 @@ export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED'
 export const SET_CURRENT_INGREDIENT = 'SET_CURRENT_INGREDIENT'
 export const DELETE_CURRENT_INGREDIENT = 'DELETE_CURRENT_INGREDIENT'
 
+export const INCREMENT_COUNTER = 'INCREMENT_COUNTER'
+export const DECREMENT_COUNTER = 'DECREMENT_COUNTER'
+
 export function getIngredients() {
   return function (dispatch) {
     dispatch({

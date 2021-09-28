@@ -1,4 +1,4 @@
-import {ADD_ITEM_TO_CONSTRUCTOR, DELETE_ITEM_FROM_CONSTRUCTOR} from '../actions/constructor'
+import {ADD_ITEM_TO_CONSTRUCTOR, DELETE_ITEM_FROM_CONSTRUCTOR, CLEAR_CONSTRUCTOR} from '../actions/constructor'
 import {v4 as uuidv4} from 'uuid';
 
 const initialState = {
@@ -26,6 +26,12 @@ export const burgerConstructorReducer = (state = initialState, action) => {
       return {
         ...state,
         ingredients: [...state.ingredients.filter((i) => i.ingredientID !== action.data)]
+      }
+    }
+    case CLEAR_CONSTRUCTOR: {
+      return {
+        bun: null,
+        ingredients: []
       }
     }
     default: {
