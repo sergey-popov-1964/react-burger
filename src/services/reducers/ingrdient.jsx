@@ -6,6 +6,7 @@ import {
   DELETE_CURRENT_INGREDIENT,
   INCREMENT_COUNTER,
   DECREMENT_COUNTER,
+  CLEAR_COUNTER
 } from '../actions/ingredient'
 
 const initialState = {
@@ -59,8 +60,17 @@ export const burgerIngredientReducer = (state = initialState, action) => {
       };
     }
     case DECREMENT_COUNTER: {
+      const array = [...state.count]
+      array.splice(array.indexOf(action.id), 1);
       return {
         ...state,
+        count: array
+      }
+    }
+    case CLEAR_COUNTER: {
+      return {
+        ...state,
+        count: []
       }
     }
     default: {

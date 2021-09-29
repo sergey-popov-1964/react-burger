@@ -9,6 +9,7 @@ export const DELETE_CURRENT_INGREDIENT = 'DELETE_CURRENT_INGREDIENT'
 
 export const INCREMENT_COUNTER = 'INCREMENT_COUNTER'
 export const DECREMENT_COUNTER = 'DECREMENT_COUNTER'
+export const CLEAR_COUNTER = 'CLEAR_COUNTER'
 
 export function getIngredients() {
   return function (dispatch) {

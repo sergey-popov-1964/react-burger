@@ -1,4 +1,9 @@
-import {ADD_ITEM_TO_CONSTRUCTOR, DELETE_ITEM_FROM_CONSTRUCTOR, CLEAR_CONSTRUCTOR} from '../actions/constructor'
+import {
+  ADD_ITEM_TO_CONSTRUCTOR,
+  DELETE_ITEM_FROM_CONSTRUCTOR,
+  CLEAR_CONSTRUCTOR,
+  SORT_CONSTRUCTOR
+} from '../actions/constructor'
 import {v4 as uuidv4} from 'uuid';
 
 const initialState = {
@@ -34,6 +39,16 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         ingredients: []
       }
     }
+
+    case SORT_CONSTRUCTOR: {
+      const data = [...state.ingredients];
+      data.splice(action.dragIndex, 0, data.splice(action.hoverIndex, 1)[0]);
+      return {
+        ...state,
+        ingredients: data
+      }
+    }
+
     default: {
       return state;
     }

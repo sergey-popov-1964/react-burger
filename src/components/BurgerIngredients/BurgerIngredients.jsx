@@ -10,8 +10,10 @@ import {DELETE_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT} from "../../services/
 
 function BurgerIngredients({addItem}) {
 
-  const {ingredients, currentIngredient} = useSelector(state => state.burgerIngredient)
+  const {ingredients, currentIngredient, count} = useSelector(state => state.burgerIngredient)
+  const {bun} = useSelector(state => state.burgerConstructor)
 
+  // console.log(bun)
   const [current, setCurrent] = React.useState('Булки')
   const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -55,16 +57,22 @@ function BurgerIngredients({addItem}) {
                     onCard={handlerModalOpen}
                     items={ingredients.filter(item => item.type === 'bun')}
                     addItem={addItem}
+                    count={count}
+                    bun={bun ? bun._id : null}
           />
           <CardList type="Соусы"
                     onCard={handlerModalOpen}
                     items={ingredients.filter(item => item.type === 'sauce')}
                     addItem={addItem}
+                    count={count}
+                    bun={bun ? bun._id : null}
           />
           <CardList type="Начинки"
                     onCard={handlerModalOpen}
                     items={ingredients.filter(item => item.type === 'main')}
                     addItem={addItem}
+                    count={count}
+                    bun={bun ? bun._id : null}
           />
         </div>
       </div>

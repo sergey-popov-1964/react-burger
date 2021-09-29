@@ -1,6 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import style from './BurgerConstructor.module.css'
-import mark from '../../images/mark-item.svg'
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import OrderDetails from "../OrderDetails/OrderDetails";
@@ -8,7 +7,9 @@ import Modal from "../Modal/Modal";
 import {useDispatch, useSelector} from "react-redux";
 import {createOrder} from '../../services/actions/order'
 import {useDrop} from "react-dnd";
-import {CLEAR_CONSTRUCTOR} from "../../services/actions/constructor";
+import {CLEAR_CONSTRUCTOR, SORT_CONSTRUCTOR} from "../../services/actions/constructor";
+import ConstructorIngredients from "../ConstructorIngredients/ConstructorIngredients";
+import {CLEAR_COUNTER} from "../../services/actions/ingredient";
 
 
 function BurgerConstructor({deleteItem}) {
@@ -37,6 +38,7 @@ function BurgerConstructor({deleteItem}) {
   function handlerClickClose() {
     setIsOpenModal(false)
     dispatch({type: CLEAR_CONSTRUCTOR})
+    dispatch({type: CLEAR_COUNTER})
   }
 
   function createNewOrder(data) {
@@ -53,10 +55,13 @@ function BurgerConstructor({deleteItem}) {
   }));
   const isActive = canDrop || isOver;
 
-  const moveCard = useCallback((dragIndex, hoverIndex) => {
-    const dragCard = constructor.ingredients[dragIndex];
-console.log(dragIndex, hoverIndex)
-  }, [constructor.ingredients]);
+  function moveCards(dragIndex, hoverIndex) {
+    dispatch({
+      type: SORT_CONSTRUCTOR,
+      dragIndex: dragIndex,
+      hoverIndex: hoverIndex,
+    })
+  }
 
   return (
     <div ref={drop}>
@@ -84,17 +89,14 @@ console.log(dragIndex, hoverIndex)
             {
               constructor.ingredients.length !== 0
                 ?
-                constructor.ingredients.map((item) => (
-                  <div className={style.itemsList} key={item.ingredientID} moveCard={moveCard}>
-                    <img className={style.itemMark} src={mark} alt="Метка"/>
-                    <ConstructorElement
-                      isLocked={false}
-                      handleClose={() => deleteItem(item)}
-                      text={item.name}
-                      price={item.price}
-                      thumbnail={item.image}
-                    />
-                  </div>
+                constructor.ingredients.map((item, index) => (
+                  <ConstructorIngredients
+                    item={item}
+                    index={index}
+                    moveCards={moveCards}
+                    deleteItem={deleteItem}
+                    id={item._id}
+                    key={item.ingredientID}/>
                 ))
                 :
                 <div className={style.blockMiddle}>

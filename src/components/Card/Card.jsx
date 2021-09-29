@@ -1,13 +1,24 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import style from "./Card.module.css";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import {useDrag} from "react-dnd";
 import {useDispatch} from "react-redux";
-import {CLEAR_CONSTRUCTOR} from "../../services/actions/constructor";
 import {INCREMENT_COUNTER} from "../../services/actions/ingredient";
 
-function Card({item, onCard, addItem}) {
+function Card({item, onCard, addItem, count, bun}) {
+
+  const [countIngredient, setCountIngredient] = useState(0);
+
+  useEffect(() => {
+    if (item.type === 'bun') {
+      bun && bun === item._id ? setCountIngredient(1) : setCountIngredient(0)
+
+    } else {
+      setCountIngredient(count.filter(count => count === item._id).length)
+    }
+  }, [count])
+
 
   const dispatch = useDispatch();
 
@@ -45,7 +56,7 @@ function Card({item, onCard, addItem}) {
       </div>
       <p className={`${style.cardName} text text_type_main-small`}>{item.name}</p>
       <span
-        className={`${style.counter} text text_type_digits-default`}>1</span>
+        className={countIngredient > 0 ? `${style.counter} text text_type_digits-default` : `${style.counterHide}`}>{countIngredient}</span>
     </div>
   );
 }
