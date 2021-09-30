@@ -17,15 +17,8 @@
   position: absolute;
   margin: 0;
   padding: 0;
-  top: 15px;
-  right: 15px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: #4C4CFF;
-  color: #FFFFFF;
-  text-align: center;
-  align-items: center;
+  top: 0;
+  right: 25px;
   opacity: 1;
 }
 

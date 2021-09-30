@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import style from "./Card.module.css";
-import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import {useDrag} from "react-dnd";
 import {useDispatch} from "react-redux";
@@ -55,8 +55,9 @@ function Card({item, onCard, addItem, count, bun}) {
         <CurrencyIcon type="primary"/>
       </div>
       <p className={`${style.cardName} text text_type_main-small`}>{item.name}</p>
-      <span
-        className={countIngredient > 0 ? `${style.counter} text text_type_digits-default` : `${style.counterHide}`}>{countIngredient}</span>
+      <div className={countIngredient > 0 ? `${style.counter}` : `${style.counterHide}`}>
+        <Counter count={countIngredient} size="default" />
+      </div>
     </div>
   );
 }

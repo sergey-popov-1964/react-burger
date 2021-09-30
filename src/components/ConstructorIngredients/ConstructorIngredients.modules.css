@@ -1,46 +1,15 @@
 .itemsList {
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template: auto /32px 1fr;
+  display: flex;
+  flex-direction: column;
 }
 
 .itemMark {
-  margin: 0 15px 0 0;
+  margin: 0;
   padding: 0;
   align-self: center;
 }
 
-.element{
-  margin: 0;
-  padding: 0;
-width: 100%;
-}
 
-.noBuns {
-  box-sizing: border-box;
-  padding: 16px 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: var(--common-border-radius-s);
-  background: var(--background-element);
-  min-height: 80px;
-  /*font-family: 'Jet Brains Mono';*/
-  font-size: 16px;
-  line-height: 24px;
-  color: #F2F2F3;
-}
 
-.blockMiddle {
-  margin: 0;
-  padding: 0 24px 0 32px;
-}
-
-.cardOpacity{
-opacity: 0;
-}
-
-.cardNonOpacity{
-opacity: 1;
-}
