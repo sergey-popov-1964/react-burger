@@ -3,6 +3,8 @@ import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-compon
 import {useDrag, useDrop} from "react-dnd";
 import mark from '../../images/mark-item.svg'
 import style from './ConstructorIngredients.modules.css'
+import PropTypes from "prop-types";
+import {menuItemPropTypes} from "../../utils/constants";
 
 function ConstructorIngredients({item, index, deleteItem, moveCards, id}) {
 
@@ -73,5 +75,13 @@ function ConstructorIngredients({item, index, deleteItem, moveCards, id}) {
 
   );
 }
+
+ConstructorIngredients.propTypes = {
+  items: PropTypes.arrayOf(menuItemPropTypes.isRequired),
+  index: PropTypes.number.isRequired,
+  deleteItem: PropTypes.func.isRequired,
+  moveCards: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+};
 
 export default ConstructorIngredients;

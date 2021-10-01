@@ -12,7 +12,7 @@ function Card({item, onCard, addItem, count, bun}) {
 
   useEffect(() => {
     if (item.type === 'bun') {
-      bun && bun === item._id ? setCountIngredient(1) : setCountIngredient(0)
+      bun && bun === item._id ? setCountIngredient(2) : setCountIngredient(0)
 
     } else {
       setCountIngredient(count.filter(count => count === item._id).length)
@@ -66,6 +66,8 @@ Card.propTypes = {
   item: PropTypes.object.isRequired,
   onCard: PropTypes.func.isRequired,
   addItem: PropTypes.func.isRequired,
+  count: PropTypes.array,
+  bun: PropTypes.string,
 };
 
 export default Card;

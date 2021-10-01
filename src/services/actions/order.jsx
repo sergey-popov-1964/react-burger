@@ -9,17 +9,19 @@ export function createOrder(order) {
     dispatch({
       type: SET_NEW_ORDER_REQUEST
     });
-    api.createOrder(order).then(res => {
-      if (res && res.success) {
-        dispatch({
-          type: SET_NEW_ORDER_SUCCESS,
-          order: res
-        });
-      } else {
-        dispatch({
-          type: SET_NEW_ORDER_FAILED
-        });
-      }
-    });
+    api.createOrder(order)
+      .then(res => {
+        if (res && res.success) {
+          dispatch({
+            type: SET_NEW_ORDER_SUCCESS,
+            order: res
+          });
+        } else {
+          dispatch({
+            type: SET_NEW_ORDER_FAILED
+          });
+        }
+      })
+      .catch((e) => console.log(`Ошибка сервера`, e));
   };
 }

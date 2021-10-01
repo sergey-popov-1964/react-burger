@@ -33,6 +33,8 @@ CardList.propTypes = {
   type: PropTypes.string.isRequired,
   onCard: PropTypes.func.isRequired,
   addItem: PropTypes.func.isRequired,
+  count: PropTypes.array,
+  bun: PropTypes.string,
 };
 
 export default CardList;

@@ -1,4 +1,4 @@
-import React, {createRef, useState} from 'react';
+import React, {Component, createRef, useState} from 'react';
 import style from './BurgerIngredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import CardList from "../CardList/CardList";
@@ -10,7 +10,7 @@ import {DELETE_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT} from "../../services/
 
 function BurgerIngredients({addItem}) {
 
-  const {ingredients, currentIngredient, count} = useSelector(state => state.burgerIngredient)
+  const {ingredients, currentIngredient,  count} = useSelector(state => state.burgerIngredient)
   const {bun} = useSelector(state => state.burgerConstructor)
 
   const [current, setCurrent] = React.useState('Булки')
@@ -54,7 +54,6 @@ function BurgerIngredients({addItem}) {
   }
 
   function handleClickOnTab(tab, ref) {
-    console.log(tab, ref)
     if(ref !== null) {
       setCurrent(tab);
       ref.scrollIntoView();
@@ -124,6 +123,10 @@ function BurgerIngredients({addItem}) {
 
 BurgerIngredients.propTypes = {
   addItem: PropTypes.func.isRequired,
+  ref: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Component) }),
+  ]),
 };
 
 export default BurgerIngredients;

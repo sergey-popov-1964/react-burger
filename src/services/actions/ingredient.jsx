@@ -16,17 +16,19 @@ export function getIngredients() {
     dispatch({
       type: GET_INGREDIENTS_REQUEST
     });
-    api.getIngredients().then(res => {
-      if (res && res.success) {
-        dispatch({
-          type: GET_INGREDIENTS_SUCCESS,
-          items: res.data
-        });
-      } else {
-        dispatch({
-          type: GET_INGREDIENTS_FAILED
-        });
-      }
-    });
+    api.getIngredients()
+      .then(res => {
+        if (res && res.success) {
+          dispatch({
+            type: GET_INGREDIENTS_SUCCESS,
+            items: res.data
+          });
+        } else {
+          dispatch({
+            type: GET_INGREDIENTS_FAILED
+          });
+        }
+      })
+      .catch((e) => console.log(`Ошибка загрузки данных с сервера`, e));
   };
 }
