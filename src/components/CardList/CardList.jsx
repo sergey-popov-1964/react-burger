@@ -4,7 +4,7 @@ import Card from "../Card/Card";
 import PropTypes from "prop-types";
 import {menuItemPropTypes} from "../../utils/constants";
 
-function CardList({type, items, onCard, addItem}) {
+function CardList({type, items, onCard, addItem, count, bun}) {
 
   return (
     <>
@@ -17,6 +17,8 @@ function CardList({type, items, onCard, addItem}) {
                     onCard={onCard}
                     addItem={addItem}
                     key={item._id}
+                    count={count}
+                    bun={bun}
               />
             ))
           }
@@ -31,6 +33,8 @@ CardList.propTypes = {
   type: PropTypes.string.isRequired,
   onCard: PropTypes.func.isRequired,
   addItem: PropTypes.func.isRequired,
+  count: PropTypes.array,
+  bun: PropTypes.string,
 };
 
 export default CardList;

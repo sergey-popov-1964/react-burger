@@ -1,0 +1,15 @@
+.itemsList {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.itemMark {
+  margin: 0;
+  padding: 0;
+  align-self: center;
+}
+
+
+

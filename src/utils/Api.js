@@ -22,7 +22,6 @@ class	Api {
       .then(this.handleResponse);
   }
 
-
   createOrder(data) {
     return fetch(this.orderUrl, {
       method: 'POST',

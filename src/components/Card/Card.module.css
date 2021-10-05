@@ -1,4 +1,5 @@
 .card {
+  position: relative;
   margin: 0;
   padding: 0;
   display: flex;
@@ -6,6 +7,32 @@
   width: 272px;
   height: 208px;
   cursor: pointer;
+}
+
+.cardDragging {
+  opacity: 0;
+}
+
+.counter {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  right: 25px;
+  opacity: 1;
+}
+
+.counterHide {
+  opacity: 0;
+}
+
+
+.counter1 {
+  margin: 0;
+  padding: 0;
+  color: #FFFFFF;
+  text-align: center;
+  align-items: center;
 }
 
 .cardImage {
