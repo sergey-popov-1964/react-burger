@@ -4,7 +4,7 @@ import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-com
 import PropTypes from "prop-types";
 import {useDrag} from "react-dnd";
 import {useDispatch} from "react-redux";
-import {INCREMENT_COUNTER} from "../../services/actions/ingredient";
+import {INCREMENT_COUNTER} from "../../../../services/actions/ingredient";
 
 function Card({item, onCard, addItem, count, bun}) {
 

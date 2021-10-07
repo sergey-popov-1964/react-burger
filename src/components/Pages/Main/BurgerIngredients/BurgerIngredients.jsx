@@ -4,9 +4,9 @@ import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import CardList from "../CardList/CardList";
 import PropTypes from 'prop-types';
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import Modal from "../Modal/Modal";
+import Modal from "../../../Modal/Modal";
 import {useDispatch, useSelector} from "react-redux";
-import {DELETE_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT} from "../../services/actions/ingredient";
+import {DELETE_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT} from "../../../../services/actions/ingredient";
 
 function BurgerIngredients({addItem}) {
 

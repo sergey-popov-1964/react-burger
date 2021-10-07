@@ -2,7 +2,7 @@ import React from 'react';
 import style from './CardList.module.css'
 import Card from "../Card/Card";
 import PropTypes from "prop-types";
-import {menuItemPropTypes} from "../../utils/constants";
+import {menuItemPropTypes} from "../../../../utils/constants";
 
 function CardList({type, items, onCard, addItem, count, bun}) {
 

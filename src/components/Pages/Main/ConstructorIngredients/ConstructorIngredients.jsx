@@ -1,10 +1,10 @@
 import React, {useRef} from 'react';
 import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDrag, useDrop} from "react-dnd";
-import mark from '../../images/mark-item.svg'
+import mark from '../../../../images/mark-item.svg'
 import style from './ConstructorIngredients.modules.css'
 import PropTypes from "prop-types";
-import {menuItemPropTypes} from "../../utils/constants";
+import {menuItemPropTypes} from "../../../../utils/constants";
 
 function ConstructorIngredients({item, index, deleteItem, moveCards, id}) {
 

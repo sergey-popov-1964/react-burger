@@ -4,7 +4,8 @@ import {Logo, BurgerIcon, ListIcon, ProfileIcon} from "@ya.praktikum/react-devel
 
 function AppHeader() {
   return (
-    <div className={style.block}>
+    <div className={style.page}>
+      <div className={style.block}>
       <ul className={style.nav}>
         <li className={style.navItem}>
           <a href="#" className={style.navLink}>
@@ -34,7 +35,7 @@ function AppHeader() {
           </p>
         </a>
       </div>
-
+      </div>
     </div>
   );
 }

@@ -1,9 +1,14 @@
-.block {
+.page {
   margin: 0;
   padding: 0;
-  grid-column: 2/3;
   display: grid;
-  grid-template: auto /1fr max-content 1fr;
+  grid-template: max-content /1fr minmax(auto, 1240px) 1fr;
+  background-color: #1C1C21;
+}
+
+.block {
+  display: grid;
+  grid-column: 2/3;
 }
 
 .headerLogo {

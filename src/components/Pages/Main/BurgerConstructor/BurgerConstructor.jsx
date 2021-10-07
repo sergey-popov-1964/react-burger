@@ -2,14 +2,14 @@ import React, {useEffect, useState} from 'react';
 import style from './BurgerConstructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import OrderDetails from "../OrderDetails/OrderDetails";
-import Modal from "../Modal/Modal";
+import OrderDetails from "../../../OrderDetails/OrderDetails";
+import Modal from "../../../Modal/Modal";
 import {useDispatch, useSelector} from "react-redux";
-import {createOrder} from '../../services/actions/order'
+import {createOrder} from '../../../../services/actions/order'
 import {useDrop} from "react-dnd";
-import {CLEAR_CONSTRUCTOR, SORT_CONSTRUCTOR} from "../../services/actions/constructor";
+import {CLEAR_CONSTRUCTOR, SORT_CONSTRUCTOR} from "../../../../services/actions/constructor";
 import ConstructorIngredients from "../ConstructorIngredients/ConstructorIngredients";
-import {CLEAR_COUNTER} from "../../services/actions/ingredient";
+import {CLEAR_COUNTER} from "../../../../services/actions/ingredient";
 
 
 function BurgerConstructor({deleteItem}) {
