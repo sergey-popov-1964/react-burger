@@ -8,10 +8,12 @@
 
 .block {
   display: grid;
+  grid-template: auto / max-content 1fr max-content;
   grid-column: 2/3;
 }
 
 .headerLogo {
+  margin: 0 0 0 135px;
   align-self: center;
 }
 
@@ -35,6 +37,11 @@
   padding: 16px 20px;
   align-content: start;
 }
+
+.navItem:first-of-type {
+  padding: 16px 20px 16px 0;
+}
+
 
 .navLink {
   margin: 0;

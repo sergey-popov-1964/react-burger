@@ -3,7 +3,6 @@ import '../../../index.css'
 import styles from './Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
-import style from "../Main/BurgerIngredients/BurgerIngredients.module.css";
 
 function Login(props) {
 
