@@ -1,18 +1,23 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../../index.css'
 import styles from './Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
-function Login(props) {
+function Login({onLogin}) {
 
-  // const [currentError, setCurrentError] = useState("");
+  const history = useHistory()
   const [loginState, setLoginState] = useState(
     {
       email: '',
       password: '',
     }
   )
+
+  useEffect(() => {
+    localStorage.getItem('refreshToken') && history.push('/')
+  }, [])
+
   // const [isValid, setIsValid] = useState(false);
   // const [errorMessageEmail, setErrorMessageEmail] = useState("l")
   // const [errorMessagePassword, setErrorMessagePassword] = useState("")
@@ -30,15 +35,14 @@ function Login(props) {
   // }
 
   function handleChange(e) {
-    console.log(e.target.value)
     const {name, value} = e.target;
     setLoginState(prevState => ({...prevState, [name]: value}));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(1111111111)
-    // onLogin(loginState, typeError)
+    onLogin(loginState)
+    history.push('/')
   }
 
   function onIconClick() {
@@ -46,7 +50,6 @@ function Login(props) {
   }
 
   const inputRef = React.useRef(null)
-
 
   return (
     <div className="block">

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import style from './App.module.css';
 import AppHeader from "../AppHeader/AppHeader";
@@ -16,13 +16,20 @@ import ForgotPassword from "../Pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../Pages/ResetPassword/ResetPassword";
 import Profile from "../Pages/Profile/Profile";
 import Ingredients from "../Pages/Ingredients/Ingredients";
+import {authLogin} from "../../services/actions/auth";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 function App() {
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getIngredients())
+    const jwt = localStorage.getItem('refreshToken');
+    if (jwt) {
+      setIsLoggedIn(true);
+    }
   }, [])
 
   function handleSetConstructor(data) {
@@ -49,20 +56,28 @@ function App() {
     )
   }
 
+  function handleLogin(data) {
+    dispatch(authLogin(data))
+    setIsLoggedIn(true)
+  }
+
   return (
     <div className={style.page}>
       <DndProvider backend={HTML5Backend}>
         <BrowserRouter>
-          <AppHeader/>
+          <AppHeader isLoggedIn={isLoggedIn}/>
           <Switch>
-            <Route path="/" exact={true}>
-              <Main addItem={handleSetConstructor}
-                    deleteItem={handleDeleteItem}
-              />
-            </Route>
+
+            <ProtectedRoute
+              path="/profile"
+              isLoggedIn={isLoggedIn}
+              component={Profile}
+            />
 
             <Route path="/login">
-              <Login/>
+              <Login
+                onLogin={handleLogin}
+              />
             </Route>
 
             <Route path="/register">
@@ -77,8 +92,11 @@ function App() {
               <ResetPassword/>
             </Route>
 
-            <Route path="/profile">
-              <Profile/>
+            <Route path="/" exact={true}>
+              <Main addItem={handleSetConstructor}
+                    deleteItem={handleDeleteItem}
+                    isLoggedIn={isLoggedIn}
+              />
             </Route>
 
             <Route path="/ingredients/:id">

@@ -1,18 +1,22 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../../index.css'
 import styles from "./ResetPassword.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 function ResetPassword(props) {
 
-  // const [currentError, setCurrentError] = useState("");
+  const history = useHistory()
   const [loginState, setLoginState] = useState(
     {
       password: '',
       code: '',
     }
   )
+
+  useEffect(() => {
+    localStorage.getItem('refreshToken') && history.push('/')
+  }, [])
   // const [isValid, setIsValid] = useState(false);
   // const [errorMessageEmail, setErrorMessageEmail] = useState("l")
   // const [errorMessagePassword, setErrorMessagePassword] = useState("")
