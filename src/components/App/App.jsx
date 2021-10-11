@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Switch, useHistory} from 'react-router-dom';
 import style from './App.module.css';
 import AppHeader from "../AppHeader/AppHeader";
 
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {ADD_ITEM_TO_CONSTRUCTOR, DELETE_ITEM_FROM_CONSTRUCTOR} from '../../services/actions/constructor'
 import {DECREMENT_COUNTER, getIngredients} from '../../services/actions/ingredient'
 import {DndProvider} from 'react-dnd'
@@ -16,13 +16,15 @@ import ForgotPassword from "../Pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../Pages/ResetPassword/ResetPassword";
 import Profile from "../Pages/Profile/Profile";
 import Ingredients from "../Pages/Ingredients/Ingredients";
-import {authLogin} from "../../services/actions/auth";
+import {authLogin, authRegister} from "../../services/actions/auth";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const {authFailed} = useSelector(state => state.auth)
   const dispatch = useDispatch();
+  const history = useHistory()
 
   useEffect(() => {
     dispatch(getIngredients())
@@ -58,7 +60,10 @@ function App() {
 
   function handleLogin(data) {
     dispatch(authLogin(data))
-    setIsLoggedIn(true)
+  }
+
+  function handleRegister(data) {
+    dispatch(authRegister(data))
   }
 
   return (
@@ -77,11 +82,15 @@ function App() {
             <Route path="/login">
               <Login
                 onLogin={handleLogin}
+                onLogged={() => setIsLoggedIn(true)}
               />
             </Route>
 
             <Route path="/register">
-              <Register/>
+              <Register
+                onRegister={handleRegister}
+                onLogged={() => setIsLoggedIn(true)}
+              />
             </Route>
 
             <Route path="/forgot-password">

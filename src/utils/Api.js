@@ -35,14 +35,15 @@ class	Api {
       .then(this.handleResponse);
   }
 
-  registration({name, email, password}) {
+  registration(data) {
+    console.log(data)
     return fetch(`${this._baseUrl}/auth/register`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({name, email, password})
+      body: JSON.stringify(data)
     })
       .then(this.handleResponse);
   }
@@ -59,14 +60,14 @@ class	Api {
       .then(this.handleResponse);
   }
 
-  checkToken(data) {
-    return fetch(`${this._baseUrl}/auth/token`, {
+  getUser(data) {
+    return fetch(`${this._baseUrl}/auth/user`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "Authorization": `${data}`
       },
-      body: JSON.stringify(data)
     })
       .then(this.handleResponse);
   }

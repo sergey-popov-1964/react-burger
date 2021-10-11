@@ -9,7 +9,6 @@ const initialState = {
   email: '',
   authRequest: false,
   authFailed: false,
-
 };
 
 export const AuthReducer = (state = initialState, action) => {
@@ -22,6 +21,7 @@ export const AuthReducer = (state = initialState, action) => {
       }
     }
     case AUTH_LOGIN_SUCCESS: {
+      localStorage.setItem('accessToken', action.items.accessToken);
       localStorage.setItem('refreshToken', action.items.refreshToken);
       return {
         ...state,
@@ -29,7 +29,6 @@ export const AuthReducer = (state = initialState, action) => {
         authFailed: false,
         name: action.items.user.name,
         email: action.items.user.email,
-        isLoggedIn: true,
       };
     }
     case AUTH_LOGIN_FAILED: {
@@ -37,7 +36,6 @@ export const AuthReducer = (state = initialState, action) => {
         ...state,
         authRequest: false,
         authFailed: true,
-        isLoggedIn: false,
       };
     }
 
@@ -49,12 +47,14 @@ export const AuthReducer = (state = initialState, action) => {
       }
     }
     case AUTH_REGISTER_SUCCESS: {
+      localStorage.setItem('accessToken', action.items.accessToken);
+      localStorage.setItem('refreshToken', action.items.refreshToken);
       return {
         ...state,
-        name: action.name,
-        email: action.email,
         authRequest: false,
         authFailed: false,
+        name: action.items.user.name,
+        email: action.items.user.email,
       };
     }
     case AUTH_REGISTER_FAILED: {

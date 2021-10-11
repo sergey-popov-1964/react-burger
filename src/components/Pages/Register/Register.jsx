@@ -1,14 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import '../../../index.css'
 import styles from "./Register.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 
-function Register(props) {
+function Register({onRegister, onLogged}) {
 
   const history = useHistory()
-  const [loginState, setLoginState] = useState(
+  const {authFailed} = useSelector(state => state.auth)
+  const [registerState, setRegisterState] = useState(
     {
       name: '',
       email: '',
@@ -16,9 +18,6 @@ function Register(props) {
     }
   )
 
-  useEffect(() => {
-    localStorage.getItem('refreshToken') && history.push('/')
-  }, [])
   // const [isValid, setIsValid] = useState(false);
   // const [errorMessageEmail, setErrorMessageEmail] = useState("l")
   // const [errorMessagePassword, setErrorMessagePassword] = useState("")
@@ -36,15 +35,17 @@ function Register(props) {
   // }
 
   function handleChange(e) {
-    console.log(e.target.value)
     const {name, value} = e.target;
-    setLoginState(prevState => ({...prevState, [name]: value}));
+    setRegisterState(prevState => ({...prevState, [name]: value}));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-
-    // onLogin(loginState, typeError)
+    onRegister(registerState)
+    if (!authFailed) {
+      onLogged()
+      history.push('/')
+    }
   }
 
   function onIconClick() {
@@ -66,7 +67,7 @@ function Register(props) {
             type={'text'}
             placeholder={'имя'}
             onChange={handleChange}
-            value={loginState.name}
+            value={registerState.name}
             name={'name'}
             error={false}
             ref={inputRef}
@@ -79,7 +80,7 @@ function Register(props) {
             type={'email'}
             placeholder={'e-mail'}
             onChange={handleChange}
-            value={loginState.email}
+            value={registerState.email}
             name={'email'}
             error={false}
             ref={inputRef}
@@ -93,7 +94,7 @@ function Register(props) {
             placeholder={'пароль'}
             onChange={handleChange}
             icon={'ShowIcon'}
-            value={loginState.password}
+            value={registerState.password}
             name={'password'}
             error={false}
             ref={inputRef}

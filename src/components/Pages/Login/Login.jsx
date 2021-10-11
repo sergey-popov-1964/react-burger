@@ -3,10 +3,12 @@ import '../../../index.css'
 import styles from './Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory} from "react-router-dom";
+import {useSelector} from "react-redux";
 
-function Login({onLogin}) {
+function Login({onLogin, onLogged}) {
 
   const history = useHistory()
+  const {authFailed} = useSelector(state => state.auth)
   const [loginState, setLoginState] = useState(
     {
       email: '',
@@ -14,9 +16,9 @@ function Login({onLogin}) {
     }
   )
 
-  useEffect(() => {
-    localStorage.getItem('refreshToken') && history.push('/')
-  }, [])
+  // useEffect(() => {
+  //   localStorage.getItem('refreshToken') && history.push('/')
+  // }, [])
 
   // const [isValid, setIsValid] = useState(false);
   // const [errorMessageEmail, setErrorMessageEmail] = useState("l")
@@ -42,7 +44,10 @@ function Login({onLogin}) {
   function handleSubmit(e) {
     e.preventDefault();
     onLogin(loginState)
-    history.push('/')
+    if (!authFailed) {
+      onLogged()
+      history.push('/')
+    }
   }
 
   function onIconClick() {

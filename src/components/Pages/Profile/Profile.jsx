@@ -3,6 +3,8 @@ import '../../../index.css'
 import styles from "./Profile.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
+import api from "../../../utils/Api";
+import {AUTH_LOGIN_FAILED, AUTH_LOGIN_SUCCESS} from "../../../services/actions/auth";
 
 function Profile(props) {
   // const [currentError, setCurrentError] = useState("");
@@ -41,83 +43,90 @@ function Profile(props) {
     // onLogin(loginState, typeError)
   }
 
-  function onIconClick() {
+  function onProfileClick() {
+    const data = localStorage.getItem('accessToken')
+    api.getUser(data)
+      .then(res => {
+        console.log(res)
+      })
+      }
 
-  }
 
-  const inputRef = React.useRef(null)
+      function onIconClick() {}
+
+    const inputRef = React.useRef(null)
 
 
-  return (
+    return (
 
-    <div className="block">
+      <div className="block">
 
-      <div className={styles.profile__block}>
+        <div className={styles.profile__block}>
 
-        <div className={styles.profile__panel}>
-          <p className="text text_type_main-default">Профиль</p>
-          <p className="text text_type_main-default">История заказов</p>
-          <p className="text text_type_main-default">Выход</p>
-          <p>В этом разделе вы можете изменить свои персональные данные</p>
-        </div>
-
-        <div className={styles.profile__form}>
-
-          <div className={styles.profile__input}>
-            <Input
-              type={'text'}
-              placeholder={'имя'}
-              onChange={handleChange}
-              icon={'EditIcon'}
-              onIconClick={onIconClick}
-              value={loginState.name}
-              name={'name'}
-              error={false}
-              ref={inputRef}
-              errorText={'Ошибка'}
-              size={'default'}
-            />
+          <div className={styles.profile__panel}>
+            <p className="text text_type_main-default" onClick={onProfileClick}>Профиль</p>
+            <p className="text text_type_main-default">История заказов</p>
+            <p className="text text_type_main-default">Выход</p>
+            <p>В этом разделе вы можете изменить свои персональные данные</p>
           </div>
 
-          <div className={styles.profile__input}>
-            <Input
-              type={'email'}
-              placeholder={'логин'}
-              onChange={handleChange}
-              icon={'EditIcon'}
-              onIconClick={onIconClick}
-              value={loginState.email}
-              name={'email'}
-              error={false}
-              ref={inputRef}
-              errorText={'Ошибка'}
-              size={'default'}
-            />
-          </div>
+          <div className={styles.profile__form}>
 
-          <div className={styles.profile__input}>
-            <Input
-              type={'password'}
-              placeholder={'пароль'}
-              onChange={handleChange}
-              icon={'EditIcon'}
-              value={loginState.password}
-              name={'password'}
-              error={false}
-              ref={inputRef}
-              onIconClick={onIconClick}
-              errorText={'Ошибка'}
-              size={'default'}
-            />
+            <div className={styles.profile__input}>
+              <Input
+                type={'text'}
+                placeholder={'имя'}
+                onChange={handleChange}
+                icon={'EditIcon'}
+                onIconClick={onIconClick}
+                value={loginState.name}
+                name={'name'}
+                error={false}
+                ref={inputRef}
+                errorText={'Ошибка'}
+                size={'default'}
+              />
+            </div>
+
+            <div className={styles.profile__input}>
+              <Input
+                type={'email'}
+                placeholder={'логин'}
+                onChange={handleChange}
+                icon={'EditIcon'}
+                onIconClick={onIconClick}
+                value={loginState.email}
+                name={'email'}
+                error={false}
+                ref={inputRef}
+                errorText={'Ошибка'}
+                size={'default'}
+              />
+            </div>
+
+            <div className={styles.profile__input}>
+              <Input
+                type={'password'}
+                placeholder={'пароль'}
+                onChange={handleChange}
+                icon={'EditIcon'}
+                value={loginState.password}
+                name={'password'}
+                error={false}
+                ref={inputRef}
+                onIconClick={onIconClick}
+                errorText={'Ошибка'}
+                size={'default'}
+              />
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-    </div>
+    );
+  }
 
-  );
-}
-
-export default Profile;
+  export default Profile;

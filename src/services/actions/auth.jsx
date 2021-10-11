@@ -21,7 +21,6 @@ export function authLogin(data) {
     api.authorization(data)
       .then(res => {
         if (res && res.success) {
-          console.log(res)
           dispatch({
             type: AUTH_LOGIN_SUCCESS,
             items: res
@@ -36,17 +35,17 @@ export function authLogin(data) {
   };
 }
 
-export function authRegister() {
+export function authRegister(data) {
   return function (dispatch) {
     dispatch({
       type: AUTH_REGISTER_REQUEST
     })
-    api.registration()
+    api.registration(data)
       .then(res => {
         if (res && res.success) {
           dispatch({
             type: AUTH_REGISTER_SUCCESS,
-            items: res.data
+            items: res
           });
         } else {
           dispatch({
