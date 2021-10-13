@@ -19,7 +19,6 @@ function BurgerIngredients({addItem}) {
   const dispatch = useDispatch();
 
   function handlerModalOpen(data) {
-    console.log(data)
     dispatch(
       {
         type: SET_CURRENT_INGREDIENT,

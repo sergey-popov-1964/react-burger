@@ -1,7 +1,19 @@
 import {
   AUTH_LOGIN_REQUEST,
   AUTH_LOGIN_SUCCESS,
-  AUTH_LOGIN_FAILED, AUTH_REGISTER_REQUEST, AUTH_REGISTER_SUCCESS, AUTH_REGISTER_FAILED,
+  AUTH_LOGIN_FAILED,
+  AUTH_REGISTER_REQUEST,
+  AUTH_REGISTER_SUCCESS,
+  AUTH_REGISTER_FAILED,
+  GET_CURRENT_USER_REQUEST,
+  GET_CURRENT_USER_SUCCESS,
+  GET_CURRENT_USER_FAILED,
+  SET_CURRENT_USER_SUCCESS,
+  SET_CURRENT_USER_REQUEST,
+  SET_CURRENT_USER_FAILED,
+  LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILED
 } from '../actions/auth'
 
 const initialState = {
@@ -58,6 +70,83 @@ export const AuthReducer = (state = initialState, action) => {
       };
     }
     case AUTH_REGISTER_FAILED: {
+      return {
+        ...state,
+        authRequest: false,
+        authFailed: true,
+      };
+    }
+
+    case GET_CURRENT_USER_REQUEST: {
+      return {
+        ...state,
+        authRequest: true,
+        authFailed: false,
+      }
+    }
+
+    case GET_CURRENT_USER_SUCCESS: {
+      return {
+        ...state,
+        name: action.items.user.name,
+        email: action.items.user.email,
+        authRequest: false,
+        authFailed: false,
+      };
+    }
+
+    case GET_CURRENT_USER_FAILED: {
+      return {
+        ...state,
+        authRequest: false,
+        authFailed: true,
+      };
+    }
+
+    case SET_CURRENT_USER_REQUEST: {
+      return {
+        ...state,
+        authRequest: true,
+        authFailed: false,
+      }
+    }
+
+    case SET_CURRENT_USER_SUCCESS: {
+      return {
+        ...state,
+        name: action.items.user.name,
+        email: action.items.user.email,
+        authRequest: false,
+        authFailed: false,
+      };
+    }
+    case SET_CURRENT_USER_FAILED: {
+      return {
+        ...state,
+        authRequest: false,
+        authFailed: true,
+      };
+    }
+
+    case LOGOUT_REQUEST: {
+      return {
+        ...state,
+        authRequest: true,
+        authFailed: false,
+      }
+    }
+    case LOGOUT_SUCCESS: {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      return {
+        ...state,
+        name: '',
+        email: '',
+        authRequest: false,
+        authFailed: false,
+      };
+    }
+    case LOGOUT_FAILED: {
       return {
         ...state,
         authRequest: false,

@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../../index.css'
 import styles from "./Profile.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
-import api from "../../../utils/Api";
-import {AUTH_LOGIN_FAILED, AUTH_LOGIN_SUCCESS} from "../../../services/actions/auth";
+import {useSelector} from "react-redux";
+import PropTypes from "prop-types";
 
-function Profile(props) {
+function Profile({getUser, updateUser, onLogout}) {
   // const [currentError, setCurrentError] = useState("");
   const [loginState, setLoginState] = useState(
     {
@@ -15,6 +14,18 @@ function Profile(props) {
       password: '',
     }
   )
+  const profileName = useSelector(state => state.auth.name)
+  const profileEmail = useSelector(state => state.auth.email)
+
+  useEffect(() => {
+    setLoginState(prevState => ({
+      ...prevState,
+      name: profileName,
+      email: profileEmail
+    }))
+  },[profileName, profileEmail])
+
+
   // const [isValid, setIsValid] = useState(false);
   // const [errorMessageEmail, setErrorMessageEmail] = useState("l")
   // const [errorMessagePassword, setErrorMessagePassword] = useState("")
@@ -32,101 +43,110 @@ function Profile(props) {
   // }
 
   function handleChange(e) {
-    console.log(e.target.value)
     const {name, value} = e.target;
     setLoginState(prevState => ({...prevState, [name]: value}));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-
+    updateUser(loginState)
     // onLogin(loginState, typeError)
   }
 
   function onProfileClick() {
-    const data = localStorage.getItem('accessToken')
-    api.getUser(data)
-      .then(res => {
-        console.log(res)
-      })
-      }
+    getUser()
+  }
 
+  function onIconClick() {
+  }
 
-      function onIconClick() {}
+  const inputRef = React.useRef(null)
 
-    const inputRef = React.useRef(null)
+  return (
 
+    <div className="block">
 
-    return (
+      <div className={styles.profile__block}>
 
-      <div className="block">
-
-        <div className={styles.profile__block}>
-
-          <div className={styles.profile__panel}>
-            <p className="text text_type_main-default" onClick={onProfileClick}>Профиль</p>
-            <p className="text text_type_main-default">История заказов</p>
-            <p className="text text_type_main-default">Выход</p>
-            <p>В этом разделе вы можете изменить свои персональные данные</p>
-          </div>
-
-          <div className={styles.profile__form}>
-
-            <div className={styles.profile__input}>
-              <Input
-                type={'text'}
-                placeholder={'имя'}
-                onChange={handleChange}
-                icon={'EditIcon'}
-                onIconClick={onIconClick}
-                value={loginState.name}
-                name={'name'}
-                error={false}
-                ref={inputRef}
-                errorText={'Ошибка'}
-                size={'default'}
-              />
-            </div>
-
-            <div className={styles.profile__input}>
-              <Input
-                type={'email'}
-                placeholder={'логин'}
-                onChange={handleChange}
-                icon={'EditIcon'}
-                onIconClick={onIconClick}
-                value={loginState.email}
-                name={'email'}
-                error={false}
-                ref={inputRef}
-                errorText={'Ошибка'}
-                size={'default'}
-              />
-            </div>
-
-            <div className={styles.profile__input}>
-              <Input
-                type={'password'}
-                placeholder={'пароль'}
-                onChange={handleChange}
-                icon={'EditIcon'}
-                value={loginState.password}
-                name={'password'}
-                error={false}
-                ref={inputRef}
-                onIconClick={onIconClick}
-                errorText={'Ошибка'}
-                size={'default'}
-              />
-            </div>
-
-          </div>
-
+        <div className={styles.profile__panel}>
+          <p className="text text_type_main-default" onClick={onProfileClick}>Профиль</p>
+          <p className="text text_type_main-default">История заказов</p>
+          <p className="text text_type_main-default" onClick={onLogout}>Выход</p>
+          <p>В этом разделе вы можете изменить свои персональные данные</p>
         </div>
+
+        <form action="#"
+              onSubmit={handleSubmit}
+              className={styles.profile__form}
+              name='login' noValidate>
+
+          <div className={styles.profile__input}>
+            <Input
+              type={'text'}
+              placeholder={'имя'}
+              onChange={handleChange}
+              icon={'EditIcon'}
+              onIconClick={onIconClick}
+              value={loginState.name}
+              name={'name'}
+              error={false}
+              ref={inputRef}
+              errorText={'Ошибка'}
+              size={'default'}
+            />
+          </div>
+
+          <div className={styles.profile__input}>
+            <Input
+              type={'email'}
+              placeholder={'логин'}
+              onChange={handleChange}
+              icon={'EditIcon'}
+              onIconClick={onIconClick}
+              value={loginState.email}
+              name={'email'}
+              error={false}
+              ref={inputRef}
+              errorText={'Ошибка'}
+              size={'default'}
+            />
+          </div>
+
+          <div className={styles.profile__input}>
+            <Input
+              type={'password'}
+              placeholder={'пароль'}
+              onChange={handleChange}
+              icon={'EditIcon'}
+              value={loginState.password}
+              name={'password'}
+              error={false}
+              ref={inputRef}
+              onIconClick={onIconClick}
+              errorText={'Ошибка'}
+              size={'default'}
+            />
+          </div>
+
+          <div className={styles.profile__button}>
+            <Button type="primary" size="small">
+              Зарегистрироваться
+            </Button>
+          </div>
+
+        </form>
 
       </div>
 
-    );
-  }
+    </div>
 
-  export default Profile;
+  );
+}
+
+Profile.propTypes = {
+  getUser: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
+  onLogout: PropTypes.func.isRequired,
+};
+
+export default Profile;

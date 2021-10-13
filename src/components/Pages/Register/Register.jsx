@@ -4,7 +4,7 @@ import styles from "./Register.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory} from "react-router-dom";
 import {useSelector} from "react-redux";
-
+import PropTypes from "prop-types";
 
 function Register({onRegister, onLogged}) {
 
@@ -44,7 +44,7 @@ function Register({onRegister, onLogged}) {
     onRegister(registerState)
     if (!authFailed) {
       onLogged()
-      history.push('/')
+      history.replace('/')
     }
   }
 
@@ -117,4 +117,10 @@ function Register({onRegister, onLogged}) {
 
   );
 }
+
+Register.propTypes = {
+  onRegister: PropTypes.func.isRequired,
+  onLogged: PropTypes.func.isRequired,
+};
+
 export default Register;

@@ -4,7 +4,6 @@ import {Logo, BurgerIcon, ListIcon, ProfileIcon} from "@ya.praktikum/react-devel
 import {Link} from "react-router-dom";
 
 function AppHeader({isLoggedIn}) {
-  console.log(isLoggedIn)
   return (
     <div className={style.page}>
       <div className={style.block}>

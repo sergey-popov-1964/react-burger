@@ -36,7 +36,6 @@ class	Api {
   }
 
   registration(data) {
-    console.log(data)
     return fetch(`${this._baseUrl}/auth/register`, {
       method: 'POST',
       headers: {
@@ -60,7 +59,7 @@ class	Api {
       .then(this.handleResponse);
   }
 
-  getUser(data) {
+  getCurrentUser(data) {
     return fetch(`${this._baseUrl}/auth/user`, {
       method: 'GET',
       headers: {
@@ -71,6 +70,34 @@ class	Api {
     })
       .then(this.handleResponse);
   }
+
+  updateCurrentUser({auth, data}) {
+    return fetch(`${this._baseUrl}/auth/user`, {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        "Authorization": `${auth}`
+      },
+      body: JSON.stringify(data)
+    })
+      .then(this.handleResponse);
+  }
+
+  logout({data}) {
+    return fetch(`${this._baseUrl}/auth/logout`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+      .then(this.handleResponse);
+  }
+
+
+
 
 }
 

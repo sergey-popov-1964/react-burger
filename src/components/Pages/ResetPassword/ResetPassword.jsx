@@ -34,14 +34,12 @@ function ResetPassword(props) {
   // }
 
   function handleChange(e) {
-    console.log(e.target.value)
     const {name, value} = e.target;
     setLoginState(prevState => ({...prevState, [name]: value}));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(1111111111)
     // onLogin(loginState, typeError)
   }
 

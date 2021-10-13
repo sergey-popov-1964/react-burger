@@ -4,6 +4,7 @@ import styles from './Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory} from "react-router-dom";
 import {useSelector} from "react-redux";
+import PropTypes from "prop-types";
 
 function Login({onLogin, onLogged}) {
 
@@ -46,7 +47,7 @@ function Login({onLogin, onLogged}) {
     onLogin(loginState)
     if (!authFailed) {
       onLogged()
-      history.push('/')
+      history.replace('/')
     }
   }
 
@@ -106,8 +107,12 @@ function Login({onLogin, onLogged}) {
       </form>
     </div>
 
-
   );
 }
+
+Login.propTypes = {
+  onLogin: PropTypes.func.isRequired,
+  onLogged: PropTypes.func.isRequired,
+};
 
 export default Login;

@@ -16,15 +16,18 @@ import ForgotPassword from "../Pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../Pages/ResetPassword/ResetPassword";
 import Profile from "../Pages/Profile/Profile";
 import Ingredients from "../Pages/Ingredients/Ingredients";
-import {authLogin, authRegister} from "../../services/actions/auth";
+import {
+  authLogin,
+  authRegister,
+  getCurrentUser, logout,
+  updateCurrentUser
+} from "../../services/actions/auth";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const {authFailed} = useSelector(state => state.auth)
   const dispatch = useDispatch();
-  const history = useHistory()
 
   useEffect(() => {
     dispatch(getIngredients())
@@ -66,6 +69,21 @@ function App() {
     dispatch(authRegister(data))
   }
 
+  function handleGetCurrentUser() {
+    dispatch(getCurrentUser(localStorage.getItem('accessToken')))
+  }
+
+  function handleUpdateCurrentUser(data) {
+    const auth = localStorage.getItem('accessToken')
+    dispatch(updateCurrentUser({auth, data}))
+  }
+
+  function handleLogout() {
+    const data = {token: localStorage.getItem('refreshToken')}
+    dispatch(logout({data}))
+    setIsLoggedIn(false)
+  }
+
   return (
     <div className={style.page}>
       <DndProvider backend={HTML5Backend}>
@@ -77,6 +95,9 @@ function App() {
               path="/profile"
               isLoggedIn={isLoggedIn}
               component={Profile}
+              getUser={handleGetCurrentUser}
+              updateUser={handleUpdateCurrentUser}
+              onLogout={handleLogout}
             />
 
             <Route path="/login">
