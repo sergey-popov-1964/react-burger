@@ -4,7 +4,7 @@
   margin: 0;
   padding: 120px 0 0 0;
   display: grid;
-  grid-template: auto / 390px 1fr;
+  grid-template: auto / 390px max-content 1fr;
 }
 
 .profile__form {
@@ -20,10 +20,11 @@
   padding: 0;
 }
 
-.profile__button {
-  margin: 0 auto 80px;
+.profile__buttons {
+  display: flex;
+  justify-content: right;
+  margin: 0;
   padding: 0;
-
 }
 
 .profile__link {
@@ -33,10 +34,11 @@
 }
 
 .profile__text {
-  margin: 0 auto 16px;
+  width: 280px;
+  margin: 100px 0 0 0;
   padding: 0;
+  color: #8585AD;
 }
-
 
 .profile__panel {
   grid-column: 1/2;
@@ -44,8 +46,16 @@
   flex-direction: column;
 }
 
-.profile__button {
-  margin: 0 auto 80px;
-  padding: 0;
 
+.profile__menu {
+  margin: 0 0 25px 0;
+  padding: 0;
+}
+
+.profile__cancel {
+  align-self: center;
+  margin: 0 25px 0 0;
+  padding: 0;
+  color: #4C4CFF;
+  cursor: pointer;
 }

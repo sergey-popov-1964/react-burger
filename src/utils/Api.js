@@ -96,7 +96,19 @@ class	Api {
       .then(this.handleResponse);
   }
 
-
+  checkToken() {
+    return fetch(`${this._baseUrl}/auth/token`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token: localStorage.getItem("refreshToken")
+      }),
+    })
+      .then(this.handleResponse);
+  }
 
 
 }

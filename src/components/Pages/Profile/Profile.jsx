@@ -4,9 +4,9 @@ import styles from "./Profile.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector} from "react-redux";
 import PropTypes from "prop-types";
+import api from "../../../utils/Api";
 
-function Profile({getUser, updateUser, onLogout}) {
-  // const [currentError, setCurrentError] = useState("");
+function Profile({updateUser, onLogout}) {
   const [loginState, setLoginState] = useState(
     {
       name: '',
@@ -14,8 +14,28 @@ function Profile({getUser, updateUser, onLogout}) {
       password: '',
     }
   )
+
+  const [loginStateCancel, setLoginStateCancel] = useState(
+    {
+      name: '',
+      email: '',
+      password: '',
+    }
+  )
+
   const profileName = useSelector(state => state.auth.name)
   const profileEmail = useSelector(state => state.auth.email)
+
+  const fetchWithRefresh = async () => {
+    try {
+      await api.getCurrentUser(localStorage.getItem("accessToken"));
+    } catch (err) {
+      const refreshData = await api.checkToken();
+      localStorage.setItem("refreshToken", refreshData.refreshToken);
+      localStorage.setItem("accessToken", refreshData.refreshToken);
+      await api.getCurrentUser(localStorage.getItem("accessToken"));
+    }
+  };
 
   useEffect(() => {
     setLoginState(prevState => ({
@@ -23,24 +43,19 @@ function Profile({getUser, updateUser, onLogout}) {
       name: profileName,
       email: profileEmail
     }))
-  },[profileName, profileEmail])
+
+    setLoginStateCancel(prevState => ({
+      ...prevState,
+      name: profileName,
+      email: profileEmail
+    }))
 
 
-  // const [isValid, setIsValid] = useState(false);
-  // const [errorMessageEmail, setErrorMessageEmail] = useState("l")
-  // const [errorMessagePassword, setErrorMessagePassword] = useState("")
+  }, [profileName, profileEmail])
 
-  // useEffect(() => {
-  //   const emailValidity = loginState.email.match(/^[\w-\.\d*]+@[\w\d]+(\.\w{2,4})$/);
-  //   const passwordValidity = loginState.password.match(/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g);
-  //   emailValidity ? setErrorMessageEmail("") : setErrorMessageEmail("Поле должно содержать e-mail")
-  //   passwordValidity ? setErrorMessagePassword("") : setErrorMessagePassword("Пароль должен быть длиной не менее 6 символов и содержать спецсимвол, цифру, латинскую букву в верхнем и нижнем регистре")
-  //   setIsValid(emailValidity && passwordValidity);
-  // }, [loginState.email, loginState.password])
-  //
-  // function typeError(data) {
-  //   setCurrentError(data)
-  // }
+  useEffect(() => {
+    fetchWithRefresh().then()
+  }, [])
 
   function handleChange(e) {
     const {name, value} = e.target;
@@ -50,15 +65,15 @@ function Profile({getUser, updateUser, onLogout}) {
   function handleSubmit(e) {
     e.preventDefault();
     updateUser(loginState)
-    // onLogin(loginState, typeError)
-  }
-
-  function onProfileClick() {
-    getUser()
   }
 
   function onIconClick() {
   }
+
+  function handlerClickCancel() {
+    setLoginState(loginStateCancel)
+  }
+
 
   const inputRef = React.useRef(null)
 
@@ -69,17 +84,16 @@ function Profile({getUser, updateUser, onLogout}) {
       <div className={styles.profile__block}>
 
         <div className={styles.profile__panel}>
-          <p className="text text_type_main-default" onClick={onProfileClick}>Профиль</p>
-          <p className="text text_type_main-default">История заказов</p>
-          <p className="text text_type_main-default" onClick={onLogout}>Выход</p>
-          <p>В этом разделе вы можете изменить свои персональные данные</p>
+          <p className={`text text_type_main-medium ${styles.profile__menu}`}>Профиль</p>
+          <p className={`text text_type_main-medium ${styles.profile__menu}`}>История заказов</p>
+          <p className={`text text_type_main-medium ${styles.profile__menu}`} onClick={onLogout}>Выход</p>
+          <p className={`text text_type_main-small ${styles.profile__text}`}>В этом разделе вы можете<br/>изменить свои персональные данные</p>
         </div>
 
         <form action="#"
               onSubmit={handleSubmit}
               className={styles.profile__form}
               name='login' noValidate>
-
           <div className={styles.profile__input}>
             <Input
               type={'text'}
@@ -95,7 +109,6 @@ function Profile({getUser, updateUser, onLogout}) {
               size={'default'}
             />
           </div>
-
           <div className={styles.profile__input}>
             <Input
               type={'email'}
@@ -128,9 +141,10 @@ function Profile({getUser, updateUser, onLogout}) {
             />
           </div>
 
-          <div className={styles.profile__button}>
+          <div className={styles.profile__buttons}>
+            <p className={`${styles.profile__cancel} text text_type_main-small`} onClick={handlerClickCancel}>Отмена</p>
             <Button type="primary" size="small">
-              Зарегистрироваться
+              Сохранить
             </Button>
           </div>
 
@@ -144,7 +158,6 @@ function Profile({getUser, updateUser, onLogout}) {
 }
 
 Profile.propTypes = {
-  getUser: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
   onLogout: PropTypes.func.isRequired,
 };
