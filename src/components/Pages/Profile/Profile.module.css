@@ -52,6 +52,10 @@
   padding: 0;
 }
 
+.profile__menu_click {
+cursor: pointer;
+}
+
 .profile__cancel {
   align-self: center;
   margin: 0 25px 0 0;

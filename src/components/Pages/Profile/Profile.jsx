@@ -86,7 +86,7 @@ function Profile({updateUser, onLogout}) {
         <div className={styles.profile__panel}>
           <p className={`text text_type_main-medium ${styles.profile__menu}`}>Профиль</p>
           <p className={`text text_type_main-medium ${styles.profile__menu}`}>История заказов</p>
-          <p className={`text text_type_main-medium ${styles.profile__menu}`} onClick={onLogout}>Выход</p>
+          <p className={`text text_type_main-medium ${styles.profile__menu} ${styles.profile__menu_click}`} onClick={onLogout}>Выход</p>
           <p className={`text text_type_main-small ${styles.profile__text}`}>В этом разделе вы можете<br/>изменить свои персональные данные</p>
         </div>
 
