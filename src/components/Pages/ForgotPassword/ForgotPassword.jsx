@@ -15,10 +15,6 @@ function ForgotPassword({onClickRestore}) {
     }
   )
 
-  // useEffect(() => {
-  //   localStorage.getItem('refreshToken') && history.push('/')
-  // }, [history])
-
   function handleChange(e) {
     const {name, value} = e.target;
     setLoginState(prevState => ({...prevState, [name]: value}));
@@ -28,7 +24,6 @@ function ForgotPassword({onClickRestore}) {
     e.preventDefault();
     api.forgotPassword(loginState.email)
       .then(res => {
-        console.log(res)
         onClickRestore()
         history.replace('./reset-password')
       })

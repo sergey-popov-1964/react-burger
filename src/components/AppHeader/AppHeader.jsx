@@ -10,7 +10,6 @@ function AppHeader({isLoggedIn}) {
   const isProfile = !!useRouteMatch('/profile');
 
   useEffect(() => {
-    console.log(isConstructor, isFeed, isProfile)
   }, [isConstructor, isFeed, isProfile])
 
   return (

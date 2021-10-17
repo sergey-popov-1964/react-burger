@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import '../../../index.css'
 import styles from "./ResetPassword.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
@@ -6,10 +6,6 @@ import {Link, useHistory} from "react-router-dom";
 import api from "../../../utils/Api";
 
 function ResetPassword({resetIsRestorePassword}) {
-
-  useEffect(() => {
-    resetIsRestorePassword()
-  },[])
 
   const history = useHistory()
   const [resetPasswordState, setResetPasswordState] = useState(
@@ -28,6 +24,7 @@ function ResetPassword({resetIsRestorePassword}) {
     e.preventDefault();
     api.resetPassword(resetPasswordState)
       .then(() => {
+        resetIsRestorePassword()
         history.replace('/login')
       })
       .catch((e) => console.log(`Что-то пошло не так`, e));
@@ -76,7 +73,7 @@ function ResetPassword({resetIsRestorePassword}) {
 
         <div className={styles.reset__button}>
           <Button type="primary" size="small">
-            Войти
+            Сохранить
           </Button>
         </div>
         <p className={`${styles.reset__text} text text_type_main-small`}>Вспомнили пароль?&nbsp;

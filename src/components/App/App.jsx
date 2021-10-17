@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {BrowserRouter, Route, Switch, useHistory} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import style from './App.module.css';
 import AppHeader from "../AppHeader/AppHeader";
 
@@ -31,8 +31,6 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 function App() {
 
-  const history = useHistory()
-
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isRestorePassword, setIsRestorePassword] = useState(false)
   const dispatch = useDispatch();
@@ -46,7 +44,6 @@ function App() {
   }, [dispatch])
 
   useEffect(() => {
-    console.log(isRestorePassword)
   }, [isRestorePassword])
 
   useEffect(() => {
