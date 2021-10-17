@@ -19,7 +19,8 @@ import Ingredients from "../Pages/Ingredients/Ingredients";
 import {
   authLogin,
   authRegister,
-  getCurrentUser, logout,
+  getCurrentUser,
+  logout,
   updateCurrentUser
 } from "../../services/actions/auth";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
@@ -38,9 +39,8 @@ function App() {
     }
   }, [dispatch])
 
-
   useEffect(() => {
-console.log(isRestorePassword)
+    console.log(isRestorePassword)
   }, [isRestorePassword])
 
   useEffect(() => {
@@ -136,10 +136,6 @@ console.log(isRestorePassword)
 
             <Route path="/forgot-password">
               <ForgotPassword onClickRestore={() => setIsRestorePassword(true)}/>
-            </Route>
-
-            <Route path="/reset-password">
-              <ResetPassword/>
             </Route>
 
             <Route path="/" exact={true}>

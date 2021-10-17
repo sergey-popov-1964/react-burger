@@ -13,7 +13,7 @@ function Main({addItem, deleteItem, isLoggedIn}) {
         />
         <BurgerConstructor
           deleteItem={deleteItem}
-        isLoggedIn={isLoggedIn}
+          isLoggedIn={isLoggedIn}
         />
       </div>
     </div>

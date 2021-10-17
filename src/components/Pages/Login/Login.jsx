@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../../index.css'
 import styles from './Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
@@ -16,6 +16,10 @@ function Login({onLogin, onLogged}) {
       password: '',
     }
   )
+
+  useEffect(() => {
+    localStorage.getItem('refreshToken') && history.replace('/')
+  }, [])
 
   function handleChange(e) {
     const {name, value} = e.target;
