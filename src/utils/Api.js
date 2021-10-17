@@ -110,6 +110,31 @@ class	Api {
       .then(this.handleResponse);
   }
 
+  forgotPassword(data) {
+    return fetch(`${this._baseUrl}/password-reset`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: `${data}`
+      }),
+    })
+      .then(this.handleResponse);
+  }
+
+ resetPassword(data) {
+    return fetch(`${this._baseUrl}/password-reset/reset`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+      .then(this.handleResponse);
+  }
 
 }
 

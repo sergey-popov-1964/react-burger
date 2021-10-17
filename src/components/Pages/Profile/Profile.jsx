@@ -15,14 +15,6 @@ function Profile({updateUser, onLogout}) {
     }
   )
 
-  const [loginStateCancel, setLoginStateCancel] = useState(
-    {
-      name: '',
-      email: '',
-      password: '',
-    }
-  )
-
   const profileName = useSelector(state => state.auth.name)
   const profileEmail = useSelector(state => state.auth.email)
 
@@ -30,10 +22,12 @@ function Profile({updateUser, onLogout}) {
     try {
       await api.getCurrentUser(localStorage.getItem("accessToken"));
     } catch (err) {
-      const refreshData = await api.checkToken();
-      localStorage.setItem("refreshToken", refreshData.refreshToken);
-      localStorage.setItem("accessToken", refreshData.refreshToken);
-      await api.getCurrentUser(localStorage.getItem("accessToken"));
+      api.checkToken()
+        .then(res => {
+          localStorage.setItem("refreshToken", res.refreshToken);
+          localStorage.setItem("accessToken", res.refreshToken);
+          api.getCurrentUser(localStorage.getItem("accessToken"))
+        })
     }
   };
 
@@ -43,14 +37,6 @@ function Profile({updateUser, onLogout}) {
       name: profileName,
       email: profileEmail
     }))
-
-    setLoginStateCancel(prevState => ({
-      ...prevState,
-      name: profileName,
-      email: profileEmail
-    }))
-
-
   }, [profileName, profileEmail])
 
   useEffect(() => {
@@ -71,7 +57,12 @@ function Profile({updateUser, onLogout}) {
   }
 
   function handlerClickCancel() {
-    setLoginState(loginStateCancel)
+    setLoginState(prevState => ({
+      ...prevState,
+      name: profileName,
+      email: profileEmail,
+      password: '',
+    }))
   }
 
 

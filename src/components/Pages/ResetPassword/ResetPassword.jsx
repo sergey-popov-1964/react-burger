@@ -1,54 +1,38 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import '../../../index.css'
 import styles from "./ResetPassword.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory} from "react-router-dom";
+import api from "../../../utils/Api";
 
-function ResetPassword(props) {
+function ResetPassword() {
 
   const history = useHistory()
-  const [loginState, setLoginState] = useState(
+  const [resetPasswordState, setResetPasswordState] = useState(
     {
       password: '',
       code: '',
     }
   )
 
-  useEffect(() => {
-    localStorage.getItem('refreshToken') && history.push('/')
-  }, [])
-  // const [isValid, setIsValid] = useState(false);
-  // const [errorMessageEmail, setErrorMessageEmail] = useState("l")
-  // const [errorMessagePassword, setErrorMessagePassword] = useState("")
-
-  // useEffect(() => {
-  //   const emailValidity = loginState.email.match(/^[\w-\.\d*]+@[\w\d]+(\.\w{2,4})$/);
-  //   const passwordValidity = loginState.password.match(/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g);
-  //   emailValidity ? setErrorMessageEmail("") : setErrorMessageEmail("Поле должно содержать e-mail")
-  //   passwordValidity ? setErrorMessagePassword("") : setErrorMessagePassword("Пароль должен быть длиной не менее 6 символов и содержать спецсимвол, цифру, латинскую букву в верхнем и нижнем регистре")
-  //   setIsValid(emailValidity && passwordValidity);
-  // }, [loginState.email, loginState.password])
-  //
-  // function typeError(data) {
-  //   setCurrentError(data)
-  // }
-
   function handleChange(e) {
     const {name, value} = e.target;
-    setLoginState(prevState => ({...prevState, [name]: value}));
+    setResetPasswordState(prevState => ({...prevState, [name]: value}));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    // onLogin(loginState, typeError)
+    api.resetPassword(resetPasswordState)
+      .then(() => {
+        history.replace('/login')
+      })
+      .catch((e) => console.log(`Что-то пошло не так`, e));
   }
 
   function onIconClick() {
-
   }
 
   const inputRef = React.useRef(null)
-
 
   return (
     <div className="block">
@@ -63,7 +47,7 @@ function ResetPassword(props) {
             placeholder={'введите новый пароль'}
             onChange={handleChange}
             icon={'ShowIcon'}
-            value={loginState.password}
+            value={resetPasswordState.password}
             name={'password'}
             error={false}
             ref={inputRef}
@@ -77,7 +61,7 @@ function ResetPassword(props) {
             type={'text'}
             placeholder={'введите код из письма'}
             onChange={handleChange}
-            value={loginState.email}
+            value={resetPasswordState.code}
             name={'code'}
             error={false}
             ref={inputRef}
@@ -85,7 +69,6 @@ function ResetPassword(props) {
             size={'default'}
           />
         </div>
-
 
         <div className={styles.reset__button}>
           <Button type="primary" size="small">
@@ -97,7 +80,6 @@ function ResetPassword(props) {
         </p>
       </form>
     </div>
-
 
   );
 }

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {BrowserRouter, Route, Switch, useHistory} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import style from './App.module.css';
 import AppHeader from "../AppHeader/AppHeader";
 
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {ADD_ITEM_TO_CONSTRUCTOR, DELETE_ITEM_FROM_CONSTRUCTOR} from '../../services/actions/constructor'
 import {DECREMENT_COUNTER, getIngredients} from '../../services/actions/ingredient'
 import {DndProvider} from 'react-dnd'
@@ -27,6 +27,7 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isRestorePassword, setIsRestorePassword] = useState(false)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,7 +36,20 @@ function App() {
     if (jwt) {
       setIsLoggedIn(true);
     }
-  }, [])
+  }, [dispatch])
+
+
+  useEffect(() => {
+console.log(isRestorePassword)
+  }, [isRestorePassword])
+
+  useEffect(() => {
+    dispatch(getIngredients())
+    const jwt = localStorage.getItem('refreshToken');
+    if (jwt) {
+      setIsLoggedIn(true);
+    }
+  }, [dispatch])
 
   function handleSetConstructor(data) {
     dispatch(
@@ -92,6 +106,12 @@ function App() {
           <Switch>
 
             <ProtectedRoute
+              path="/reset-password"
+              isLoggedIn={isRestorePassword}
+              component={ResetPassword}
+            />
+
+            <ProtectedRoute
               path="/profile"
               isLoggedIn={isLoggedIn}
               component={Profile}
@@ -115,7 +135,7 @@ function App() {
             </Route>
 
             <Route path="/forgot-password">
-              <ForgotPassword/>
+              <ForgotPassword onClickRestore={() => setIsRestorePassword(true)}/>
             </Route>
 
             <Route path="/reset-password">
