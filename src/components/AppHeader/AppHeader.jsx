@@ -1,17 +1,27 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import style from './AppHeader.module.css'
 import {Logo, BurgerIcon, ListIcon, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
+import {Link, useRouteMatch} from "react-router-dom";
 
 function AppHeader({isLoggedIn}) {
+
+  const isConstructor = !!useRouteMatch({path: '/', exact: true});
+  const isFeed = !!useRouteMatch('/feed');
+  const isProfile = !!useRouteMatch('/profile');
+
+  useEffect(() => {
+    console.log(isConstructor, isFeed, isProfile)
+  }, [isConstructor, isFeed, isProfile])
+
   return (
     <div className={style.page}>
       <div className={style.block}>
         <ul className={style.nav}>
           <li className={style.navItem}>
             <Link className={style.navLink} to='/'>
-              <BurgerIcon type="primary"/>
-              <p className={`text text_type_main-small ${style.navText}`}>
+              <BurgerIcon type={isConstructor ? "primary" : "secondary"}/>
+              <p className={isConstructor ? `text text_type_main-small ${style.navText}`
+                : `text text_type_main-small ${style.navText} ${style.navTextGray}`}>
                 Конструктор
               </p>
             </Link>
@@ -32,8 +42,9 @@ function AppHeader({isLoggedIn}) {
           <Link className={!isLoggedIn
             ? `${style.navLink} ${style.headerCabinet} ${style.disabled}`
             : `${style.navLink} ${style.headerCabinet}`} to='/profile'>
-            <ProfileIcon type="primary"/>
-            <p className={`text text_type_main-small ${style.navText}`}>
+            <ProfileIcon type={isProfile ? "primary" : "secondary"}/>
+            <p className={isProfile ? `text text_type_main-small ${style.navText}`
+              : `text text_type_main-small ${style.navText} ${style.navTextGray}`}>
               Личный кабинет
             </p>
           </Link>

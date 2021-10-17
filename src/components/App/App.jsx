@@ -1,11 +1,15 @@
 import React, {useEffect, useState} from "react";
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Switch, useHistory} from 'react-router-dom';
 import style from './App.module.css';
 import AppHeader from "../AppHeader/AppHeader";
 
 import {useDispatch} from "react-redux";
-import {ADD_ITEM_TO_CONSTRUCTOR, DELETE_ITEM_FROM_CONSTRUCTOR} from '../../services/actions/constructor'
-import {DECREMENT_COUNTER, getIngredients} from '../../services/actions/ingredient'
+import {
+  ADD_ITEM_TO_CONSTRUCTOR,
+  CLEAR_CONSTRUCTOR,
+  DELETE_ITEM_FROM_CONSTRUCTOR
+} from '../../services/actions/constructor'
+import {CLEAR_COUNTER, DECREMENT_COUNTER, getIngredients} from '../../services/actions/ingredient'
 import {DndProvider} from 'react-dnd'
 import {HTML5Backend} from 'react-dnd-html5-backend'
 import Main from "../Pages/Main/Main";
@@ -26,6 +30,8 @@ import {
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 function App() {
+
+  const history = useHistory()
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isRestorePassword, setIsRestorePassword] = useState(false)
@@ -95,6 +101,8 @@ function App() {
   function handleLogout() {
     const data = {token: localStorage.getItem('refreshToken')}
     dispatch(logout({data}))
+    dispatch({type: CLEAR_CONSTRUCTOR})
+    dispatch({type: CLEAR_COUNTER})
     setIsLoggedIn(false)
   }
 
@@ -108,6 +116,7 @@ function App() {
             <ProtectedRoute
               path="/reset-password"
               isLoggedIn={isRestorePassword}
+              resetIsRestorePassword={() => setIsRestorePassword(false)}
               component={ResetPassword}
             />
 

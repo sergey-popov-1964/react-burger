@@ -1,11 +1,15 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../../index.css'
 import styles from "./ResetPassword.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory} from "react-router-dom";
 import api from "../../../utils/Api";
 
-function ResetPassword() {
+function ResetPassword({resetIsRestorePassword}) {
+
+  useEffect(() => {
+    resetIsRestorePassword()
+  },[])
 
   const history = useHistory()
   const [resetPasswordState, setResetPasswordState] = useState(

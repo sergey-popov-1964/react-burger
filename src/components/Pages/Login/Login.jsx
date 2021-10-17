@@ -18,7 +18,7 @@ function Login({onLogin, onLogged}) {
   )
 
   useEffect(() => {
-    localStorage.getItem('refreshToken') && history.replace('/')
+    localStorage.getItem('refreshToken') && history.replace('/login')
   }, [])
 
   function handleChange(e) {
