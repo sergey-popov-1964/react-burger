@@ -1,15 +1,20 @@
 import React, {useEffect, useState} from "react";
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {Route, Switch, useHistory, useLocation, useParams} from 'react-router-dom';
 import style from './App.module.css';
 import AppHeader from "../AppHeader/AppHeader";
 
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
   ADD_ITEM_TO_CONSTRUCTOR,
   CLEAR_CONSTRUCTOR,
   DELETE_ITEM_FROM_CONSTRUCTOR
 } from '../../services/actions/constructor'
-import {CLEAR_COUNTER, DECREMENT_COUNTER, getIngredients} from '../../services/actions/ingredient'
+import {
+  CLEAR_COUNTER,
+  DECREMENT_COUNTER,
+  DELETE_CURRENT_INGREDIENT,
+  getIngredients
+} from '../../services/actions/ingredient'
 import {DndProvider} from 'react-dnd'
 import {HTML5Backend} from 'react-dnd-html5-backend'
 import Main from "../Pages/Main/Main";
@@ -19,7 +24,6 @@ import Register from "../Pages/Register/Register";
 import ForgotPassword from "../Pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../Pages/ResetPassword/ResetPassword";
 import Profile from "../Pages/Profile/Profile";
-import Ingredients from "../Pages/Ingredients/Ingredients";
 import {
   authLogin,
   authRegister,
@@ -28,12 +32,20 @@ import {
   updateCurrentUser
 } from "../../services/actions/auth";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import Modal from "../Modal/Modal";
+import Ingredient from "../Pages/Ingredient/Ingredient";
 
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [isRestorePassword, setIsRestorePassword] = useState(false)
+  const location = useLocation();
   const dispatch = useDispatch();
+  const history = useHistory()
+  const action = history.action ==='PUSH' || history.action ==='REPLACE';
+  const background = action && location.state && location.state.background;
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isOpenModal, setIsOpenModal] = useState(true);
+  const [isRestorePassword, setIsRestorePassword] = useState(false)
 
   useEffect(() => {
     dispatch(getIngredients())
@@ -41,18 +53,10 @@ function App() {
     if (jwt) {
       setIsLoggedIn(true);
     }
-  }, [dispatch])
+  }, [])
 
   useEffect(() => {
   }, [isRestorePassword])
-
-  useEffect(() => {
-    dispatch(getIngredients())
-    const jwt = localStorage.getItem('refreshToken');
-    if (jwt) {
-      setIsLoggedIn(true);
-    }
-  }, [dispatch])
 
   function handleSetConstructor(data) {
     dispatch(
@@ -76,6 +80,13 @@ function App() {
         id: data._id
       }
     )
+  }
+
+
+  function handlerClickClose() {
+    dispatch({type: DELETE_CURRENT_INGREDIENT})
+    setIsOpenModal(false)
+    history.goBack()
   }
 
   function handleLogin(data) {
@@ -106,9 +117,9 @@ function App() {
   return (
     <div className={style.page}>
       <DndProvider backend={HTML5Backend}>
-        <BrowserRouter>
+
           <AppHeader isLoggedIn={isLoggedIn}/>
-          <Switch>
+          <Switch location={background || location}>
 
             <ProtectedRoute
               path="/reset-password"
@@ -152,7 +163,7 @@ function App() {
             </Route>
 
             <Route path="/ingredients/:id">
-              <Ingredients/>
+              <Ingredient />
             </Route>
 
             <Route path="*">
@@ -160,8 +171,15 @@ function App() {
             </Route>
 
           </Switch>
-        </BrowserRouter>
+
+          {background && (<Route path="/ingredients/:id">
+            <Modal onClose={handlerClickClose}>
+              <Ingredient/>
+            </Modal>
+          </Route>)}
+
       </DndProvider>
+
     </div>
 
   );

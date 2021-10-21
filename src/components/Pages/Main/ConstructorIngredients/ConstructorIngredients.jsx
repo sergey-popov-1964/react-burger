@@ -10,7 +10,7 @@ function ConstructorIngredients({item, index, deleteItem, moveCards, id}) {
 
   const ref = useRef(null);
   const [{handlerId}, drop] = useDrop({
-    accept: 'ingredient',
+    accept: 'Ingredient',
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -48,7 +48,7 @@ function ConstructorIngredients({item, index, deleteItem, moveCards, id}) {
     },
   });
   const [{}, drag] = useDrag({
-    type: 'ingredient',
+    type: 'Ingredient',
     item: () => {
       return {id, index};
     },

@@ -2,13 +2,17 @@ import React, {useEffect, useState} from 'react';
 import '../../../index.css'
 import styles from './Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, useHistory} from "react-router-dom";
+import {Link, useHistory, useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
 import PropTypes from "prop-types";
 
 function Login({onLogin, onLogged}) {
 
   const history = useHistory()
+  let location = useLocation();
+
+  let { from } = location.state || { from: { pathname: "/" } };
+
   const {authFailed} = useSelector(state => state.auth)
   const [loginState, setLoginState] = useState(
     {
@@ -21,6 +25,8 @@ function Login({onLogin, onLogged}) {
     localStorage.getItem('refreshToken') && history.replace('/login')
   }, [])
 
+
+  console.log(from)
   function handleChange(e) {
     const {name, value} = e.target;
     setLoginState(prevState => ({...prevState, [name]: value}));
@@ -31,7 +37,7 @@ function Login({onLogin, onLogged}) {
     onLogin(loginState)
     if (!authFailed) {
       onLogged()
-      history.replace('/')
+      history.push(from)
     }
   }
 

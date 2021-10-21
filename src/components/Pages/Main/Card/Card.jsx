@@ -5,10 +5,12 @@ import PropTypes from "prop-types";
 import {useDrag} from "react-dnd";
 import {useDispatch} from "react-redux";
 import {INCREMENT_COUNTER} from "../../../../services/actions/ingredient";
+import {useHistory, useLocation} from "react-router-dom";
 
 function Card({item, onCard, addItem, count, bun}) {
 
   const [countIngredient, setCountIngredient] = useState(0);
+  const location = useLocation();
 
   useEffect(() => {
     if (item.type === 'bun') {
@@ -21,6 +23,7 @@ function Card({item, onCard, addItem, count, bun}) {
 
 
   const dispatch = useDispatch();
+  const history = useHistory()
 
   const [{isDragging}, drag] = useDrag(() => ({
     type: 'item',
@@ -43,7 +46,10 @@ function Card({item, onCard, addItem, count, bun}) {
   }
 
   function handlerClickOnCard() {
-    onCard(item)
+    history.push({
+      pathname: `ingredients/${item._id}`,
+      state: { background: location }
+    });
   }
 
   const opacity = isDragging ? 0.5 : 1;

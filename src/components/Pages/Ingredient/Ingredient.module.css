@@ -1,3 +1,9 @@
+.block{
+  margin: 0 auto;
+  padding: 0;
+  max-width: 640px;
+}
+
 .content {
   grid-auto-flow: row;
   grid-template: max-content / 1fr;
