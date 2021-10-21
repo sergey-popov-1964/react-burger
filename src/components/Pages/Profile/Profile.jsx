@@ -17,6 +17,8 @@ function Profile({updateUser, onLogout}) {
 
   const profileName = useSelector(state => state.auth.name)
   const profileEmail = useSelector(state => state.auth.email)
+  const authFailed = useSelector(state => state.auth.authFailed)
+
 
   const fetchWithRefresh = async () => {
     try {
@@ -25,7 +27,7 @@ function Profile({updateUser, onLogout}) {
       api.checkToken()
         .then(res => {
           localStorage.setItem("refreshToken", res.refreshToken);
-          localStorage.setItem("accessToken", res.refreshToken);
+          localStorage.setItem("accessToken", res.accessToken);
           api.getCurrentUser(localStorage.getItem("accessToken"))
         })
     }
@@ -40,7 +42,9 @@ function Profile({updateUser, onLogout}) {
   }, [profileName, profileEmail])
 
   useEffect(() => {
-    fetchWithRefresh().then()
+    if(localStorage.getItem("refreshToken")) {
+      fetchWithRefresh().then()
+    }
   }, [])
 
   function handleChange(e) {
