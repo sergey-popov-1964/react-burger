@@ -2,6 +2,8 @@ import React, {useEffect} from 'react';
 import style from './AppHeader.module.css'
 import {Logo, BurgerIcon, ListIcon, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useRouteMatch} from "react-router-dom";
+import PropTypes from "prop-types";
+import BurgerConstructor from "../Pages/Main/BurgerConstructor/BurgerConstructor";
 
 function AppHeader({isLoggedIn}) {
 
@@ -52,5 +54,9 @@ function AppHeader({isLoggedIn}) {
     </div>
   );
 }
+
+AppHeader.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
+};
 
 export default AppHeader;

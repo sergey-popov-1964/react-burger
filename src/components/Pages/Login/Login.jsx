@@ -3,7 +3,6 @@ import '../../../index.css'
 import styles from './Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory, useLocation} from "react-router-dom";
-import {useSelector} from "react-redux";
 import PropTypes from "prop-types";
 
 function Login({onLogin, onLogged}) {
@@ -11,9 +10,9 @@ function Login({onLogin, onLogged}) {
   const history = useHistory()
   let location = useLocation();
 
-  let { from } = location.state || { from: { pathname: "/" } };
+  let {from} = location.state || {from: {pathname: "/"}};
 
-  const {authFailed} = useSelector(state => state.auth)
+  // const {authFailed} = useSelector(state => state.auth)
   const [loginState, setLoginState] = useState(
     {
       email: '',
@@ -22,11 +21,9 @@ function Login({onLogin, onLogged}) {
   )
 
   useEffect(() => {
-    localStorage.getItem('refreshToken') && history.replace('/login')
+    localStorage.getItem('refreshToken') && history.replace(from)
   }, [])
 
-
-  console.log(from)
   function handleChange(e) {
     const {name, value} = e.target;
     setLoginState(prevState => ({...prevState, [name]: value}));
@@ -35,10 +32,8 @@ function Login({onLogin, onLogged}) {
   function handleSubmit(e) {
     e.preventDefault();
     onLogin(loginState)
-    if (!authFailed) {
-      onLogged()
-      history.push(from)
-    }
+    onLogged()
+    history.push(from)
   }
 
   function onIconClick() {

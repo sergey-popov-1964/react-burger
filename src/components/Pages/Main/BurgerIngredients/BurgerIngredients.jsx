@@ -1,35 +1,16 @@
-import React, {Component, createRef, useState} from 'react';
+import React, {Component, createRef} from 'react';
 import style from './BurgerIngredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import CardList from "../CardList/CardList";
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from "react-redux";
-import {DELETE_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT} from "../../../../services/actions/ingredient";
+import {useSelector} from "react-redux";
 
 function BurgerIngredients({addItem}) {
 
-  const {ingredients, currentIngredient,  count} = useSelector(state => state.burgerIngredient)
+  const {ingredients,  count} = useSelector(state => state.burgerIngredient)
   const {bun} = useSelector(state => state.burgerConstructor)
 
   const [current, setCurrent] = React.useState('Булки')
-  const [isOpenModal, setIsOpenModal] = useState(false);
-
-  const dispatch = useDispatch();
-
-  function handlerModalOpen(data) {
-    dispatch(
-      {
-        type: SET_CURRENT_INGREDIENT,
-        data: data
-      }
-    )
-    setIsOpenModal(true)
-  }
-
-  function handlerClickClose() {
-    dispatch({type: DELETE_CURRENT_INGREDIENT})
-    setIsOpenModal(false)
-  }
 
   const bunsRef = createRef()
   const sauceRef = createRef()
@@ -80,7 +61,6 @@ function BurgerIngredients({addItem}) {
         <div className={style.ingredientList} ref={parentBlock} onScroll={handleTabs}>
           <div ref={bunsRef} >
             <CardList type="Булки"
-                      onCard={handlerModalOpen}
                       items={ingredients.filter(item => item.type === 'bun')}
                       addItem={addItem}
                       count={count}
@@ -89,7 +69,6 @@ function BurgerIngredients({addItem}) {
           </div>
           <div ref={sauceRef}>
             <CardList type="Соусы"
-                      onCard={handlerModalOpen}
                       items={ingredients.filter(item => item.type === 'sauce')}
                       addItem={addItem}
                       count={count}
@@ -98,7 +77,6 @@ function BurgerIngredients({addItem}) {
           </div>
           <div ref={mainRef}>
             <CardList type="Начинки"
-                      onCard={handlerModalOpen}
                       items={ingredients.filter(item => item.type === 'main')}
                       addItem={addItem}
                       count={count}
@@ -107,7 +85,6 @@ function BurgerIngredients({addItem}) {
           </div>
         </div>
       </div>
-
 
     </>
   );

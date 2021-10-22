@@ -7,7 +7,7 @@ import {useDispatch} from "react-redux";
 import {INCREMENT_COUNTER} from "../../../../services/actions/ingredient";
 import {useHistory, useLocation} from "react-router-dom";
 
-function Card({item, onCard, addItem, count, bun}) {
+function Card({item, addItem, count, bun}) {
 
   const [countIngredient, setCountIngredient] = useState(0);
   const location = useLocation();
@@ -70,7 +70,6 @@ function Card({item, onCard, addItem, count, bun}) {
 
 Card.propTypes = {
   item: PropTypes.object.isRequired,
-  onCard: PropTypes.func.isRequired,
   addItem: PropTypes.func.isRequired,
   count: PropTypes.array,
   bun: PropTypes.string,

@@ -4,6 +4,7 @@ import styles from "./ResetPassword.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory} from "react-router-dom";
 import api from "../../../utils/Api";
+import PropTypes from "prop-types";
 
 function ResetPassword({resetIsRestorePassword}) {
 
@@ -84,6 +85,10 @@ function ResetPassword({resetIsRestorePassword}) {
 
   );
 }
+
+ResetPassword.propTypes = {
+  resetIsRestorePassword: PropTypes.func.isRequired,
+};
 
 
 export default ResetPassword;

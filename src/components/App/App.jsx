@@ -3,7 +3,7 @@ import {Route, Switch, useHistory, useLocation, useParams} from 'react-router-do
 import style from './App.module.css';
 import AppHeader from "../AppHeader/AppHeader";
 
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {
   ADD_ITEM_TO_CONSTRUCTOR,
   CLEAR_CONSTRUCTOR,
@@ -34,6 +34,7 @@ import {
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Modal from "../Modal/Modal";
 import Ingredient from "../Pages/Ingredient/Ingredient";
+import {fetchWithRefresh} from "../../utils/utillity";
 
 function App() {
 
@@ -49,9 +50,9 @@ function App() {
 
   useEffect(() => {
     dispatch(getIngredients())
-    const jwt = localStorage.getItem('refreshToken');
-    if (jwt) {
-      setIsLoggedIn(true);
+    if(localStorage.getItem("refreshToken")) {
+      fetchWithRefresh().then()
+      setIsLoggedIn(true)
     }
   }, [])
 
@@ -81,7 +82,6 @@ function App() {
       }
     )
   }
-
 
   function handlerClickClose() {
     dispatch({type: DELETE_CURRENT_INGREDIENT})
