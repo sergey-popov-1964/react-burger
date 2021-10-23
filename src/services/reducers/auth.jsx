@@ -17,8 +17,8 @@ import {
 } from '../actions/auth'
 
 const initialState = {
-  name: '',
-  email: '',
+  name: '1111',
+  email: '22222',
   authRequest: false,
   authFailed: false,
 };

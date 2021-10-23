@@ -1,19 +1,31 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../../index.css'
 import styles from "./ForgotPassword.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, useHistory} from "react-router-dom";
+import {Link, useHistory, useLocation} from "react-router-dom";
 import api from "../../../utils/Api";
 import PropTypes from "prop-types";
 
 function ForgotPassword({onClickRestore}) {
 
   const history = useHistory()
+  let location = useLocation();
+
+  let {from} = location.state || {from: {pathname: "/"}};
+  const [isReady, setIsReady] = useState(false)
   const [loginState, setLoginState] = useState(
     {
       email: '',
     }
   )
+
+  useEffect(() => {
+    if (localStorage.getItem('refreshToken')) {
+      history.replace(from)
+    } else {
+      setIsReady(true)
+    }
+  }, [])
 
   function handleChange(e) {
     const {name, value} = e.target;
@@ -33,6 +45,7 @@ function ForgotPassword({onClickRestore}) {
   const inputRef = React.useRef(null)
 
   return (
+    isReady &&
     <div className="block">
       <form action="#"
             onSubmit={handleSubmit}

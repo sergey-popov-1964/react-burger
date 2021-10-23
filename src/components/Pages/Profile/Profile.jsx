@@ -2,11 +2,16 @@ import React, {useEffect, useState} from 'react';
 import '../../../index.css'
 import styles from "./Profile.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import PropTypes from "prop-types";
 import {fetchWithRefresh} from "../../../utils/utillity";
+import {getCurrentUser} from "../../../services/actions/auth";
 
 function Profile({updateUser, onLogout}) {
+
+  const dispatch = useDispatch()
+
+  const [isReady, setIsReady] = useState(false)
   const [loginState, setLoginState] = useState(
     {
       name: '',
@@ -27,8 +32,14 @@ function Profile({updateUser, onLogout}) {
   }, [profileName, profileEmail])
 
   useEffect(() => {
-    if(localStorage.getItem("refreshToken")) {
-      fetchWithRefresh().then()
+    if (localStorage.getItem("refreshToken")) {
+      fetchWithRefresh().then(() => {
+          dispatch(getCurrentUser(localStorage.getItem("accessToken")))
+          setIsReady(true)
+        }
+      )
+    } else {
+      setIsReady(true)
     }
   }, [])
 
@@ -57,7 +68,7 @@ function Profile({updateUser, onLogout}) {
   const inputRef = React.useRef(null)
 
   return (
-
+    isReady &&
     <div className="block">
 
       <div className={styles.profile__block}>
@@ -65,8 +76,10 @@ function Profile({updateUser, onLogout}) {
         <div className={styles.profile__panel}>
           <p className={`text text_type_main-medium ${styles.profile__menu}`}>Профиль</p>
           <p className={`text text_type_main-medium ${styles.profile__menu}`}>История заказов</p>
-          <p className={`text text_type_main-medium ${styles.profile__menu} ${styles.profile__menu_click}`} onClick={onLogout}>Выход</p>
-          <p className={`text text_type_main-small ${styles.profile__text}`}>В этом разделе вы можете<br/>изменить свои персональные данные</p>
+          <p className={`text text_type_main-medium ${styles.profile__menu} ${styles.profile__menu_click}`}
+             onClick={onLogout}>Выход</p>
+          <p className={`text text_type_main-small ${styles.profile__text}`}>В этом разделе вы можете<br/>изменить свои
+            персональные данные</p>
         </div>
 
         <form action="#"

@@ -45,12 +45,11 @@ function App() {
   const background = action && location.state && location.state.background;
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [isReady, setIsReady] = useState(true);
+  const [isReady, setIsReady] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(true);
   const [isRestorePassword, setIsRestorePassword] = useState(false)
 
   useEffect(() => {
-    setIsReady(false)
     dispatch(getIngredients())
     if (localStorage.getItem("refreshToken")) {
       fetchWithRefresh()
@@ -60,14 +59,13 @@ function App() {
         })
         .catch(() => {
           setIsLoggedIn(false)
-          setIsReady(false)
+          setIsReady(true)
         })
+    } else {
+      setIsLoggedIn(false)
+      setIsReady(true)
     }
   }, [])
-
-
-  useEffect(() => {
-  }, [isRestorePassword])
 
   function handleSetConstructor(data) {
     dispatch(
@@ -131,6 +129,7 @@ function App() {
   }
 
   return (
+    isReady &&
     <div className={style.page}>
       <DndProvider backend={HTML5Backend}>
 
@@ -138,17 +137,20 @@ function App() {
 
         <Switch location={background || location}>
 
-          <ProtectedRoute
-            path="/reset-password"
-            isLoggedIn={isRestorePassword}
-            resetIsRestorePassword={() => setIsRestorePassword(false)}
-            component={ResetPassword}
-          />
+          { isRestorePassword
+            &&
+            <ProtectedRoute
+              path="/reset-password"
+              isLoggedIn={isRestorePassword}
+              resetIsRestorePassword={() => setIsRestorePassword(false)}
+              component={ResetPassword}
+            />
+           }
+          }
 
           <ProtectedRoute
             path="/profile"
             isLoggedIn={isLoggedIn}
-            isReady={isReady}
             component={Profile}
             getUser={handleGetCurrentUser}
             updateUser={handleUpdateCurrentUser}

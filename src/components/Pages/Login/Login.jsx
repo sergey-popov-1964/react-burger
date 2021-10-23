@@ -12,6 +12,7 @@ function Login({onLogin, onLogged}) {
 
   let {from} = location.state || {from: {pathname: "/"}};
 
+  const [isReady, setIsReady] = useState(false)
   const [loginState, setLoginState] = useState(
     {
       email: '',
@@ -20,7 +21,11 @@ function Login({onLogin, onLogged}) {
   )
 
   useEffect(() => {
-    localStorage.getItem('refreshToken') && history.replace(from)
+    if (localStorage.getItem('refreshToken')) {
+      history.replace(from)
+    } else {
+      setIsReady(true)
+    }
   }, [])
 
   function handleChange(e) {
@@ -38,6 +43,7 @@ function Login({onLogin, onLogged}) {
   const inputRef = React.useRef(null)
 
   return (
+    isReady &&
     <div className="block">
       <form action="#"
             onSubmit={handleSubmit}

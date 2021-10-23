@@ -10,6 +10,7 @@ function Register({onRegister, onLogged}) {
 
   const history = useHistory()
   const {authFailed} = useSelector(state => state.auth)
+  const [isReady, setIsReady] = useState(false)
   const [registerState, setRegisterState] = useState(
     {
       name: '',
@@ -19,7 +20,11 @@ function Register({onRegister, onLogged}) {
   )
 
   useEffect(() => {
-    localStorage.getItem('refreshToken') && history.replace('/')
+    if (localStorage.getItem('refreshToken')) {
+      history.replace('/')
+    } else {
+      setIsReady(true)
+    }
   }, [])
 
   function handleChange(e) {
@@ -42,12 +47,13 @@ function Register({onRegister, onLogged}) {
   const inputRef = React.useRef(null)
 
   return (
+    isReady &&
     <div className="block">
       <form action="#"
             onSubmit={handleSubmit}
             className={styles.register__form}
             name='login' noValidate>
-        <h2 className={styles.register__title}>Вход</h2>
+        <h2 className={styles.register__title}>Регистрация</h2>
         <div className={styles.register__input}>
           <Input
             type={'text'}
@@ -63,7 +69,7 @@ function Register({onRegister, onLogged}) {
         </div>
         <div className={styles.register__input}>
           <Input
-            type={'email'}
+            type={'text'}
             placeholder={'e-mail'}
             onChange={handleChange}
             value={registerState.email}
