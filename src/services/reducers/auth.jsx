@@ -13,14 +13,17 @@ import {
   SET_CURRENT_USER_FAILED,
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
-  LOGOUT_FAILED
+  LOGOUT_FAILED,
+  LOGGED_IN,
+  LOGGED_OUT,
 } from '../actions/auth'
 
 const initialState = {
-  name: '1111',
-  email: '22222',
+  name: '',
+  email: '',
   authRequest: false,
   authFailed: false,
+  isLoggedIn: false
 };
 
 export const AuthReducer = (state = initialState, action) => {
@@ -151,6 +154,19 @@ export const AuthReducer = (state = initialState, action) => {
         ...state,
         authRequest: false,
         authFailed: true,
+      };
+    }
+    case LOGGED_IN: {
+      return {
+        ...state,
+        isLoggedIn: true,
+      };
+    }
+
+    case LOGGED_OUT: {
+      return {
+        ...state,
+        isLoggedIn: false,
       };
     }
 

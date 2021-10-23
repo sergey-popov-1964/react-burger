@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import '../../../index.css'
 import styles from './Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
@@ -12,21 +12,12 @@ function Login({onLogin, onLogged}) {
 
   let {from} = location.state || {from: {pathname: "/"}};
 
-  const [isReady, setIsReady] = useState(false)
   const [loginState, setLoginState] = useState(
     {
       email: '',
       password: '',
     }
   )
-
-  useEffect(() => {
-    if (localStorage.getItem('refreshToken')) {
-      history.replace(from)
-    } else {
-      setIsReady(true)
-    }
-  }, [])
 
   function handleChange(e) {
     const {name, value} = e.target;
@@ -43,7 +34,6 @@ function Login({onLogin, onLogged}) {
   const inputRef = React.useRef(null)
 
   return (
-    isReady &&
     <div className="block">
       <form action="#"
             onSubmit={handleSubmit}

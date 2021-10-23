@@ -3,7 +3,7 @@ import {Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import style from './App.module.css';
 import AppHeader from "../AppHeader/AppHeader";
 
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
   ADD_ITEM_TO_CONSTRUCTOR,
   CLEAR_CONSTRUCTOR,
@@ -27,7 +27,7 @@ import Profile from "../Pages/Profile/Profile";
 import {
   authLogin,
   authRegister,
-  getCurrentUser,
+  getCurrentUser, LOGGED_IN, LOGGED_OUT,
   logout,
   updateCurrentUser
 } from "../../services/actions/auth";
@@ -41,10 +41,11 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory()
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+
   const action = history.action === 'PUSH' || history.action === 'REPLACE';
   const background = action && location.state && location.state.background;
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isReady, setIsReady] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(true);
   const [isRestorePassword, setIsRestorePassword] = useState(false)
@@ -54,18 +55,20 @@ function App() {
     if (localStorage.getItem("refreshToken")) {
       fetchWithRefresh()
         .then(() => {
-          setIsLoggedIn(true)
+          dispatch({type: LOGGED_IN})
           setIsReady(true)
         })
         .catch(() => {
-          setIsLoggedIn(false)
+          dispatch({type: LOGGED_OUT})
           setIsReady(true)
         })
     } else {
-      setIsLoggedIn(false)
+      dispatch({type: LOGGED_OUT})
       setIsReady(true)
     }
   }, [])
+
+  console.log(isLoggedIn)
 
   function handleSetConstructor(data) {
     dispatch(
@@ -100,13 +103,13 @@ function App() {
 
   function handleLogin(data) {
     dispatch(authLogin(data))
-    setIsLoggedIn(true)
+    dispatch({type: LOGGED_IN})
     setIsReady(true)
   }
 
   function handleRegister(data) {
     dispatch(authRegister(data))
-    setIsLoggedIn(true)
+    dispatch({type: LOGGED_IN})
     setIsReady(true)
   }
 
@@ -120,11 +123,12 @@ function App() {
   }
 
   function handleLogout() {
+    dispatch({type: LOGGED_OUT})
     const data = {token: localStorage.getItem('refreshToken')}
     dispatch(logout({data}))
     dispatch({type: CLEAR_CONSTRUCTOR})
     dispatch({type: CLEAR_COUNTER})
-    setIsLoggedIn(false)
+    history.push('login')
     setIsReady(true)
   }
 
@@ -137,15 +141,15 @@ function App() {
 
         <Switch location={background || location}>
 
-          { isRestorePassword
-            &&
-            <ProtectedRoute
-              path="/reset-password"
-              isLoggedIn={isRestorePassword}
-              resetIsRestorePassword={() => setIsRestorePassword(false)}
-              component={ResetPassword}
-            />
-           }
+          {isRestorePassword
+          &&
+          <ProtectedRoute
+            path="/reset-password"
+            isLoggedIn={isRestorePassword}
+            resetIsRestorePassword={() => setIsRestorePassword(false)}
+            component={ResetPassword}
+          />
+          }
           }
 
           <ProtectedRoute
@@ -157,18 +161,18 @@ function App() {
             onLogout={handleLogout}
           />
 
-          <Route path="/login">
-            <Login
-              onLogin={handleLogin}
-              onLogged={() => setIsLoggedIn(true)}
-              isLoggedIn={isLoggedIn}
-            />
-          </Route>
+          <ProtectedRoute
+            path="/login"
+            isLoggedIn={!isLoggedIn}
+            onLogin={handleLogin}
+            component={Login}
+            onLogged={() => dispatch({type: LOGGED_IN})}
+          />
 
           <Route path="/register">
             <Register
               onRegister={handleRegister}
-              onLogged={() => setIsLoggedIn(true)}
+              onLogged={() => dispatch({type: LOGGED_OUT})}
             />
           </Route>
 
