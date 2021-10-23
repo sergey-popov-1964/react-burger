@@ -12,7 +12,6 @@ function Login({onLogin, onLogged}) {
 
   let {from} = location.state || {from: {pathname: "/"}};
 
-  // const {authFailed} = useSelector(state => state.auth)
   const [loginState, setLoginState] = useState(
     {
       email: '',
@@ -34,10 +33,6 @@ function Login({onLogin, onLogged}) {
     onLogin(loginState)
     onLogged()
     history.push(from)
-  }
-
-  function onIconClick() {
-
   }
 
   const inputRef = React.useRef(null)
@@ -72,7 +67,6 @@ function Login({onLogin, onLogged}) {
             name={'password'}
             error={false}
             ref={inputRef}
-            onIconClick={onIconClick}
             errorText={'Ошибка'}
             size={'default'}
           />

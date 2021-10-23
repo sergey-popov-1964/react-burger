@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Route, Switch, useHistory, useLocation, useParams} from 'react-router-dom';
+import {Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import style from './App.module.css';
 import AppHeader from "../AppHeader/AppHeader";
 
@@ -41,20 +41,30 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory()
-  const action = history.action ==='PUSH' || history.action ==='REPLACE';
+  const action = history.action === 'PUSH' || history.action === 'REPLACE';
   const background = action && location.state && location.state.background;
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isReady, setIsReady] = useState(true);
   const [isOpenModal, setIsOpenModal] = useState(true);
   const [isRestorePassword, setIsRestorePassword] = useState(false)
 
   useEffect(() => {
+    setIsReady(false)
     dispatch(getIngredients())
-    if(localStorage.getItem("refreshToken")) {
-      fetchWithRefresh().then()
-      setIsLoggedIn(true)
+    if (localStorage.getItem("refreshToken")) {
+      fetchWithRefresh()
+        .then(() => {
+          setIsLoggedIn(true)
+          setIsReady(true)
+        })
+        .catch(() => {
+          setIsLoggedIn(false)
+          setIsReady(false)
+        })
     }
   }, [])
+
 
   useEffect(() => {
   }, [isRestorePassword])
@@ -87,14 +97,19 @@ function App() {
     dispatch({type: DELETE_CURRENT_INGREDIENT})
     setIsOpenModal(false)
     history.goBack()
+    setIsReady(true)
   }
 
   function handleLogin(data) {
     dispatch(authLogin(data))
+    setIsLoggedIn(true)
+    setIsReady(true)
   }
 
   function handleRegister(data) {
     dispatch(authRegister(data))
+    setIsLoggedIn(true)
+    setIsReady(true)
   }
 
   function handleGetCurrentUser() {
@@ -112,71 +127,75 @@ function App() {
     dispatch({type: CLEAR_CONSTRUCTOR})
     dispatch({type: CLEAR_COUNTER})
     setIsLoggedIn(false)
+    setIsReady(true)
   }
 
   return (
     <div className={style.page}>
       <DndProvider backend={HTML5Backend}>
 
-          <AppHeader isLoggedIn={isLoggedIn}/>
-          <Switch location={background || location}>
+        <AppHeader/>
 
-            <ProtectedRoute
-              path="/reset-password"
-              isLoggedIn={isRestorePassword}
-              resetIsRestorePassword={() => setIsRestorePassword(false)}
-              component={ResetPassword}
-            />
+        <Switch location={background || location}>
 
-            <ProtectedRoute
-              path="/profile"
+          <ProtectedRoute
+            path="/reset-password"
+            isLoggedIn={isRestorePassword}
+            resetIsRestorePassword={() => setIsRestorePassword(false)}
+            component={ResetPassword}
+          />
+
+          <ProtectedRoute
+            path="/profile"
+            isLoggedIn={isLoggedIn}
+            isReady={isReady}
+            component={Profile}
+            getUser={handleGetCurrentUser}
+            updateUser={handleUpdateCurrentUser}
+            onLogout={handleLogout}
+          />
+
+          <Route path="/login">
+            <Login
+              onLogin={handleLogin}
+              onLogged={() => setIsLoggedIn(true)}
               isLoggedIn={isLoggedIn}
-              component={Profile}
-              getUser={handleGetCurrentUser}
-              updateUser={handleUpdateCurrentUser}
-              onLogout={handleLogout}
             />
+          </Route>
 
-            <Route path="/login">
-              <Login
-                onLogin={handleLogin}
-                onLogged={() => setIsLoggedIn(true)}
-              />
-            </Route>
+          <Route path="/register">
+            <Register
+              onRegister={handleRegister}
+              onLogged={() => setIsLoggedIn(true)}
+            />
+          </Route>
 
-            <Route path="/register">
-              <Register
-                onRegister={handleRegister}
-                onLogged={() => setIsLoggedIn(true)}
-              />
-            </Route>
+          <Route path="/forgot-password">
+            <ForgotPassword onClickRestore={() => setIsRestorePassword(true)}/>
+          </Route>
 
-            <Route path="/forgot-password">
-              <ForgotPassword onClickRestore={() => setIsRestorePassword(true)}/>
-            </Route>
+          <Route path="/" exact={true}>
+            <Main addItem={handleSetConstructor}
+                  deleteItem={handleDeleteItem}
+                  isLoggedIn={isLoggedIn}
+            />
+          </Route>
 
-            <Route path="/" exact={true}>
-              <Main addItem={handleSetConstructor}
-                    deleteItem={handleDeleteItem}
-                    isLoggedIn={isLoggedIn}
-              />
-            </Route>
+          <Route path="/ingredients/:id">
+            <Ingredient/>
+          </Route>
 
-            <Route path="/ingredients/:id">
-              <Ingredient />
-            </Route>
+          <Route path="*">
+            <Notfound/>
+          </Route>
 
-            <Route path="*">
-              <Notfound/>
-            </Route>
+        </Switch>
 
-          </Switch>
-
-          {background && (<Route path="/ingredients/:id">
-            <Modal onClose={handlerClickClose}>
-              <Ingredient/>
-            </Modal>
-          </Route>)}
+        {background && (<Route path="/ingredients/:id">
+          <Modal onClose={handlerClickClose}>
+            <Ingredient/>
+          </Modal>
+        </Route>)}
 
       </DndProvider>
 

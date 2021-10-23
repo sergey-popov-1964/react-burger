@@ -5,7 +5,7 @@ import {Link, useRouteMatch} from "react-router-dom";
 import PropTypes from "prop-types";
 import BurgerConstructor from "../Pages/Main/BurgerConstructor/BurgerConstructor";
 
-function AppHeader({isLoggedIn}) {
+function AppHeader() {
 
   const isConstructor = !!useRouteMatch({path: '/', exact: true});
   const isFeed = !!useRouteMatch('/feed');
@@ -40,9 +40,7 @@ function AppHeader({isLoggedIn}) {
           <Logo/>
         </div>
         <div className={style.cabinet}>
-          <Link className={!isLoggedIn
-            ? `${style.navLink} ${style.headerCabinet} ${style.disabled}`
-            : `${style.navLink} ${style.headerCabinet}`} to='/profile'>
+          <Link className={`${style.navLink} ${style.headerCabinet}`} to='/profile'>
             <ProfileIcon type={isProfile ? "primary" : "secondary"}/>
             <p className={isProfile ? `text text_type_main-small ${style.navText}`
               : `text text_type_main-small ${style.navText} ${style.navTextGray}`}>
@@ -54,9 +52,5 @@ function AppHeader({isLoggedIn}) {
     </div>
   );
 }
-
-AppHeader.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
-};
 
 export default AppHeader;

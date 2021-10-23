@@ -54,7 +54,6 @@ function Profile({updateUser, onLogout}) {
     }))
   }
 
-
   const inputRef = React.useRef(null)
 
   return (
