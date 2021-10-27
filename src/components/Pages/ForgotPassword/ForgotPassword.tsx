@@ -6,7 +6,9 @@ import {Link, useHistory, useLocation} from "react-router-dom";
 import api from "../../../utils/Api";
 import PropTypes from "prop-types";
 
-function ForgotPassword({onClickRestore}) {
+
+
+function ForgotPassword({onClickRestore}):any {
 
   const history = useHistory()
   let location = useLocation();

@@ -6,10 +6,10 @@ import {Link, useHistory} from "react-router-dom";
 import {useSelector} from "react-redux";
 import PropTypes from "prop-types";
 
-function Register({onRegister, onLogged}) {
+function Register({onRegister, onLogged}):any {
 
   const history = useHistory()
-  const {authFailed} = useSelector(state => state.auth)
+  const {authFailed} = useSelector((state:any) => state.auth)
   const [isReady, setIsReady] = useState(false)
   const [registerState, setRegisterState] = useState(
     {

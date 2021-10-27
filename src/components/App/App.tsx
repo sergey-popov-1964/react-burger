@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import style from './App.module.css';
 import AppHeader from "../AppHeader/AppHeader";
+import {Location, History} from 'history';
 
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -38,13 +39,24 @@ import {fetchWithRefresh} from "../../utils/utillity";
 
 function App() {
 
-  const location = useLocation();
-  const dispatch = useDispatch();
-  const history = useHistory()
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+  type TLocataionState = {
+    from?: Location;
+    background?: Location;
+  };
 
-  const action = history.action === 'PUSH' || history.action === 'REPLACE';
-  const background = action && location.state && location.state.background;
+  type THistory = {
+    action?: History;
+    push?: History;
+    replace?: History;
+  };
+
+  const Location = useLocation<TLocataionState>();
+  const dispatch = useDispatch();
+  const History = useHistory<THistory>()
+  const isLoggedIn = useSelector((state:any) => state.auth.isLoggedIn)
+
+  const action = History.action === 'PUSH' || History.action === 'REPLACE';
+  const background = action && Location.state && Location.state.background;
 
   const [isReady, setIsReady] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(true);
@@ -68,9 +80,7 @@ function App() {
     }
   }, [])
 
-  console.log(isLoggedIn)
-
-  function handleSetConstructor(data) {
+  function handleSetConstructor(data:any) {
     dispatch(
       {
         type: ADD_ITEM_TO_CONSTRUCTOR,
@@ -79,7 +89,7 @@ function App() {
     )
   }
 
-  function handleDeleteItem(data) {
+  function handleDeleteItem(data:any) {
     dispatch(
       {
         type: DELETE_ITEM_FROM_CONSTRUCTOR,
@@ -97,17 +107,17 @@ function App() {
   function handlerClickClose() {
     dispatch({type: DELETE_CURRENT_INGREDIENT})
     setIsOpenModal(false)
-    history.goBack()
+    History.push("/")
     setIsReady(true)
   }
 
-  function handleLogin(data) {
+  function handleLogin(data:any) {
     dispatch(authLogin(data))
     dispatch({type: LOGGED_IN})
     setIsReady(true)
   }
 
-  function handleRegister(data) {
+  function handleRegister(data:any) {
     dispatch(authRegister(data))
     dispatch({type: LOGGED_IN})
     setIsReady(true)
@@ -117,7 +127,7 @@ function App() {
     dispatch(getCurrentUser(localStorage.getItem('accessToken')))
   }
 
-  function handleUpdateCurrentUser(data) {
+  function handleUpdateCurrentUser(data:any) {
     const auth = localStorage.getItem('accessToken')
     dispatch(updateCurrentUser({auth, data}))
   }
@@ -128,7 +138,7 @@ function App() {
     dispatch(logout({data}))
     dispatch({type: CLEAR_CONSTRUCTOR})
     dispatch({type: CLEAR_COUNTER})
-    history.push('login')
+    History.push('login')
     setIsReady(true)
   }
 
@@ -139,7 +149,7 @@ function App() {
 
         <AppHeader/>
 
-        <Switch location={background || location}>
+        <Switch location={background || Location}>
 
           {isRestorePassword
           &&
@@ -150,7 +160,7 @@ function App() {
             component={ResetPassword}
           />
           }
-          }
+
 
           <ProtectedRoute
             path="/profile"
