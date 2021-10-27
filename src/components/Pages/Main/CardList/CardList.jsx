@@ -2,9 +2,9 @@ import React from 'react';
 import style from './CardList.module.css'
 import Card from "../Card/Card";
 import PropTypes from "prop-types";
-import {menuItemPropTypes} from "../../utils/constants";
+import {menuItemPropTypes} from "../../../../utils/constants";
 
-function CardList({type, items, onCard, addItem, count, bun}) {
+function CardList({type, items, addItem, count, bun}) {
 
   return (
     <>
@@ -14,7 +14,6 @@ function CardList({type, items, onCard, addItem, count, bun}) {
           {
             items.map(item => (
               <Card item={item}
-                    onCard={onCard}
                     addItem={addItem}
                     key={item._id}
                     count={count}
@@ -31,7 +30,6 @@ function CardList({type, items, onCard, addItem, count, bun}) {
 CardList.propTypes = {
   items: PropTypes.arrayOf(menuItemPropTypes.isRequired).isRequired,
   type: PropTypes.string.isRequired,
-  onCard: PropTypes.func.isRequired,
   addItem: PropTypes.func.isRequired,
   count: PropTypes.array,
   bun: PropTypes.string,

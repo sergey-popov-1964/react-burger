@@ -2,17 +2,20 @@ import React, {useEffect, useState} from 'react';
 import style from './BurgerConstructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import OrderDetails from "../OrderDetails/OrderDetails";
-import Modal from "../Modal/Modal";
+import OrderDetails from "../../../OrderDetails/OrderDetails";
+import Modal from "../../../Modal/Modal";
 import {useDispatch, useSelector} from "react-redux";
-import {createOrder} from '../../services/actions/order'
+import {createOrder} from '../../../../services/actions/order'
 import {useDrop} from "react-dnd";
-import {CLEAR_CONSTRUCTOR, SORT_CONSTRUCTOR} from "../../services/actions/constructor";
+import {CLEAR_CONSTRUCTOR, SORT_CONSTRUCTOR} from "../../../../services/actions/constructor";
 import ConstructorIngredients from "../ConstructorIngredients/ConstructorIngredients";
-import {CLEAR_COUNTER} from "../../services/actions/ingredient";
+import {CLEAR_COUNTER} from "../../../../services/actions/ingredient";
+import {useHistory} from "react-router-dom";
 
 
-function BurgerConstructor({deleteItem}) {
+function BurgerConstructor({deleteItem, isLoggedIn}) {
+
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -30,9 +33,13 @@ function BurgerConstructor({deleteItem}) {
   }, [constructor])
 
   function handlerClickOpen() {
-    const order = [...constructor.ingredients.map((item) => item._id), constructor.bun._id]
-    createNewOrder(order)
-    setIsOpenModal(true)
+    if (isLoggedIn) {
+      const order = [...constructor.ingredients.map((item) => item._id), constructor.bun._id]
+      createNewOrder(order)
+      setIsOpenModal(true)
+    } else {
+      history.push('/login');
+    }
   }
 
   function handlerClickClose() {
@@ -157,6 +164,7 @@ function BurgerConstructor({deleteItem}) {
 
 BurgerConstructor.propTypes = {
   deleteItem: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
 };
 
 
