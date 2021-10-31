@@ -37,7 +37,10 @@ import Modal from "../Modal/Modal";
 import Ingredient from "../Pages/Ingredient/Ingredient";
 import {fetchWithRefresh} from "../../utils/utillity";
 
-function App() {
+
+const App: React.FC = () => {
+
+// function App():any {
 
   type TLocataionState = {
     from?: Location;
@@ -142,82 +145,165 @@ function App() {
     setIsReady(true)
   }
 
-  return (
-    isReady &&
-    <div className={style.page}>
-      <DndProvider backend={HTML5Backend}>
+  if(!isReady) {
+    return null
+  } else {
+    return (
+      <div className={style.page}>
+        <DndProvider backend={HTML5Backend}>
 
-        <AppHeader/>
+          <AppHeader/>
 
-        <Switch location={background || Location}>
+          <Switch location={background || Location}>
 
-          {isRestorePassword
-          &&
-          <ProtectedRoute
-            path="/reset-password"
-            isLoggedIn={isRestorePassword}
-            resetIsRestorePassword={() => setIsRestorePassword(false)}
-            component={ResetPassword}
-          />
-          }
-
-
-          <ProtectedRoute
-            path="/profile"
-            isLoggedIn={isLoggedIn}
-            component={Profile}
-            getUser={handleGetCurrentUser}
-            updateUser={handleUpdateCurrentUser}
-            onLogout={handleLogout}
-          />
-
-          <ProtectedRoute
-            path="/login"
-            isLoggedIn={!isLoggedIn}
-            onLogin={handleLogin}
-            component={Login}
-            onLogged={() => dispatch({type: LOGGED_IN})}
-          />
-
-          <Route path="/register">
-            <Register
-              onRegister={handleRegister}
-              onLogged={() => dispatch({type: LOGGED_OUT})}
+            {isRestorePassword
+            &&
+            <ProtectedRoute
+              path="/reset-password"
+              isLoggedIn={isRestorePassword}
+              resetIsRestorePassword={() => setIsRestorePassword(false)}
+              component={ResetPassword}
             />
-          </Route>
+            }
 
-          <Route path="/forgot-password">
-            <ForgotPassword onClickRestore={() => setIsRestorePassword(true)}/>
-          </Route>
 
-          <Route path="/" exact={true}>
-            <Main addItem={handleSetConstructor}
-                  deleteItem={handleDeleteItem}
-                  isLoggedIn={isLoggedIn}
+            <ProtectedRoute
+              path="/profile"
+              isLoggedIn={isLoggedIn}
+              component={Profile}
+              getUser={handleGetCurrentUser}
+              updateUser={handleUpdateCurrentUser}
+              onLogout={handleLogout}
             />
-          </Route>
 
-          <Route path="/ingredients/:id">
-            <Ingredient/>
-          </Route>
+            <ProtectedRoute
+              path="/login"
+              isLoggedIn={!isLoggedIn}
+              onLogin={handleLogin}
+              component={Login}
+              onLogged={() => dispatch({type: LOGGED_IN})}
+            />
 
-          <Route path="*">
-            <Notfound/>
-          </Route>
+            <Route path="/register">
+              <Register
+                onRegister={handleRegister}
+                onLogged={() => dispatch({type: LOGGED_OUT})}
+              />
+            </Route>
 
-        </Switch>
+            <Route path="/forgot-password">
+              <ForgotPassword onClickRestore={() => setIsRestorePassword(true)}/>
+            </Route>
 
-        {background && (<Route path="/ingredients/:id">
-          <Modal onClose={handlerClickClose}>
-            <Ingredient/>
-          </Modal>
-        </Route>)}
+            <Route path="/" exact={true}>
+              <Main addItem={handleSetConstructor}
+                    deleteItem={handleDeleteItem}
+                    isLoggedIn={isLoggedIn}
+              />
+            </Route>
 
-      </DndProvider>
+            <Route path="/ingredients/:id">
+              <Ingredient/>
+            </Route>
 
-    </div>
+            <Route path="*">
+              <Notfound/>
+            </Route>
 
-  );
+          </Switch>
+
+          {background && (<Route path="/ingredients/:id">
+            <Modal onClose={handlerClickClose}>
+              <Ingredient/>
+            </Modal>
+          </Route>)}
+
+        </DndProvider>
+
+      </div>
+
+    );
+  }
+
+
+
+
+  // return (
+  //   isReady &&
+  //   <div className={style.page}>
+  //     <DndProvider backend={HTML5Backend}>
+  //
+  //       <AppHeader/>
+  //
+  //       <Switch location={background || Location}>
+  //
+  //         {isRestorePassword
+  //         &&
+  //         <ProtectedRoute
+  //           path="/reset-password"
+  //           isLoggedIn={isRestorePassword}
+  //           resetIsRestorePassword={() => setIsRestorePassword(false)}
+  //           component={ResetPassword}
+  //         />
+  //         }
+  //
+  //
+  //         <ProtectedRoute
+  //           path="/profile"
+  //           isLoggedIn={isLoggedIn}
+  //           component={Profile}
+  //           getUser={handleGetCurrentUser}
+  //           updateUser={handleUpdateCurrentUser}
+  //           onLogout={handleLogout}
+  //         />
+  //
+  //         <ProtectedRoute
+  //           path="/login"
+  //           isLoggedIn={!isLoggedIn}
+  //           onLogin={handleLogin}
+  //           component={Login}
+  //           onLogged={() => dispatch({type: LOGGED_IN})}
+  //         />
+  //
+  //         <Route path="/register">
+  //           <Register
+  //             onRegister={handleRegister}
+  //             onLogged={() => dispatch({type: LOGGED_OUT})}
+  //           />
+  //         </Route>
+  //
+  //         <Route path="/forgot-password">
+  //           <ForgotPassword onClickRestore={() => setIsRestorePassword(true)}/>
+  //         </Route>
+  //
+  //         <Route path="/" exact={true}>
+  //           <Main addItem={handleSetConstructor}
+  //                 deleteItem={handleDeleteItem}
+  //                 isLoggedIn={isLoggedIn}
+  //           />
+  //         </Route>
+  //
+  //         <Route path="/ingredients/:id">
+  //           <Ingredient/>
+  //         </Route>
+  //
+  //         <Route path="*">
+  //           <Notfound/>
+  //         </Route>
+  //
+  //       </Switch>
+  //
+  //       {background && (<Route path="/ingredients/:id">
+  //         <Modal onClose={handlerClickClose}>
+  //           <Ingredient/>
+  //         </Modal>
+  //       </Route>)}
+  //
+  //     </DndProvider>
+  //
+  //   </div>
+  //
+  // );
 }
 
 export default App;
