@@ -1,13 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import style from "./Card.module.css";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import {useDrag} from "react-dnd";
 import {useDispatch} from "react-redux";
 import {INCREMENT_COUNTER} from "../../../../services/actions/ingredient";
 import {useHistory, useLocation} from "react-router-dom";
+import {IItem} from "../../../../utils/interfaces"
 
-function Card({item, addItem, count, bun}) {
+type TCardProps = {
+  item: IItem,
+  addItem: (item: IItem) => void,
+  count: string[]
+  bun: string
+}
+
+const Card: React.FC<TCardProps> = ({item, addItem, count, bun}) => {
 
   const [countIngredient, setCountIngredient] = useState(0);
   const location = useLocation();
@@ -20,7 +27,6 @@ function Card({item, addItem, count, bun}) {
       setCountIngredient(count.filter(count => count === item._id).length)
     }
   }, [count])
-
 
   const dispatch = useDispatch();
   const history = useHistory()
@@ -46,10 +52,7 @@ function Card({item, addItem, count, bun}) {
   }
 
   function handlerClickOnCard() {
-    history.push({
-      pathname: `ingredients/${item._id}`,
-      state: { background: location }
-    });
+    history.push(`ingredients/${item._id}`, {background: location});
   }
 
   const opacity = isDragging ? 0.5 : 1;
@@ -62,17 +65,10 @@ function Card({item, addItem, count, bun}) {
       </div>
       <p className={`${style.cardName} text text_type_main-small`}>{item.name}</p>
       <div className={countIngredient > 0 ? `${style.counter}` : `${style.counterHide}`}>
-        <Counter count={countIngredient} size="default" />
+        <Counter count={countIngredient} size="default"/>
       </div>
     </div>
   );
 }
-
-Card.propTypes = {
-  item: PropTypes.object.isRequired,
-  addItem: PropTypes.func.isRequired,
-  count: PropTypes.array,
-  bun: PropTypes.string,
-};
 
 export default Card;

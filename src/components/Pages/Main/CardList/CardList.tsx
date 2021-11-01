@@ -1,10 +1,17 @@
 import React from 'react';
 import style from './CardList.module.css'
 import Card from "../Card/Card";
-import PropTypes from "prop-types";
-import {menuItemPropTypes} from "../../../../utils/constants";
+import {IItem} from '../../../../utils/interfaces'
 
-function CardList({type, items, addItem, count, bun}) {
+type TConstructorProps = {
+  type: string,
+  items: Array<IItem>,
+  addItem: (item: IItem) => void,
+  count: string[]
+  bun: string
+}
+
+const CardList: React.FC<TConstructorProps> = ({type, items, addItem, count, bun}) => {
 
   return (
     <>
@@ -27,12 +34,5 @@ function CardList({type, items, addItem, count, bun}) {
   );
 }
 
-CardList.propTypes = {
-  items: PropTypes.arrayOf(menuItemPropTypes.isRequired).isRequired,
-  type: PropTypes.string.isRequired,
-  addItem: PropTypes.func.isRequired,
-  count: PropTypes.array,
-  bun: PropTypes.string,
-};
 
 export default CardList;

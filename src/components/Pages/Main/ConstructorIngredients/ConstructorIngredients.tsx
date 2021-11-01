@@ -10,7 +10,7 @@ import {IItem} from "../../../../utils/interfaces"
 type TConstructorProps = {
   item: IItem,
   index: number,
-  deleteItem: (ingredientID: string,_id: string) => void,
+  deleteItem: (ingredientID: string, _id: string) => void,
   moveCards: (dragIndex: number, hoverIndex: number) => void,
   id: string
 }
@@ -25,7 +25,7 @@ const ConstructorIngredients: React.FC<TConstructorProps> = ({item, index, delet
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item: { index: number }, monitor) {
       if (!ref.current) {
         return;
       }
@@ -39,7 +39,7 @@ const ConstructorIngredients: React.FC<TConstructorProps> = ({item, index, delet
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      if(!clientOffset) return;
+      if (!clientOffset) return;
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {

@@ -1,5 +1,4 @@
 
-
 export interface IItem {
   calories: number,
   carbohydrates: number,
@@ -14,5 +13,6 @@ export interface IItem {
   type: string,
   __v: number,
   _id: string,
-  index: number
+  index?: number
 }
+

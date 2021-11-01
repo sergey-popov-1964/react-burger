@@ -2,9 +2,17 @@ import React from 'react';
 import style from "./Main.module.css";
 import BurgerIngredients from "./BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "./BurgerConstructor/BurgerConstructor";
-import PropTypes from "prop-types";
+import {IItem} from "../../../utils/interfaces"
 
-function Main({addItem, deleteItem, isLoggedIn}) {
+type TMainProps = {
+  deleteItem: (ingredientID: string, _id: string) => void,
+  addItem: (item: IItem) => void,
+  isLoggedIn: boolean
+}
+
+const Main: React.FC<TMainProps> = ({addItem, deleteItem, isLoggedIn}) => {
+
+// function Main({addItem, deleteItem, isLoggedIn}) {
   return (
     <div className={style.block}>
       <div className={style.main}>
@@ -19,11 +27,11 @@ function Main({addItem, deleteItem, isLoggedIn}) {
     </div>
   );
 }
-
-Main.propTypes = {
-  addItem: PropTypes.func.isRequired,
-  deleteItem: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
-};
+//
+// Main.propTypes = {
+//   addItem: PropTypes.func.isRequired,
+//   deleteItem: PropTypes.func.isRequired,
+//   isLoggedIn: PropTypes.bool.isRequired,
+// };
 
 export default Main;

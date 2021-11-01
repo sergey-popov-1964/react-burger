@@ -73,7 +73,7 @@ type TConstructor = {
   }));
   const isActive = canDrop || isOver;
 
-  function moveCards(dragIndex: string, hoverIndex: string) {
+  function moveCards(dragIndex: number, hoverIndex: number) {
     dispatch({
       type: SORT_CONSTRUCTOR,
       dragIndex: dragIndex,
