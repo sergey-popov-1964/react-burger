@@ -53,9 +53,8 @@ type TForgotPassword = {
 
     const inputRef = React.useRef(null)
 
-  if(!isReady) {
-      return null
-  } else {
+  if(!isReady) return null
+
     return (
       <div className="block">
         <form action="#"
@@ -88,7 +87,6 @@ type TForgotPassword = {
         </form>
       </div>
     );
-  }
 
   }
 

@@ -1,14 +1,23 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDrag, useDrop} from "react-dnd";
 import mark from '../../../../images/mark-item.svg'
-import style from './ConstructorIngredients.modules.css'
-import PropTypes from "prop-types";
-import {menuItemPropTypes} from "../../../../utils/constants";
+import style from './ConstructorIngredients.module.css'
+//import PropTypes from "prop-types";
+//import {menuItemPropTypes} from "../../../../utils/constants";
+import {IItem} from "../../../../utils/interfaces"
 
-function ConstructorIngredients({item, index, deleteItem, moveCards, id}) {
+type TConstructorProps = {
+  item: IItem,
+  index: number,
+  deleteItem: (ingredientID: string,_id: string) => void,
+  moveCards: (dragIndex: number, hoverIndex: number) => void,
+  id: string
+}
 
-  const ref = useRef(null);
+const ConstructorIngredients: React.FC<TConstructorProps> = ({item, index, deleteItem, moveCards, id}) => {
+
+  const ref = React.useRef<HTMLDivElement>(null);
   const [{handlerId}, drop] = useDrop({
     accept: 'Ingredient',
     collect(monitor) {
@@ -28,17 +37,14 @@ function ConstructorIngredients({item, index, deleteItem, moveCards, id}) {
       }
 
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
-
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-
       const clientOffset = monitor.getClientOffset();
-
+      if(!clientOffset) return;
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
-
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
@@ -65,7 +71,7 @@ function ConstructorIngredients({item, index, deleteItem, moveCards, id}) {
       <img className={style.itemMark} src={mark} alt="Метка"/>
       <ConstructorElement
         isLocked={false}
-        handleClose={() => deleteItem(item)}
+        handleClose={() => deleteItem(item.ingredientID, item._id)}
         text={item.name}
         price={item.price}
         thumbnail={item.image}
@@ -76,12 +82,5 @@ function ConstructorIngredients({item, index, deleteItem, moveCards, id}) {
   );
 }
 
-ConstructorIngredients.propTypes = {
-  items: PropTypes.arrayOf(menuItemPropTypes.isRequired),
-  index: PropTypes.number.isRequired,
-  deleteItem: PropTypes.func.isRequired,
-  moveCards: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired,
-};
 
 export default ConstructorIngredients;

@@ -1,9 +1,17 @@
 import React from 'react';
 import style from './OrderDetails.module.css'
 import done from "../../images/done.png";
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 
-function OrderDetails({orderNumber, orderName}) {
+//function OrderDetails({orderNumber, orderName}) {
+
+type TOrderProps = {
+  orderNumber: number,
+  orderName: string,
+}
+
+  const OrderDetails: React.FC<TOrderProps> = ({orderNumber, orderName}) => {
+
   return (
     <div className={style.content}>
       <p className={`${style.numberOrder} text text_type_digits-large`}>{orderNumber}</p>
@@ -15,9 +23,9 @@ function OrderDetails({orderNumber, orderName}) {
   );
 }
 
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.number.isRequired,
-  orderName: PropTypes.string.isRequired,
-};
+//OrderDetails.propTypes = {
+//  orderNumber: PropTypes.number.isRequired,
+//  orderName: PropTypes.string.isRequired,
+//};
 
 export default OrderDetails;

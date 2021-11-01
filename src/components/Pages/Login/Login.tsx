@@ -3,28 +3,39 @@ import '../../../index.css'
 import styles from './Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory, useLocation} from "react-router-dom";
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 
-function Login({onLogin, onLogged}) {
+type TLoginState = {
+  email: string,
+  password: string,
+}
+
+type TLogin = {
+  onLogin: (loginState: TLoginState) => void,
+  onLogged: () => void,
+}
+
+const Login: React.FC<TLogin> = ({onLogin, onLogged}) => {
+//function Login({onLogin, onLogged}) {
 
   const history = useHistory()
   let location = useLocation();
 
   let {from} = location.state || {from: {pathname: "/"}};
 
-  const [loginState, setLoginState] = useState(
+  const [loginState, setLoginState] = useState<TLoginState>(
     {
       email: '',
       password: '',
     }
   )
 
-  function handleChange(e) {
-    const {name, value} = e.target;
+  function handleChange(e: React.SyntheticEvent) {
+    const {name, value} = e.target as HTMLInputElement;
     setLoginState(prevState => ({...prevState, [name]: value}));
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     onLogin(loginState)
     onLogged()
@@ -85,9 +96,9 @@ function Login({onLogin, onLogged}) {
   );
 }
 
-Login.propTypes = {
-  onLogin: PropTypes.func.isRequired,
-  onLogged: PropTypes.func.isRequired,
-};
+//Login.propTypes = {
+//  onLogin: PropTypes.func.isRequired,
+//  onLogged: PropTypes.func.isRequired,
+//};
 
 export default Login;

@@ -2,10 +2,11 @@ import React, {useEffect} from 'react';
 import style from './AppHeader.module.css'
 import {Logo, BurgerIcon, ListIcon, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useRouteMatch} from "react-router-dom";
-import PropTypes from "prop-types";
-import BurgerConstructor from "../Pages/Main/BurgerConstructor/BurgerConstructor";
+//import PropTypes from "prop-types";
+//import BurgerConstructor from "../Pages/Main/BurgerConstructor/BurgerConstructor";
 
-function AppHeader() {
+//function AppHeader() {
+  const AppHeader: React.FC = () => {
 
   const isConstructor = !!useRouteMatch({path: '/', exact: true});
   const isFeed = !!useRouteMatch('/feed');

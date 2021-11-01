@@ -4,11 +4,18 @@ import styles from "./ResetPassword.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory, useLocation} from "react-router-dom";
 import api from "../../../utils/Api";
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 
-function ResetPassword({resetIsRestorePassword}) {
+type TResetPasswordProps = {
+  resetIsRestorePassword: () => void,
+}
 
-  const history = useHistory()
+//function ResetPassword({resetIsRestorePassword}) {
+
+  const ResetPassword: React.FC<TResetPasswordProps> = ({resetIsRestorePassword}) => {
+
+
+    const history = useHistory()
   let location = useLocation();
 
   let {from} = location.state || {from: {pathname: "/"}};
@@ -28,12 +35,12 @@ function ResetPassword({resetIsRestorePassword}) {
     }
   }, [])
 
-  function handleChange(e) {
-    const {name, value} = e.target;
+  function handleChange(e: React.SyntheticEvent) {
+    const {name, value} = e.target as HTMLInputElement
     setResetPasswordState(prevState => ({...prevState, [name]: value}));
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     api.resetPassword(resetPasswordState)
       .then(() => {
@@ -48,8 +55,9 @@ function ResetPassword({resetIsRestorePassword}) {
 
   const inputRef = React.useRef(null)
 
+    if(!isReady) return null
+
   return (
-    isReady &&
     <div className="block">
       <form action="#"
             onSubmit={handleSubmit}
@@ -99,9 +107,9 @@ function ResetPassword({resetIsRestorePassword}) {
   );
 }
 
-ResetPassword.propTypes = {
-  resetIsRestorePassword: PropTypes.func.isRequired,
-};
+//ResetPassword.propTypes = {
+//  resetIsRestorePassword: PropTypes.func.isRequired,
+//};
 
 
 export default ResetPassword;

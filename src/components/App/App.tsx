@@ -92,17 +92,17 @@ const App: React.FC = () => {
     )
   }
 
-  function handleDeleteItem(data:any) {
+  function handleDeleteItem(ingredientID: string, _id: string) {
     dispatch(
       {
         type: DELETE_ITEM_FROM_CONSTRUCTOR,
-        data: data.ingredientID
+        data: ingredientID
       }
     )
     dispatch(
       {
         type: DECREMENT_COUNTER,
-        id: data._id
+        id: _id
       }
     )
   }
