@@ -1,6 +1,5 @@
 import React from 'react';
 import style from './ModalOverlay.module.css'
-//import PropTypes from "prop-types";
 
 type TOverlayProps = {
   children: React.ReactNode,
@@ -8,7 +7,6 @@ type TOverlayProps = {
 }
 
 const ModalOverlay: React.FC<TOverlayProps> = ({children, onClose}) => {
-//const ModalOverlay = ({children, onClose}:TOverlayProps) => {
 
   function handleClose(e: React.SyntheticEvent) {
     if (e.target === e.currentTarget) {
@@ -22,10 +20,5 @@ const ModalOverlay: React.FC<TOverlayProps> = ({children, onClose}) => {
     </div>
   );
 };
-
-//ModalOverlay.propTypes = {
-//  children: PropTypes.element.isRequired,
-//  onClose: PropTypes.func.isRequired,
-//};
 
 export default ModalOverlay;

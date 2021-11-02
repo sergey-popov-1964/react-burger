@@ -3,8 +3,6 @@ import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-compon
 import {useDrag, useDrop} from "react-dnd";
 import mark from '../../../../images/mark-item.svg'
 import style from './ConstructorIngredients.module.css'
-//import PropTypes from "prop-types";
-//import {menuItemPropTypes} from "../../../../utils/constants";
 import {IItem} from "../../../../utils/interfaces"
 
 type TConstructorProps = {
@@ -78,9 +76,7 @@ const ConstructorIngredients: React.FC<TConstructorProps> = ({item, index, delet
         key={item.index}
       />
     </div>
-
   );
 }
-
 
 export default ConstructorIngredients;

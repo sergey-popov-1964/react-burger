@@ -4,18 +4,14 @@ import styles from "./ResetPassword.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory, useLocation} from "react-router-dom";
 import api from "../../../utils/Api";
-//import PropTypes from "prop-types";
 
 type TResetPasswordProps = {
   resetIsRestorePassword: () => void,
 }
 
-//function ResetPassword({resetIsRestorePassword}) {
+const ResetPassword: React.FC<TResetPasswordProps> = ({resetIsRestorePassword}) => {
 
-  const ResetPassword: React.FC<TResetPasswordProps> = ({resetIsRestorePassword}) => {
-
-
-    const history = useHistory()
+  const history = useHistory()
   let location = useLocation();
 
   let {from} = location.state || {from: {pathname: "/"}};
@@ -55,7 +51,7 @@ type TResetPasswordProps = {
 
   const inputRef = React.useRef(null)
 
-    if(!isReady) return null
+  if (!isReady) return null
 
   return (
     <div className="block">
@@ -106,10 +102,5 @@ type TResetPasswordProps = {
 
   );
 }
-
-//ResetPassword.propTypes = {
-//  resetIsRestorePassword: PropTypes.func.isRequired,
-//};
-
 
 export default ResetPassword;

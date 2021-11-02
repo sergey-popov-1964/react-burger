@@ -4,7 +4,6 @@ import styles from "./Register.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory} from "react-router-dom";
 import {useSelector} from "react-redux";
-// import PropTypes from "prop-types";
 
 type TRegisterState = {
   name: string,
@@ -16,8 +15,6 @@ type TRegister = {
   onRegister: (registerState: TRegisterState) => void,
   onLogged: () => void,
 }
-
-// function Register({onRegister, onLogged}:TRegister) {
 
 const Register: React.FC<TRegister> = ({onRegister, onLogged}) => {
 
@@ -126,10 +123,5 @@ const Register: React.FC<TRegister> = ({onRegister, onLogged}) => {
   }
 
 }
-//
-// Register.propTypes = {
-//   onRegister: PropTypes.func.isRequired,
-//   onLogged: PropTypes.func.isRequired,
-// };
 
 export default Register;

@@ -1,9 +1,6 @@
 import React from 'react';
 import style from './OrderDetails.module.css'
 import done from "../../images/done.png";
-//import PropTypes from "prop-types";
-
-//function OrderDetails({orderNumber, orderName}) {
 
 type TOrderProps = {
   orderNumber: number,
@@ -22,10 +19,5 @@ type TOrderProps = {
     </div>
   );
 }
-
-//OrderDetails.propTypes = {
-//  orderNumber: PropTypes.number.isRequired,
-//  orderName: PropTypes.string.isRequired,
-//};
 
 export default OrderDetails;

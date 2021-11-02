@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import style from './BurgerConstructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import OrderDetails from "../../../OrderDetails/OrderDetails";
 import Modal from "../../../Modal/Modal";
 import {useDispatch, useSelector} from "react-redux";
@@ -12,18 +11,11 @@ import ConstructorIngredients from "../ConstructorIngredients/ConstructorIngredi
 import {CLEAR_COUNTER} from "../../../../services/actions/ingredient";
 import {useHistory} from "react-router-dom";
 
-type TRegisterState = {
-  name: string,
-  email: string,
-  password: string,
-}
-
 type TConstructor = {
   deleteItem: (ingredientID: string, _id: string) => void,
   isLoggedIn: boolean,
 }
 
-//function BurgerConstructor({deleteItem, isLoggedIn}) {
   const BurgerConstructor: React.FC<TConstructor> = ({deleteItem, isLoggedIn}) => {
 
   const history = useHistory();
@@ -172,11 +164,5 @@ type TConstructor = {
     </div>
   );
 }
-
-BurgerConstructor.propTypes = {
-  deleteItem: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
-};
-
 
 export default BurgerConstructor;

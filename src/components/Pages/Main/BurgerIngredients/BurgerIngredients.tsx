@@ -1,4 +1,4 @@
-import React, {Component, createRef, useRef} from 'react';
+import React, {useRef} from 'react';
 import style from './BurgerIngredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import CardList from "../CardList/CardList";

@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import style from './Modal.module.css'
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import PropTypes from "prop-types";
 
 type TModalProps = {
   children: React.ReactNode,
@@ -10,19 +9,13 @@ type TModalProps = {
 }
 
 const Modal: React.FC<TModalProps> = ({children, onClose}) => {
-//const Modal = ({children, onClose}) => {
 
-//  function handlerKeyPress(KeyboardEvent) {
-//    if (KeyboardEvent.key === "Escape") {
-//      onClose()
-//    }
-//  }
-
-  function handlerKeyPress() {
-
-      onClose()
-
-  }
+ function handlerKeyPress(e:KeyboardEvent) {
+   if (e.code === "Escape") {
+     e.preventDefault();
+     onClose()
+   }
+ }
 
   useEffect(() => {
     document.addEventListener("keydown", handlerKeyPress);
@@ -41,11 +34,6 @@ const Modal: React.FC<TModalProps> = ({children, onClose}) => {
     </ModalOverlay>,
     document.getElementById("modals") as HTMLLIElement
   );
-};
-
-Modal.propTypes = {
-  children: PropTypes.element.isRequired,
-  onClose: PropTypes.func.isRequired,
 };
 
 export default Modal;

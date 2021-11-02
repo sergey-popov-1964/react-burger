@@ -12,7 +12,6 @@ type TMainProps = {
 
 const Main: React.FC<TMainProps> = ({addItem, deleteItem, isLoggedIn}) => {
 
-// function Main({addItem, deleteItem, isLoggedIn}) {
   return (
     <div className={style.block}>
       <div className={style.main}>
@@ -27,11 +26,5 @@ const Main: React.FC<TMainProps> = ({addItem, deleteItem, isLoggedIn}) => {
     </div>
   );
 }
-//
-// Main.propTypes = {
-//   addItem: PropTypes.func.isRequired,
-//   deleteItem: PropTypes.func.isRequired,
-//   isLoggedIn: PropTypes.bool.isRequired,
-// };
 
 export default Main;

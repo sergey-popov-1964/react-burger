@@ -3,8 +3,6 @@ import style from './Ingredient.module.css'
 import {useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 
-//function Ingredient() {
-
   const Ingredient: React.FC = () => {
 
 

@@ -4,15 +4,10 @@ import styles from "./ForgotPassword.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory, useLocation} from "react-router-dom";
 import api from "../../../utils/Api";
-// import PropTypes from "prop-types";
-
 
 type TForgotPassword = {
   onClickRestore: () => void,
 }
-
-
-// function ForgotPassword({onClickRestore}:TForgotPassword): any {
 
   const ForgotPassword: React.FC<TForgotPassword> = ({onClickRestore}) => {
 
@@ -89,9 +84,5 @@ type TForgotPassword = {
     );
 
   }
-
-  // ForgotPassword.propTypes = {
-  //   onClickRestore: PropTypes.func.isRequired,
-  // };
 
   export default ForgotPassword;

@@ -3,7 +3,6 @@ import '../../../index.css'
 import styles from "./Profile.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch, useSelector} from "react-redux";
-import PropTypes from "prop-types";
 import {fetchWithRefresh} from "../../../utils/utillity";
 import {getCurrentUser} from "../../../services/actions/auth";
 
@@ -18,8 +17,6 @@ type TProfile = {
   updateUser: (loginState: TLoginState) => void,
   onLogout: () => void,
 }
-
-//function Profile({updateUser, onLogout}) {
 
   const Profile: React.FC<TProfile> = ({updateUser, onLogout}) => {
 
@@ -164,10 +161,5 @@ type TProfile = {
 
   );
 }
-
-Profile.propTypes = {
-  updateUser: PropTypes.func.isRequired,
-  onLogout: PropTypes.func.isRequired,
-};
 
 export default Profile;

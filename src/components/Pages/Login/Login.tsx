@@ -3,7 +3,6 @@ import '../../../index.css'
 import styles from './Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory, useLocation} from "react-router-dom";
-//import PropTypes from "prop-types";
 
 type TLoginState = {
   email: string,
@@ -16,7 +15,6 @@ type TLogin = {
 }
 
 const Login: React.FC<TLogin> = ({onLogin, onLogged}) => {
-//function Login({onLogin, onLogged}) {
 
   const history = useHistory()
   let location = useLocation();
@@ -95,10 +93,5 @@ const Login: React.FC<TLogin> = ({onLogin, onLogged}) => {
 
   );
 }
-
-//Login.propTypes = {
-//  onLogin: PropTypes.func.isRequired,
-//  onLogged: PropTypes.func.isRequired,
-//};
 
 export default Login;
