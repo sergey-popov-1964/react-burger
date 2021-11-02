@@ -1,14 +1,16 @@
+
+
 import React from "react";
 import {Route, Redirect, useLocation} from "react-router-dom";
 
 const ProtectedRoute = ({component: Component, ...props}) => {
   const location = useLocation()
   return (
-     <Route> {
+    <Route> {
       props.isLoggedIn ? <Component {...props} /> : <Redirect to={{
-          pathname: '/login',
-          state: { from: location }
-        }}
+        pathname: '/login',
+        state: { from: location }
+      }}
       />
     }
     </Route>
@@ -16,4 +18,3 @@ const ProtectedRoute = ({component: Component, ...props}) => {
 };
 
 export default ProtectedRoute;
-

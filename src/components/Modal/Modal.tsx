@@ -4,12 +4,24 @@ import style from './Modal.module.css'
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import PropTypes from "prop-types";
 
-const Modal = ({children, onClose}) => {
+type TModalProps = {
+  children: React.ReactNode,
+  onClose: () => void
+}
 
-  function handlerKeyPress(KeyboardEvent) {
-    if (KeyboardEvent.key === "Escape") {
+const Modal: React.FC<TModalProps> = ({children, onClose}) => {
+//const Modal = ({children, onClose}) => {
+
+//  function handlerKeyPress(KeyboardEvent) {
+//    if (KeyboardEvent.key === "Escape") {
+//      onClose()
+//    }
+//  }
+
+  function handlerKeyPress() {
+
       onClose()
-    }
+
   }
 
   useEffect(() => {
@@ -27,7 +39,7 @@ const Modal = ({children, onClose}) => {
         {children}
       </div>
     </ModalOverlay>,
-    document.getElementById("modals")
+    document.getElementById("modals") as HTMLLIElement
   );
 };
 

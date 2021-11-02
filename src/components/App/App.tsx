@@ -166,7 +166,6 @@ const App: React.FC = () => {
             />
             }
 
-
             <ProtectedRoute
               path="/profile"
               isLoggedIn={isLoggedIn}
