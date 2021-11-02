@@ -3,6 +3,7 @@ import {Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import style from './App.module.css';
 import AppHeader from "../AppHeader/AppHeader";
 import {Location, History} from 'history';
+import {IItem} from "../../utils/interfaces"
 
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -37,19 +38,24 @@ import Modal from "../Modal/Modal";
 import Ingredient from "../Pages/Ingredient/Ingredient";
 import {fetchWithRefresh} from "../../utils/utillity";
 
+type TLogin = {
+  name?: string,
+  email: string,
+  password: string
+}
+
+type TLocataionState = {
+  from?: Location;
+  background?: Location;
+};
+
+type THistory = {
+  action?: History;
+  push?: History;
+  replace?: History;
+};
 
 const App: React.FC = () => {
-
-  type TLocataionState = {
-    from?: Location;
-    background?: Location;
-  };
-
-  type THistory = {
-    action?: History;
-    push?: History;
-    replace?: History;
-  };
 
   const Location = useLocation<TLocataionState>();
   const dispatch = useDispatch();
@@ -81,7 +87,7 @@ const App: React.FC = () => {
     }
   }, [])
 
-  function handleSetConstructor(data:any) {
+  function handleSetConstructor(data:IItem) {
     dispatch(
       {
         type: ADD_ITEM_TO_CONSTRUCTOR,
@@ -112,23 +118,23 @@ const App: React.FC = () => {
     setIsReady(true)
   }
 
-  function handleLogin(data:any) {
+  function handleLogin(data:TLogin) {
     dispatch(authLogin(data))
     dispatch({type: LOGGED_IN})
     setIsReady(true)
   }
 
-  function handleRegister(data:any) {
+  function handleRegister(data:TLogin) {
     dispatch(authRegister(data))
     dispatch({type: LOGGED_IN})
     setIsReady(true)
   }
 
-  function handleGetCurrentUser() {
-    dispatch(getCurrentUser(localStorage.getItem('accessToken')))
-  }
+  // function handleGetCurrentUser() {
+  //   dispatch(getCurrentUser(localStorage.getItem('accessToken')))
+  // }
 
-  function handleUpdateCurrentUser(data:any) {
+  function handleUpdateCurrentUser(data:TLogin) {
     const auth = localStorage.getItem('accessToken')
     dispatch(updateCurrentUser({auth, data}))
   }
@@ -156,7 +162,7 @@ const App: React.FC = () => {
 
             {isRestorePassword
             &&
-            <ProtectedRoute
+            <ProtectedRoute<React.ComponentProps<typeof ResetPassword>>
               path="/reset-password"
               isLoggedIn={isRestorePassword}
               resetIsRestorePassword={() => setIsRestorePassword(false)}
@@ -164,16 +170,15 @@ const App: React.FC = () => {
             />
             }
 
-            <ProtectedRoute
+            <ProtectedRoute<React.ComponentProps<typeof Profile>>
               path="/profile"
               isLoggedIn={isLoggedIn}
               component={Profile}
-              getUser={handleGetCurrentUser}
               updateUser={handleUpdateCurrentUser}
               onLogout={handleLogout}
             />
 
-            <ProtectedRoute
+            <ProtectedRoute<React.ComponentProps<typeof Login>>
               path="/login"
               isLoggedIn={!isLoggedIn}
               onLogin={handleLogin}
