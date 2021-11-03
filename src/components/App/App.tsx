@@ -29,7 +29,7 @@ import Profile from "../Pages/Profile/Profile";
 import {
   authLogin,
   authRegister,
-  getCurrentUser, LOGGED_IN, LOGGED_OUT,
+  LOGGED_IN, LOGGED_OUT,
   logout,
   updateCurrentUser
 } from "../../services/actions/auth";
@@ -130,10 +130,6 @@ const App: React.FC = () => {
     setIsReady(true)
   }
 
-  // function handleGetCurrentUser() {
-  //   dispatch(getCurrentUser(localStorage.getItem('accessToken')))
-  // }
-
   function handleUpdateCurrentUser(data:TLogin) {
     const auth = localStorage.getItem('accessToken')
     dispatch(updateCurrentUser({auth, data}))
@@ -145,6 +141,8 @@ const App: React.FC = () => {
     dispatch(logout({data}))
     dispatch({type: CLEAR_CONSTRUCTOR})
     dispatch({type: CLEAR_COUNTER})
+    localStorage.removeItem("refreshToken")
+    localStorage.removeItem("accessToken")
     History.push('login')
     setIsReady(true)
   }

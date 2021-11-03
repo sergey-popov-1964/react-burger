@@ -26,7 +26,7 @@ import {Link, useRouteMatch} from "react-router-dom";
             </Link>
           </li>
           <li className={style.navItem}>
-            <a href="#" className={style.navLink}>
+            <a href="/" className={style.navLink}>
               <ListIcon type="secondary"/>
               <p className={`text text_type_main-small ${style.navText} ${style.navTextGray}`}>
                 Лента заказов

@@ -1,9 +1,30 @@
+type TApi = {
+  baseUrl: string
+}
+
+type TLogin = {
+  name?: string,
+  email: string,
+  password: string,
+  code?: string
+}
+
+type TUpdateUser = {
+  data: TLogin,
+  auth: string,
+}
+
+type TString = {
+  data: string,
+}
+
 class	Api {
-  constructor(baseUrl) {
+  _baseUrl: string
+  constructor({baseUrl}:TApi) {
     this._baseUrl = baseUrl;
   }
 
-  handleResponse = (res) => {
+  handleResponse = <T>(res:Response):Promise<T> => {
     if (!res.ok) {
       return Promise.reject(`Ошибка: ${res.status} ${res.statusText}`);
     }
@@ -18,10 +39,10 @@ class	Api {
         'Content-Type': 'application/json'
       },
     })
-      .then(this.handleResponse);
+      .then((res) => this.handleResponse(res));
   }
 
-  createOrder(data) {
+  createOrder(data:string[]) {
     return fetch(`${this._baseUrl}/orders`, {
       method: 'POST',
       headers: {
@@ -32,10 +53,10 @@ class	Api {
         "ingredients": data
       })
     })
-      .then(this.handleResponse);
+      .then((res) => this.handleResponse(res));
   }
 
-  registration(data) {
+  registration(data:TLogin) {
     return fetch(`${this._baseUrl}/auth/register`, {
       method: 'POST',
       headers: {
@@ -44,10 +65,11 @@ class	Api {
       },
       body: JSON.stringify(data)
     })
-      .then(this.handleResponse);
+      .then((res) => this.handleResponse(res));
   }
 
-  authorization(data) {
+  authorization(data:TLogin) {
+
     return fetch(`${this._baseUrl}/auth/login`, {
       method: 'POST',
       headers: {
@@ -56,10 +78,10 @@ class	Api {
       },
       body: JSON.stringify(data)
     })
-      .then(this.handleResponse);
+      .then((res) => this.handleResponse(res));
   }
 
-  getCurrentUser(data) {
+  getCurrentUser(data:string) {
     return fetch(`${this._baseUrl}/auth/user`, {
       method: 'GET',
       headers: {
@@ -68,10 +90,10 @@ class	Api {
         "Authorization": `${data}`
       },
     })
-      .then(this.handleResponse);
+      .then((res) => this.handleResponse(res));
   }
 
-  updateCurrentUser({auth, data}) {
+  updateCurrentUser({auth, data}:TUpdateUser) {
     return fetch(`${this._baseUrl}/auth/user`, {
       method: 'PATCH',
       headers: {
@@ -81,19 +103,19 @@ class	Api {
       },
       body: JSON.stringify(data)
     })
-      .then(this.handleResponse);
+      .then((res) => this.handleResponse(res));
   }
 
-  logout({data}) {
+  logout(data:TString) {
     return fetch(`${this._baseUrl}/auth/logout`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data.data)
     })
-      .then(this.handleResponse);
+      .then((res) => this.handleResponse(res));
   }
 
   checkToken() {
@@ -107,10 +129,9 @@ class	Api {
         token: localStorage.getItem("refreshToken")
       }),
     })
-      .then(this.handleResponse);
-  }
+      .then((res) => this.handleResponse(res));  }
 
-  forgotPassword(data) {
+  forgotPassword(data:string) {
     return fetch(`${this._baseUrl}/password-reset`, {
       method: 'POST',
       headers: {
@@ -121,10 +142,10 @@ class	Api {
         email: `${data}`
       }),
     })
-      .then(this.handleResponse);
-  }
+      .then((res) => this.handleResponse(res));  }
 
- resetPassword(data) {
+ resetPassword(data:any) {
+    console.log(data)
     return fetch(`${this._baseUrl}/password-reset/reset`, {
       method: 'POST',
       headers: {
@@ -133,12 +154,11 @@ class	Api {
       },
       body: JSON.stringify(data)
     })
-      .then(this.handleResponse);
-  }
+      .then((res) => this.handleResponse(res));  }
 
 }
 
 const baseUrl = 'https://norma.nomoreparties.space/api';
 
-const api = new Api(baseUrl);
+const api = new Api({baseUrl});
 export default api;
