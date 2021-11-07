@@ -1,8 +1,8 @@
 .itemsList {
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template: auto/max-content 1fr;
 }
 
 .itemMark {

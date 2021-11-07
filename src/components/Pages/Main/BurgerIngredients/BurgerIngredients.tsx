@@ -1,26 +1,33 @@
-import React, {Component, createRef} from 'react';
+import React, {useRef} from 'react';
 import style from './BurgerIngredients.module.css'
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import CardList from "../CardList/CardList";
-import PropTypes from 'prop-types';
 import {useSelector} from "react-redux";
+import {IItem} from "../../../../utils/interfaces";
 
-function BurgerIngredients({addItem}) {
+type TIngredientsProps = {
+  addItem: (item: IItem) => void,
+}
 
-  const {ingredients,  count} = useSelector(state => state.burgerIngredient)
-  const {bun} = useSelector(state => state.burgerConstructor)
+const BurgerIngredients: React.FC<TIngredientsProps> = ({addItem}) => {
+
+  const {ingredients, count} = useSelector((state: any) => state.burgerIngredient)
+  const {bun} = useSelector((state: any) => state.burgerConstructor)
 
   const [current, setCurrent] = React.useState('Булки')
-
-  const bunsRef = createRef()
-  const sauceRef = createRef()
-  const mainRef = createRef()
-  const parentBlock = createRef()
+  const bunsRef = useRef<HTMLDivElement>(null)
+  const sauceRef = useRef<HTMLDivElement>(null)
+  const mainRef = useRef<HTMLDivElement>(null)
+  const parentBlock = useRef<HTMLDivElement>(null)
 
   const handleTabs = () => {
+    if (!parentBlock.current) return
     const topParentBlock = parentBlock.current.offsetTop;
+    if (!bunsRef.current) return
     const bunsClientRect = bunsRef.current.getBoundingClientRect().top;
+    if (!sauceRef.current) return
     const sauceClientRect = sauceRef.current.getBoundingClientRect().top;
+    if (!mainRef.current) return
     const mainClientRect = mainRef.current.getBoundingClientRect().top;
 
     if (topParentBlock > bunsClientRect && topParentBlock <= sauceClientRect) {
@@ -32,8 +39,8 @@ function BurgerIngredients({addItem}) {
     }
   }
 
-  function handleClickOnTab(tab, ref) {
-    if(ref !== null) {
+  function handleClickOnTab(tab:string, ref:HTMLDivElement|null) {
+    if (ref !== null) {
       setCurrent(tab);
       ref.scrollIntoView();
     }
@@ -47,21 +54,22 @@ function BurgerIngredients({addItem}) {
           Соберите бургер
         </p>
         <div style={{display: 'flex'}}>
-          <Tab value="Булки" active={current === 'Булки'} onClick={ () => handleClickOnTab('Булки', bunsRef.current)}>
+          <Tab value="Булки" active={current === 'Булки'} onClick={() => handleClickOnTab('Булки', bunsRef.current)}>
             Булки
           </Tab>
-          <Tab value="Соусы" active={current === 'Соусы'} onClick={ () => handleClickOnTab('Соусы', sauceRef.current)}>
+          <Tab value="Соусы" active={current === 'Соусы'} onClick={() => handleClickOnTab('Соусы', sauceRef.current)}>
             Соусы
           </Tab>
-          <Tab value="Начинки" active={current === 'Начинки'} onClick={() => handleClickOnTab('Начинки', mainRef.current)}>
+          <Tab value="Начинки" active={current === 'Начинки'}
+               onClick={() => handleClickOnTab('Начинки', mainRef.current)}>
             Начинки
           </Tab>
         </div>
 
         <div className={style.ingredientList} ref={parentBlock} onScroll={handleTabs}>
-          <div ref={bunsRef} >
+          <div ref={bunsRef}>
             <CardList type="Булки"
-                      items={ingredients.filter(item => item.type === 'bun')}
+                      items={ingredients.filter((item: IItem) => item.type === 'bun')}
                       addItem={addItem}
                       count={count}
                       bun={bun ? bun._id : null}
@@ -69,7 +77,7 @@ function BurgerIngredients({addItem}) {
           </div>
           <div ref={sauceRef}>
             <CardList type="Соусы"
-                      items={ingredients.filter(item => item.type === 'sauce')}
+                      items={ingredients.filter((item: IItem) => item.type === 'sauce')}
                       addItem={addItem}
                       count={count}
                       bun={bun ? bun._id : null}
@@ -77,7 +85,7 @@ function BurgerIngredients({addItem}) {
           </div>
           <div ref={mainRef}>
             <CardList type="Начинки"
-                      items={ingredients.filter(item => item.type === 'main')}
+                      items={ingredients.filter((item: IItem) => item.type === 'main')}
                       addItem={addItem}
                       count={count}
                       bun={bun ? bun._id : null}
@@ -89,13 +97,5 @@ function BurgerIngredients({addItem}) {
     </>
   );
 }
-
-BurgerIngredients.propTypes = {
-  addItem: PropTypes.func.isRequired,
-  ref: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(Component) }),
-  ]),
-};
 
 export default BurgerIngredients;

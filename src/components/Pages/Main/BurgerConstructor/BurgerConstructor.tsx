@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import style from './BurgerConstructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import OrderDetails from "../../../OrderDetails/OrderDetails";
 import Modal from "../../../Modal/Modal";
 import {useDispatch, useSelector} from "react-redux";
@@ -12,29 +11,33 @@ import ConstructorIngredients from "../ConstructorIngredients/ConstructorIngredi
 import {CLEAR_COUNTER} from "../../../../services/actions/ingredient";
 import {useHistory} from "react-router-dom";
 
+type TConstructor = {
+  deleteItem: (ingredientID: string, _id: string) => void,
+  isLoggedIn: boolean,
+}
 
-function BurgerConstructor({deleteItem, isLoggedIn}) {
+  const BurgerConstructor: React.FC<TConstructor> = ({deleteItem, isLoggedIn}) => {
 
   const history = useHistory();
 
   const dispatch = useDispatch();
 
-  const constructor = useSelector(state => state.burgerConstructor)
-  const {orderRequest, orderFailed, orderName, orderNumber} = useSelector(state => state.order)
+  const constructor = useSelector((state:any) => state.burgerConstructor)
+  const {orderRequest, orderFailed, orderName, orderNumber} = useSelector((state:any) => state.order)
 
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [sumTotal, setSumTotal] = useState(0);
 
   useEffect(() => {
     if (constructor.ingredients.length > 0 && constructor.bun) {
-      setSumTotal(constructor.ingredients.reduce((a, o, i, p) => a + o.price, 0)
+      setSumTotal(constructor.ingredients.reduce((a:any, o:any, i:any, p:any) => a + o.price, 0)
         + constructor.bun.price * 2)
     }
   }, [constructor])
 
   function handlerClickOpen() {
     if (isLoggedIn) {
-      const order = [...constructor.ingredients.map((item) => item._id), constructor.bun._id]
+      const order = [...constructor.ingredients.map((item:any) => item._id), constructor.bun._id]
       createNewOrder(order)
       setIsOpenModal(true)
     } else {
@@ -48,7 +51,7 @@ function BurgerConstructor({deleteItem, isLoggedIn}) {
     dispatch({type: CLEAR_COUNTER})
   }
 
-  function createNewOrder(data) {
+  function createNewOrder(data:string[]) {
     dispatch(createOrder(data))
   }
 
@@ -62,7 +65,7 @@ function BurgerConstructor({deleteItem, isLoggedIn}) {
   }));
   const isActive = canDrop || isOver;
 
-  function moveCards(dragIndex, hoverIndex) {
+  function moveCards(dragIndex: number, hoverIndex: number) {
     dispatch({
       type: SORT_CONSTRUCTOR,
       dragIndex: dragIndex,
@@ -96,7 +99,7 @@ function BurgerConstructor({deleteItem, isLoggedIn}) {
             {
               constructor.ingredients.length !== 0
                 ?
-                constructor.ingredients.map((item, index) => (
+                constructor.ingredients.map((item:any, index:number) => (
                   <ConstructorIngredients
                     item={item}
                     index={index}
@@ -161,11 +164,5 @@ function BurgerConstructor({deleteItem, isLoggedIn}) {
     </div>
   );
 }
-
-BurgerConstructor.propTypes = {
-  deleteItem: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
-};
-
 
 export default BurgerConstructor;

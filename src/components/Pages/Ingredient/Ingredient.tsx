@@ -3,10 +3,11 @@ import style from './Ingredient.module.css'
 import {useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 
-function Ingredient() {
+  const Ingredient: React.FC = () => {
 
-  const {id} = useParams();
-  const item = useSelector(state => state.burgerIngredient.ingredients.filter(item => item._id === id))[0]
+
+  const {id} = useParams<{id?: string}>();
+  const item = useSelector((state:any) => state.burgerIngredient.ingredients.filter((item:any) => item._id === id))[0]
 
   return (
     <>

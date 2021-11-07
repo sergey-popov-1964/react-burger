@@ -3,16 +3,27 @@ import '../../../index.css'
 import styles from "./Profile.module.css";
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch, useSelector} from "react-redux";
-import PropTypes from "prop-types";
 import {fetchWithRefresh} from "../../../utils/utillity";
 import {getCurrentUser} from "../../../services/actions/auth";
 
-function Profile({updateUser, onLogout}) {
+
+type TLoginState = {
+  name: string,
+  email: string,
+  password: string,
+}
+
+type TProfile = {
+  updateUser: (loginState: TLoginState) => void,
+  onLogout: () => void,
+}
+
+  const Profile: React.FC<TProfile> = ({updateUser, onLogout}) => {
 
   const dispatch = useDispatch()
 
   const [isReady, setIsReady] = useState(false)
-  const [loginState, setLoginState] = useState(
+  const [loginState, setLoginState] = useState<TLoginState>(
     {
       name: '',
       email: '',
@@ -20,8 +31,8 @@ function Profile({updateUser, onLogout}) {
     }
   )
 
-  const profileName = useSelector(state => state.auth.name)
-  const profileEmail = useSelector(state => state.auth.email)
+  const profileName = useSelector((state:any) => state.auth.name)
+  const profileEmail = useSelector((state:any) => state.auth.email)
 
   useEffect(() => {
     setLoginState(prevState => ({
@@ -43,12 +54,12 @@ function Profile({updateUser, onLogout}) {
     }
   }, [])
 
-  function handleChange(e) {
-    const {name, value} = e.target;
+  function handleChange(e: React.SyntheticEvent) {
+    const {name, value} = e.target as HTMLInputElement
     setLoginState(prevState => ({...prevState, [name]: value}));
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     updateUser(loginState)
   }
@@ -67,8 +78,10 @@ function Profile({updateUser, onLogout}) {
 
   const inputRef = React.useRef(null)
 
+
+  if(!isReady) return null
+
   return (
-    isReady &&
     <div className="block">
 
       <div className={styles.profile__block}>
@@ -148,10 +161,5 @@ function Profile({updateUser, onLogout}) {
 
   );
 }
-
-Profile.propTypes = {
-  updateUser: PropTypes.func.isRequired,
-  onLogout: PropTypes.func.isRequired,
-};
 
 export default Profile;

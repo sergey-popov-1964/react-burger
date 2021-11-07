@@ -2,10 +2,8 @@ import React, {useEffect} from 'react';
 import style from './AppHeader.module.css'
 import {Logo, BurgerIcon, ListIcon, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useRouteMatch} from "react-router-dom";
-import PropTypes from "prop-types";
-import BurgerConstructor from "../Pages/Main/BurgerConstructor/BurgerConstructor";
 
-function AppHeader() {
+  const AppHeader: React.FC = () => {
 
   const isConstructor = !!useRouteMatch({path: '/', exact: true});
   const isFeed = !!useRouteMatch('/feed');
@@ -28,7 +26,7 @@ function AppHeader() {
             </Link>
           </li>
           <li className={style.navItem}>
-            <a href="#" className={style.navLink}>
+            <a href="/" className={style.navLink}>
               <ListIcon type="secondary"/>
               <p className={`text text_type_main-small ${style.navText} ${style.navTextGray}`}>
                 Лента заказов
