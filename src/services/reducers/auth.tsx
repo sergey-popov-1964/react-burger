@@ -18,7 +18,15 @@ import {
   LOGGED_OUT,
 } from '../actions/auth'
 
-const initialState = {
+type TAuthState = {
+  name: string,
+  email: string,
+  authRequest: boolean,
+  authFailed: boolean,
+  isLoggedIn: boolean
+};
+
+const initialState:TAuthState = {
   name: '',
   email: '',
   authRequest: false,
@@ -26,7 +34,9 @@ const initialState = {
   isLoggedIn: false
 };
 
-export const AuthReducer = (state = initialState, action) => {
+
+
+export const AuthReducer = (state = initialState, action:any):TAuthState => {
   switch (action.type) {
     case AUTH_LOGIN_REQUEST: {
       return {
@@ -175,3 +185,4 @@ export const AuthReducer = (state = initialState, action) => {
     }
   }
 };
+

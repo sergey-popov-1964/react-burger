@@ -11,11 +11,17 @@ type TLogin = {
 
 type TUpdateUser = {
   data: TLogin,
-  auth: string,
+  auth: string|null,
 }
 
 type TString = {
   data: string,
+}
+
+type TResponse = {
+  success: boolean,
+  user: TLogin,
+  message?: string
 }
 
 class	Api {
@@ -31,7 +37,7 @@ class	Api {
     return res.json();
   }
 
-  getIngredients() {
+  getIngredients():Promise<TLogin> {
     return fetch(`${this._baseUrl}/ingredients`, {
       method: 'GET',
       headers: {
@@ -56,7 +62,7 @@ class	Api {
       .then((res) => this.handleResponse(res));
   }
 
-  registration(data:TLogin) {
+  registration(data:TLogin):Promise<TResponse> {
     return fetch(`${this._baseUrl}/auth/register`, {
       method: 'POST',
       headers: {
@@ -68,8 +74,7 @@ class	Api {
       .then((res) => this.handleResponse(res));
   }
 
-  authorization(data:TLogin) {
-
+  authorization(data:TLogin):Promise<TResponse> {
     return fetch(`${this._baseUrl}/auth/login`, {
       method: 'POST',
       headers: {
@@ -81,7 +86,7 @@ class	Api {
       .then((res) => this.handleResponse(res));
   }
 
-  getCurrentUser(data:string) {
+  getCurrentUser(data:string|null):Promise<TResponse> {
     return fetch(`${this._baseUrl}/auth/user`, {
       method: 'GET',
       headers: {
@@ -93,7 +98,7 @@ class	Api {
       .then((res) => this.handleResponse(res));
   }
 
-  updateCurrentUser({auth, data}:TUpdateUser) {
+  updateCurrentUser({auth, data}:TUpdateUser):Promise<TResponse> {
     return fetch(`${this._baseUrl}/auth/user`, {
       method: 'PATCH',
       headers: {
@@ -106,7 +111,7 @@ class	Api {
       .then((res) => this.handleResponse(res));
   }
 
-  logout(data:TString) {
+  logout(data:TString):Promise<TResponse> {
     return fetch(`${this._baseUrl}/auth/logout`, {
       method: 'POST',
       headers: {
