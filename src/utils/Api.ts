@@ -24,6 +24,14 @@ type TResponse = {
   message?: string
 }
 
+export type TResponseOrder = {
+  success?: boolean,
+  order: {
+    number: string,
+  },
+  name: string
+}
+
 class	Api {
   _baseUrl: string
   constructor({baseUrl}:TApi) {
@@ -48,7 +56,7 @@ class	Api {
       .then((res) => this.handleResponse(res));
   }
 
-  createOrder(data:string[]) {
+  createOrder(data:string[]):Promise<TResponseOrder> {
     return fetch(`${this._baseUrl}/orders`, {
       method: 'POST',
       headers: {

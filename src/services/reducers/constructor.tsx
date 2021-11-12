@@ -6,12 +6,17 @@ import {
 } from '../actions/constructor'
 import {v4 as uuidv4} from 'uuid';
 
-const initialState = {
+type TState = {
+  bun: string|null,
+  ingredients: []
+};
+
+const initialState:TState = {
   bun: null,
   ingredients: []
 };
 
-export const burgerConstructorReducer = (state = initialState, action) => {
+export const burgerConstructorReducer = (state = initialState, action:any) => {
   switch (action.type) {
     case ADD_ITEM_TO_CONSTRUCTOR: {
       const ingredientID = {ingredientID: uuidv4()};
@@ -30,7 +35,7 @@ export const burgerConstructorReducer = (state = initialState, action) => {
     case DELETE_ITEM_FROM_CONSTRUCTOR: {
       return {
         ...state,
-        ingredients: [...state.ingredients.filter((i) => i.ingredientID !== action.data)]
+        ingredients: [...state.ingredients.filter((i:any) => i.ingredientID !== action.data)]
       }
     }
     case CLEAR_CONSTRUCTOR: {

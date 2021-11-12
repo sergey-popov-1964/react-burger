@@ -9,7 +9,15 @@ import {
   CLEAR_COUNTER
 } from '../actions/ingredient'
 
-const initialState = {
+type TState = {
+  ingredientRequest: boolean,
+  ingredientFailed: boolean,
+  ingredients: Array<string>,
+  currentIngredient: Object,
+  count: Array<number>,
+};
+
+const initialState:TState = {
   ingredientRequest: false,
   ingredientFailed: false,
   ingredients: [],
@@ -17,7 +25,7 @@ const initialState = {
   count: [],
 };
 
-export const burgerIngredientReducer = (state = initialState, action) => {
+export const burgerIngredientReducer = (state = initialState, action:any) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {

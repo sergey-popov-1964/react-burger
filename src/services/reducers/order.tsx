@@ -4,14 +4,23 @@ import {
   SET_NEW_ORDER_FAILED,
 } from '../actions/order'
 
-const initialState = {
+import {TOrderActions} from '../actions/order'
+
+type TState = {
+  orderRequest: boolean,
+  orderFailed: boolean,
+  orderName: string,
+  orderNumber: string
+};
+
+const initialState:TState = {
   orderRequest: false,
   orderFailed: false,
   orderName: '',
   orderNumber: ''
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state = initialState, action:TOrderActions):TState => {
   switch (action.type) {
     case SET_NEW_ORDER_REQUEST: {
       return {
@@ -41,4 +50,3 @@ export const orderReducer = (state = initialState, action) => {
     }
   }
 };
-
