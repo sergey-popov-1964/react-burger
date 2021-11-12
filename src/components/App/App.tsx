@@ -14,7 +14,6 @@ import {
 import {
   CLEAR_COUNTER,
   DECREMENT_COUNTER,
-  DELETE_CURRENT_INGREDIENT,
   getIngredients
 } from '../../services/actions/ingredient'
 import {DndProvider} from 'react-dnd'
@@ -96,7 +95,7 @@ const App: React.FC = () => {
     )
   }
 
-  function handleDeleteItem(ingredientID: string, _id: string) {
+  function handleDeleteItem(ingredientID: string|undefined, _id: string) {
     dispatch(
       {
         type: DELETE_ITEM_FROM_CONSTRUCTOR,
@@ -112,7 +111,6 @@ const App: React.FC = () => {
   }
 
   function handlerClickClose() {
-    dispatch({type: DELETE_CURRENT_INGREDIENT})
     setIsOpenModal(false)
     History.push("/")
     setIsReady(true)

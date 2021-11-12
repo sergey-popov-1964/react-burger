@@ -2,19 +2,21 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
-  SET_CURRENT_INGREDIENT,
-  DELETE_CURRENT_INGREDIENT,
   INCREMENT_COUNTER,
   DECREMENT_COUNTER,
   CLEAR_COUNTER
 } from '../actions/ingredient'
 
+import {TIngredientActions} from '../actions/ingredient'
+import {IItem} from '../../utils/interfaces'
+
 type TState = {
   ingredientRequest: boolean,
   ingredientFailed: boolean,
-  ingredients: Array<string>,
+  ingredients: Array<IItem>,
   currentIngredient: Object,
   count: Array<number>,
+  items?: Array<IItem>
 };
 
 const initialState:TState = {
@@ -25,7 +27,7 @@ const initialState:TState = {
   count: [],
 };
 
-export const burgerIngredientReducer = (state = initialState, action:any) => {
+export const burgerIngredientReducer = (state = initialState, action:TIngredientActions) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
@@ -47,18 +49,6 @@ export const burgerIngredientReducer = (state = initialState, action:any) => {
         ...state,
         ingredientRequest: false,
         ingredientFailed: true,
-      };
-    }
-    case SET_CURRENT_INGREDIENT: {
-      return {
-        ...state,
-        currentIngredient: action.data,
-      };
-    }
-    case DELETE_CURRENT_INGREDIENT: {
-      return {
-        ...state,
-        currentIngredient: {},
       };
     }
     case INCREMENT_COUNTER: {

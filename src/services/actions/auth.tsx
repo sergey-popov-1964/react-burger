@@ -98,7 +98,6 @@ export function getCurrentUser(data:string|null) {
     })
     api.getCurrentUser(data)
       .then((res) => {
-        console.log(res)
         if (res && res.success) {
           dispatch({
             type: GET_CURRENT_USER_SUCCESS,
@@ -143,7 +142,6 @@ export function logout(data:any) {
     })
     api.logout(data)
       .then((res) => {
-        console.log(res)
         if (res && res.success) {
           dispatch({
             type: LOGOUT_SUCCESS,

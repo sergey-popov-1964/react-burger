@@ -12,7 +12,7 @@ import {CLEAR_COUNTER} from "../../../../services/actions/ingredient";
 import {useHistory} from "react-router-dom";
 
 type TConstructor = {
-  deleteItem: (ingredientID: string, _id: string) => void,
+  deleteItem: (ingredientID: string|undefined, _id: string) => void,
   isLoggedIn: boolean,
 }
 

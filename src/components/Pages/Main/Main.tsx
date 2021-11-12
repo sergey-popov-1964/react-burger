@@ -5,7 +5,7 @@ import BurgerConstructor from "./BurgerConstructor/BurgerConstructor";
 import {IItem} from "../../../utils/interfaces"
 
 type TMainProps = {
-  deleteItem: (ingredientID: string, _id: string) => void,
+  deleteItem: (ingredientID: string|undefined, _id: string) => void,
   addItem: (item: IItem) => void,
   isLoggedIn: boolean
 }

@@ -6,8 +6,6 @@ export const SET_NEW_ORDER_REQUEST:'SET_NEW_ORDER_REQUEST' = 'SET_NEW_ORDER_REQU
 export const SET_NEW_ORDER_SUCCESS:'SET_NEW_ORDER_SUCCESS' = 'SET_NEW_ORDER_SUCCESS'
 export const SET_NEW_ORDER_FAILED:'SET_NEW_ORDER_FAILED' = 'SET_NEW_ORDER_FAILED'
 
-
-
 export function createOrder(order:string[]) {
   return function (dispatch:Dispatch) {
     dispatch({

@@ -8,7 +8,7 @@ import {IItem} from "../../../../utils/interfaces"
 type TConstructorProps = {
   item: IItem,
   index: number,
-  deleteItem: (ingredientID: string, _id: string) => void,
+  deleteItem: (ingredientID: string|undefined, _id: string) => void,
   moveCards: (dragIndex: number, hoverIndex: number) => void,
   id: string
 }

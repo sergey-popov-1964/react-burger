@@ -1,3 +1,6 @@
+import {IItem} from '../utils/interfaces'
+
+
 type TApi = {
   baseUrl: string
 }
@@ -24,11 +27,23 @@ type TResponse = {
   message?: string
 }
 
+type TResponseToken = {
+  success: boolean,
+  refreshToken: string,
+  accessToken: string
+}
+
 export type TResponseOrder = {
   success?: boolean,
   order: {
     number: string,
   },
+  name: string
+}
+
+export type TResponseIngredients = {
+  success?: boolean,
+  data: Array<IItem>
   name: string
 }
 
@@ -45,7 +60,7 @@ class	Api {
     return res.json();
   }
 
-  getIngredients():Promise<TLogin> {
+  getIngredients():Promise<TResponseIngredients> {
     return fetch(`${this._baseUrl}/ingredients`, {
       method: 'GET',
       headers: {
@@ -131,7 +146,7 @@ class	Api {
       .then((res) => this.handleResponse(res));
   }
 
-  checkToken() {
+  checkToken():Promise<TResponseToken> {
     return fetch(`${this._baseUrl}/auth/token`, {
       method: 'POST',
       headers: {

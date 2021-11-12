@@ -6,7 +6,7 @@ export interface IItem {
   image: string,
   image_large: string,
   image_mobile: string,
-  ingredientID: string,
+  ingredientID?: string,
   name: string,
   price: number,
   proteins: number,
