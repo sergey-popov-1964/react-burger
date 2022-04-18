@@ -1,46 +1,37 @@
-# Getting Started with Create React Appp
+Проект выполнен в процессе обучения в Яндекс.Практикуме на курсе React разработчик.
 
-This project was bootstrapped with [Create React Appp](https://github.com/facebook/create-react-app).
+Первоначально проект был создан для реального заказчика. Но планы заказчика изменились. В данный момент проект свободен.
 
-## Available Scripts
 
-In the project directory, you can run:
+# Используемые технологии
 
-### `yarn start`
+Проект представляет собой веб-приложение с использованием следующих технологий.
+- React 17;
+- TypeScript;
+- react-router-dom;
+- react-redux;
+- Ограничение доступа к некоторым страницам для не зарегистрированных пользователей;
+- Регистрация м авторизация пользователей
+- Использование технологии Drag and Drop при создании заказа (библиотека react-dnd);
+- Плавное открытие и закрытие попапа;
+- Закрытие попапов при клике на область оверлея и при нажатии на клавишу Esc;
+- Валидация формы на правильность ввода данных;
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Структура сайта
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Приложение не адаптировано для мобильных версий;
+- Сайт состоит из нескольких секций;
+- Header;
+- Секция с элементами бургера;
+- Секция с собранным заказом;
+- Элементы переносятся в заказ мышью с помощью Drag and Drop;
+- Элементы заказа можно перетаскивать внутри заказа с помощью мыши и удалять из заказа;
+- Происходит автоматический подсчет итоговой суммы заказа;
+- Когда заказ сформирован его можно отправить на исполнение кликом на кнопку "Оформить заказ";
+- При отправке автоматически формируется номер заказа и его наименование
+- Формирование номера и наименование происходит на бэкэнде. Разработка бэкэнда не входила в рамки проектной работы;
+- По клику на кнопке "Личный кабинет" происходит переход на страницу личного кабинета;
+- Если пользователь еще не авторизовался, происходит переадресация на страницу где можно авторизоваться или зарегистрироваться;
+- Просмотри и сборка заказа возможна для неавторизованных пользователей. Но при клике на кнопке "Оформить заказ" неавторизованный пользователь переадресуется на страницу авторизаци и после авторизации возобновляется процесс оформления заказа
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React Appp documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
